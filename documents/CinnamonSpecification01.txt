@@ -1,0 +1,52 @@
+●Framework「Cinnamon」
+Frameworkとは、アプリケーションを開発するにあたってある一定の規則を強制する枠組みを提供するソフトウェアです。
+Web Frameworkとしては、JavaならStrutsやSpring、RubyならRuby on Rails、PHPならCakePHP、Symfony、FuelPHPなどが有名でしょう。
+そのWeb Frameworkを作っていこうというのが本プロジェクトの趣旨です。あくまで、学習用の軽量なFrameworkを作ることを目標にしていきます。
+
+●機能
+機能としては以下のものを想定しています。
+・URLを解析してController、actionを呼び出すDispatchar機能を装備していること。
+・DBへの接続とデーターの取得をするためのOR Mapperを備えていること。
+・テンプレートからViewを生成するView機能を備えていること。
+・上記機能をもってModelとViewとControllerの分離を行えること。
+以上です。
+
+まずは、Controllerを呼び出すDispatcherを実装していきたいと思います。
+
+●Dispatcherの実装
+Web FrameworkではRESTfulな呼び出し方でWeb applicationを実行できるCakePHPなどのようなものが最近の流行りです。
+RESTfulなURL、たとえば「https://www.example.com/books/show/1」という要求を受け取ったら、BooksControllerの
+show Actionを呼び出し、id=1となるデータをどっかのテーブルから取得してきてその結果を表示します。
+Dispatcherの役割は、URLを解析して適切なControllerを呼び出して、そのコントローラーに定義されているmethodから
+適切なmethodパラメーター付きで呼びして処理を実行させることです。今回作るのはそこまでです。
+
+Dispatcherがやるべきことは、まずはURLの解析からです。
+ここでは説明を省きますが、Apacheやnginxなどのアプリケーションサーバは、設定によってURLの書き換えをしてCGIの呼び出しをしてくれます。 設定によって、「https://www.example.com/books/show/1」という要求がブラウザから投げられたら、とりあえずドキュメントルートのindex.phpにリダイレクトしてindex.phpに処理を実行させます。その結果をブラウザに返すのです。
+index.phpの中では、環境変数などで「https://www.example.com/books/show/1」のうち「/books/show/1」の部分を受け取ってこれを解析して処理を行います。ただ、その処理全てを、全てindex.phpに書くのは実際的ではありません。処理の中で呼び出すModelなどのモジュールなりクラスなりを考えなくても、それなりのサービスを行うWeb applocationのコントローラーのコード量は膨大とまではいかなくてもかなりのものとなるでしょう。であるので、そのコントローラーの実装は他にクラスに分けて、index.phpかそこから呼び出すDispatcherモジュールなりクラスなりにURLの解析とDispatchを行わせます。
+
+Dispatcherの機能としては、呼び出しURLを正規表現なりなんなりで処理の場合分けをすることです。今回は正規表現でマッチングを行うことにしましょう。
+正規表現のマッチングには多次元連想配列に格納したデータをループで回して逐次適切なキーを持つ配列を探し出しマッチしたキーを持つ配列からControllerとActionを取得するようにします。イメージとしては下記のようなものになります。
+
+$route = array(
+  '/books/show/:id' => array(
+    'controller' => 'BooksController',
+    'action' => 'show',
+  ),
+  '/books/new' => array(
+    'controller' => 'BooksController',
+    'action' => 'new',
+  ),
+  '/books/edit/:id' => array(
+    'controller' => 'BooksController',
+    'action' => 'edit',
+  ),
+  :
+  :
+  :
+)
+
+注意）:idはidで、別途定義される数値型に置換される置換文字列です。
+
+この定義を順次検索していって、マッチした配列データを用います。
+
+
