@@ -209,20 +209,16 @@ class BaseModel {
     return $cond;
   }
 
-  public function save() {
-
-  }
-
   public function validation() {
     // $this->form
   }
 
-  protected function setValue($form) {
-    $column_names = array_keys($this->columns);
-    foreach ($column_names as $column_name) {
+  // protected function setValue($form) {
+  //   $column_names = array_keys($this->columns);
+  //   foreach ($column_names as $column_name) {
       
-    }
-  }
+  //   }
+  // }
 
   protected function setValue($key, $value){
     $type = $this->columns[$key]['type'];
