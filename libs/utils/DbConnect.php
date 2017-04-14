@@ -26,7 +26,12 @@ class DbConnect {
         $dsn,
         $this->username,
         $this->password,
-        array(PDO::ATTR_EMULATE_PREPARES => false, PDO::ATTR_FETCH_TABLE_NAMES => 1));
+        array(
+          PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+          PDO::ATTR_EMULATE_PREPARES => false, 
+          PDO::ATTR_FETCH_TABLE_NAMES => 1
+          )
+        );
 
       return $dbh;
     } catch (PDOException $e) {

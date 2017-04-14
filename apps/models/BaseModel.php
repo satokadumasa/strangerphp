@@ -277,27 +277,39 @@ class BaseModel {
       $this->validation($form);
       $this->debug->log("BaseModel::save() CH-01");
 
-      if (isset($form[$this->model_name][$this->primary_key]))$sql = $this->createModifySql($form[$this->model_name]);  // CASE MODIFY
+      if (isset($form[$this->model_name][$this->primary_key])) $sql = $this->createModifySql($form[$this->model_name]);  // CASE MODIFY
       else $sql = $this->createInsertSql();  // CASE INSERT
+
+      $this->debug->log("BaseModel::save() SQL:" . $sql);
+
       $this->debug->log("BaseModel::save() form:".print_r($form, true));
       $stmt = $this->dbh->prepare($sql);
       $this->debug->log("BaseModel::save() model_name:" . $this->model_name);
       foreach ($form[$this->model_name] as $key => $value) {
+        // $this->debug->log("BaseModel::save() col_name(1):" . $key .">>>>value:".$value);
         if (is_array($value)) continue;
         $col_name = ":".$key;
-        $this->debug->log("BaseModel::save() col_name(1):" . $key .">>>>value:".$value);
+        $this->debug->log("BaseModel::save() col_name(2):" . $key .">>>>value:".$value);
         switch ($key) {
           case 'created_at':
           case 'modified_at':
-            $this->debug->log("BaseModel::save() col_name(2):" . $key .">>>>value:".$value);
+            $this->debug->log("BaseModel::save() col_name(3):" . $key .">>>>value:".$value);
             $stmt->bindParam($col_name, 'NOW()', PDO::PARAM_STR);
             break;
           default:
-            $this->debug->log("BaseModel::save() col_name(3):" . $key .">>>>value:".$value);
+            $this->debug->log("BaseModel::save() col_name(4):" . $key .">>>>value:".$value);
             $stmt->bindValue($col_name, $value, $this->getColumnType($key));
             break;
         }
       }
+
+
+      // if (!isset($form[$this->model_name][$this->primary_key])){
+      //   $stmt->bindValue(':created_at', 'NOW()', PDO::PARAM_STR);
+      // }
+
+      // $stmt->bindValue(':modified_at', 'NOW()', PDO::PARAM_STR);
+ 
       $this->debug->log("BaseModel::save() stmt:" . print_r($stmt, true));
       $stmt->execute();
     } catch (Exception $e) {
@@ -312,9 +324,14 @@ class BaseModel {
     $values_str = null;
     foreach ($col_names as $col_name) {
       if ($col_name === $this->primary_key) continue;
+
       $colums_str .= $colums_str ? ", " . $col_name : $col_name;
-      $values_str .= $values_str ? ", :".$col_name : ":".$col_name;
+      if ($col_name === 'created_at' || $col_name === 'modified_at') 
+        $values_str .= $values_str ? ", NOW()" : "NOW()";
+      else
+        $values_str .= $values_str ? ", :".$col_name : ":".$col_name;
     }
+
     $sql = "INSERT INTO " . $this->table_name . " (" . $colums_str .") VALUES (" . $values_str . ")";
     return $sql;
   }

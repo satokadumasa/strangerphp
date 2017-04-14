@@ -8376,3 +8376,5000 @@
     [queryString] => INSERT INTO users (name, created_at, modified_at) VALUES (:name, :created_at, :modified_at)
 )
 
+[2017-04-14 19:19:44.09085]  Route::setDefaultRoutes() Start
+[2017-04-14 19:19:44.09204]  Route::setDefaultRoutes() controller:Base
+[2017-04-14 19:19:44.09334]  Route::setDefaultRoutes() uri:/Base/index/
+[2017-04-14 19:19:44.09414]  Route::setDefaultRoutes() uri:/Base/new/ID
+[2017-04-14 19:19:44.09526]  Route::setDefaultRoutes() uri:/Base/edit/ID
+[2017-04-14 19:19:44.09607]  Route::setDefaultRoutes() uri:/Base/create/
+[2017-04-14 19:19:44.09695]  Route::setDefaultRoutes() uri:/Base/confirm/
+[2017-04-14 19:19:44.09782]  Route::setDefaultRoutes() uri:/Base/show/ID
+[2017-04-14 19:19:44.09867]  Route::setDefaultRoutes() uri:/Base/delete/ID
+[2017-04-14 19:19:44.09954]  Route::setDefaultRoutes() controller:Books
+[2017-04-14 19:19:45.00007]  Route::setDefaultRoutes() uri:/Books/index/
+[2017-04-14 19:19:45.00157]  Route::setDefaultRoutes() uri:/Books/new/ID
+[2017-04-14 19:19:45.00234]  Route::setDefaultRoutes() uri:/Books/edit/ID
+[2017-04-14 19:19:45.00317]  Route::setDefaultRoutes() uri:/Books/create/
+[2017-04-14 19:19:45.00403]  Route::setDefaultRoutes() uri:/Books/confirm/
+[2017-04-14 19:19:45.00497]  Route::setDefaultRoutes() uri:/Books/show/ID
+[2017-04-14 19:19:45.00574]  Route::setDefaultRoutes() uri:/Books/delete/ID
+[2017-04-14 19:19:45.00066]  Route::setDefaultRoutes() controller:Default
+[2017-04-14 19:19:45.00784]  Route::setDefaultRoutes() uri:/Default/index/
+[2017-04-14 19:19:45.00871]  Route::setDefaultRoutes() uri:/Default/new/ID
+[2017-04-14 19:19:45.00946]  Route::setDefaultRoutes() uri:/Default/edit/ID
+[2017-04-14 19:19:45.00103]  Route::setDefaultRoutes() uri:/Default/create/
+[2017-04-14 19:19:45.01113]  Route::setDefaultRoutes() uri:/Default/confirm/
+[2017-04-14 19:19:45.01192]  Route::setDefaultRoutes() uri:/Default/show/ID
+[2017-04-14 19:19:45.01283]  Route::setDefaultRoutes() uri:/Default/delete/ID
+[2017-04-14 19:19:45.01365]  Route::setDefaultRoutes() controller:Users
+[2017-04-14 19:19:45.01502]  Route::setDefaultRoutes() uri:/Users/index/
+[2017-04-14 19:19:45.01573]  Route::setDefaultRoutes() uri:/Users/new/ID
+[2017-04-14 19:19:45.01655]  Route::setDefaultRoutes() uri:/Users/edit/ID
+[2017-04-14 19:19:45.01738]  Route::setDefaultRoutes() uri:/Users/create/
+[2017-04-14 19:19:45.01821]  Route::setDefaultRoutes() uri:/Users/confirm/
+[2017-04-14 19:19:45.02011]  Route::setDefaultRoutes() uri:/Users/show/ID
+[2017-04-14 19:19:45.02197]  Route::setDefaultRoutes() uri:/Users/delete/ID
+[2017-04-14 19:19:45.02297]  Route::setDefaultRoutes() setRoute
+[2017-04-14 19:19:45.02387]  Route::setDefaultRoutes() setRoute
+[2017-04-14 19:19:45.02468]  Dispatcher::__construct()
+[2017-04-14 19:19:45.02545]  ENV:Array
+(
+    [USER] => satokadumasa
+    [HOME] => /Users/satokadumasa
+    [FCGI_ROLE] => RESPONDER
+    [SCRIPT_FILENAME] => /Users/satokadumasa/Project/PHP/strangerphp/public/index.php
+    [QUERY_STRING] => 
+    [REQUEST_METHOD] => POST
+    [CONTENT_TYPE] => application/x-www-form-urlencoded
+    [CONTENT_LENGTH] => 90
+    [SCRIPT_NAME] => /index.php
+    [REQUEST_URI] => /Users/create/
+    [DOCUMENT_URI] => /index.php
+    [DOCUMENT_ROOT] => /Users/satokadumasa/Project/PHP/strangerphp/public
+    [SERVER_PROTOCOL] => HTTP/1.1
+    [REQUEST_SCHEME] => http
+    [GATEWAY_INTERFACE] => CGI/1.1
+    [SERVER_SOFTWARE] => nginx/1.10.1
+    [REMOTE_ADDR] => 127.0.0.1
+    [REMOTE_PORT] => 59615
+    [SERVER_ADDR] => 127.0.0.1
+    [SERVER_PORT] => 80
+    [SERVER_NAME] => cinnamon.example.com
+    [REDIRECT_STATUS] => 200
+    [HTTP_HOST] => cinnamon.example.com
+    [HTTP_CONNECTION] => keep-alive
+    [HTTP_CONTENT_LENGTH] => 90
+    [HTTP_CACHE_CONTROL] => max-age=0
+    [HTTP_ORIGIN] => http://cinnamon.example.com
+    [HTTP_UPGRADE_INSECURE_REQUESTS] => 1
+    [HTTP_USER_AGENT] => Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36
+    [HTTP_CONTENT_TYPE] => application/x-www-form-urlencoded
+    [HTTP_ACCEPT] => text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+    [HTTP_REFERER] => http://cinnamon.example.com/user_new.html
+    [HTTP_ACCEPT_ENCODING] => gzip, deflate
+    [HTTP_ACCEPT_LANGUAGE] => ja,en-US;q=0.8,en;q=0.6
+    [PHP_SELF] => /index.php
+    [REQUEST_TIME_FLOAT] => 1492165184.906
+    [REQUEST_TIME] => 1492165184
+)
+
+[2017-04-14 19:19:45.02666]  routes:Route Object
+(
+    [route] => Array
+        (
+            [/Base/index/] => Array
+                (
+                    [controller] => BaseController
+                    [action] => index
+                )
+
+            [/Base/new/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => new
+                )
+
+            [/Base/edit/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => edit
+                )
+
+            [/Base/create/] => Array
+                (
+                    [controller] => BaseController
+                    [action] => create
+                )
+
+            [/Base/confirm/] => Array
+                (
+                    [controller] => BaseController
+                    [action] => confirm
+                )
+
+            [/Base/show/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => show
+                )
+
+            [/Base/delete/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => delete
+                )
+
+            [/Books/index/] => Array
+                (
+                    [controller] => BooksController
+                    [action] => index
+                )
+
+            [/Books/new/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => new
+                )
+
+            [/Books/edit/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => edit
+                )
+
+            [/Books/create/] => Array
+                (
+                    [controller] => BooksController
+                    [action] => create
+                )
+
+            [/Books/confirm/] => Array
+                (
+                    [controller] => BooksController
+                    [action] => confirm
+                )
+
+            [/Books/show/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => show
+                )
+
+            [/Books/delete/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => delete
+                )
+
+            [/Default/index/] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => index
+                )
+
+            [/Default/new/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => new
+                )
+
+            [/Default/edit/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => edit
+                )
+
+            [/Default/create/] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => create
+                )
+
+            [/Default/confirm/] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => confirm
+                )
+
+            [/Default/show/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => show
+                )
+
+            [/Default/delete/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => delete
+                )
+
+            [/Users/index/] => Array
+                (
+                    [controller] => UsersController
+                    [action] => index
+                )
+
+            [/Users/new/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => new
+                )
+
+            [/Users/edit/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => edit
+                )
+
+            [/Users/create/] => Array
+                (
+                    [controller] => UsersController
+                    [action] => create
+                )
+
+            [/Users/confirm/] => Array
+                (
+                    [controller] => UsersController
+                    [action] => confirm
+                )
+
+            [/Users/show/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => show
+                )
+
+            [/Users/delete/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => delete
+                )
+
+            [/Users/search/] => Array
+                (
+                    [controller] => Users
+                    [action] => search
+                )
+
+        )
+
+    [default_actions:Route:private] => Array
+        (
+            [0] => index
+            [1] => new
+            [2] => edit
+            [3] => create
+            [4] => confirm
+            [5] => show
+            [6] => delete
+        )
+
+    [default_need_id_actions:Route:private] => Array
+        (
+            [0] => new
+            [1] => edit
+            [2] => show
+            [3] => delete
+        )
+
+    [url_not_found:Route:private] => Array
+        (
+            [controller] => DefaultController
+            [action] => index
+        )
+
+    [error_log] => Logger Object
+        (
+            [log_file:Logger:private] => /Users/satokadumasa/Project/PHP/strangerphp/logs/ERROR_20170414.log
+            [log_level:Logger:private] => ERROR
+        )
+
+    [info_log] => Logger Object
+        (
+            [log_file:Logger:private] => /Users/satokadumasa/Project/PHP/strangerphp/logs/INFO_20170414.log
+            [log_level:Logger:private] => INFO
+        )
+
+    [debug] => Logger Object
+        (
+            [log_file:Logger:private] => /Users/satokadumasa/Project/PHP/strangerphp/logs/DEBUG_20170414.log
+            [log_level:Logger:private] => DEBUG
+        )
+
+    [CONV_STRING_LIST:Route:private] => Array
+        (
+            [ID] => \d
+            [YEAR] => \d{4}
+            [MONTH] => \d{2}
+            [0] => MDAY
+            [1] => \d{2}
+        )
+
+)
+
+[2017-04-14 19:19:45.02747]  Route::findRoute() url:/Users/create/
+[2017-04-14 19:19:45.02835]  Route::findRoute() value:\/Users\/create\/>>>>value:Array
+(
+    [controller] => UsersController
+    [action] => create
+    [uri] => /Users/create/
+)
+
+[2017-04-14 19:19:45.02911]  Dispatcher::__construct() controller:UsersController:
+[2017-04-14 19:19:45.03003]  Dispatcher::__construct() POST:Array
+(
+    [User] => Array
+        (
+            [name] => susanoo1971
+            [Book] => Array
+                (
+                    [name] => gggggg
+                )
+
+        )
+
+    [bottom] => 送信
+)
+:
+[2017-04-14 19:19:45.03088]  Dispatcher::__construct() GET:Array
+(
+)
+:
+[2017-04-14 19:19:45.03179]  Dispatcher::__construct() route:Array
+(
+    [controller] => UsersController
+    [action] => create
+    [uri] => /Users/create/
+)
+:
+[2017-04-14 19:19:45.03282]  DbConnect::createConnection() dsn:mysql:host=localhost;dbname=cinnamon;charset=utf8
+[2017-04-14 19:19:45.03346]  DbConnect::createConnection() username:root
+[2017-04-14 19:19:45.03428]  DbConnect::createConnection() password:glxre297
+[2017-04-14 19:19:45.03541]  BaseController::getRequestValues() requestArray
+(
+    [User] => Array
+        (
+            [name] => susanoo1971
+            [Book] => Array
+                (
+                    [name] => gggggg
+                )
+
+        )
+
+    [bottom] => 送信
+)
+
+[2017-04-14 19:19:45.03633]  BaseModel::save() CH-01
+[2017-04-14 19:19:45.00037]  BaseModel::save() form:Array
+(
+    [User] => Array
+        (
+            [name] => susanoo1971
+            [Book] => Array
+                (
+                    [name] => gggggg
+                )
+
+        )
+
+    [bottom] => 送信
+)
+
+[2017-04-14 19:19:45.03809]  BaseModel::save() model_name:User
+[2017-04-14 19:19:45.03944]  BaseModel::save() col_name(1):name>>>>value:susanoo1971
+[2017-04-14 19:19:45.04073]  BaseModel::save() col_name(3):name>>>>value:susanoo1971
+[2017-04-14 19:19:45.04208]  BaseModel::save() stmt:PDOStatement Object
+(
+    [queryString] => INSERT INTO users (name, created_at, modified_at) VALUES (:name, :created_at, :modified_at)
+)
+
+[2017-04-14 19:19:45.00433]  BaseModel::save() error:SQLSTATE[HY093]: Invalid parameter number
+[2017-04-14 19:23:24.09295]  Route::setDefaultRoutes() Start
+[2017-04-14 19:23:24.09444]  Route::setDefaultRoutes() controller:Base
+[2017-04-14 19:23:24.09538]  Route::setDefaultRoutes() uri:/Base/index/
+[2017-04-14 19:23:24.09621]  Route::setDefaultRoutes() uri:/Base/new/ID
+[2017-04-14 19:23:24.09703]  Route::setDefaultRoutes() uri:/Base/edit/ID
+[2017-04-14 19:23:24.09782]  Route::setDefaultRoutes() uri:/Base/create/
+[2017-04-14 19:23:24.09859]  Route::setDefaultRoutes() uri:/Base/confirm/
+[2017-04-14 19:23:24.09944]  Route::setDefaultRoutes() uri:/Base/show/ID
+[2017-04-14 19:23:25.00031]  Route::setDefaultRoutes() uri:/Base/delete/ID
+[2017-04-14 19:23:25.00122]  Route::setDefaultRoutes() controller:Books
+[2017-04-14 19:23:25.00206]  Route::setDefaultRoutes() uri:/Books/index/
+[2017-04-14 19:23:25.00286]  Route::setDefaultRoutes() uri:/Books/new/ID
+[2017-04-14 19:23:25.00373]  Route::setDefaultRoutes() uri:/Books/edit/ID
+[2017-04-14 19:23:25.00455]  Route::setDefaultRoutes() uri:/Books/create/
+[2017-04-14 19:23:25.00539]  Route::setDefaultRoutes() uri:/Books/confirm/
+[2017-04-14 19:23:25.00626]  Route::setDefaultRoutes() uri:/Books/show/ID
+[2017-04-14 19:23:25.00715]  Route::setDefaultRoutes() uri:/Books/delete/ID
+[2017-04-14 19:23:25.00798]  Route::setDefaultRoutes() controller:Default
+[2017-04-14 19:23:25.00877]  Route::setDefaultRoutes() uri:/Default/index/
+[2017-04-14 19:23:25.00957]  Route::setDefaultRoutes() uri:/Default/new/ID
+[2017-04-14 19:23:25.01045]  Route::setDefaultRoutes() uri:/Default/edit/ID
+[2017-04-14 19:23:25.01127]  Route::setDefaultRoutes() uri:/Default/create/
+[2017-04-14 19:23:25.01213]  Route::setDefaultRoutes() uri:/Default/confirm/
+[2017-04-14 19:23:25.01295]  Route::setDefaultRoutes() uri:/Default/show/ID
+[2017-04-14 19:23:25.01382]  Route::setDefaultRoutes() uri:/Default/delete/ID
+[2017-04-14 19:23:25.01464]  Route::setDefaultRoutes() controller:Users
+[2017-04-14 19:23:25.01544]  Route::setDefaultRoutes() uri:/Users/index/
+[2017-04-14 19:23:25.01626]  Route::setDefaultRoutes() uri:/Users/new/ID
+[2017-04-14 19:23:25.01725]  Route::setDefaultRoutes() uri:/Users/edit/ID
+[2017-04-14 19:23:25.01814]  Route::setDefaultRoutes() uri:/Users/create/
+[2017-04-14 19:23:25.01929]  Route::setDefaultRoutes() uri:/Users/confirm/
+[2017-04-14 19:23:25.02037]  Route::setDefaultRoutes() uri:/Users/show/ID
+[2017-04-14 19:23:25.02153]  Route::setDefaultRoutes() uri:/Users/delete/ID
+[2017-04-14 19:23:25.02255]  Route::setDefaultRoutes() setRoute
+[2017-04-14 19:23:25.02358]  Route::setDefaultRoutes() setRoute
+[2017-04-14 19:23:25.02479]  Dispatcher::__construct()
+[2017-04-14 19:23:25.02607]  ENV:Array
+(
+    [USER] => satokadumasa
+    [HOME] => /Users/satokadumasa
+    [FCGI_ROLE] => RESPONDER
+    [SCRIPT_FILENAME] => /Users/satokadumasa/Project/PHP/strangerphp/public/index.php
+    [QUERY_STRING] => 
+    [REQUEST_METHOD] => POST
+    [CONTENT_TYPE] => application/x-www-form-urlencoded
+    [CONTENT_LENGTH] => 90
+    [SCRIPT_NAME] => /index.php
+    [REQUEST_URI] => /Users/create/
+    [DOCUMENT_URI] => /index.php
+    [DOCUMENT_ROOT] => /Users/satokadumasa/Project/PHP/strangerphp/public
+    [SERVER_PROTOCOL] => HTTP/1.1
+    [REQUEST_SCHEME] => http
+    [GATEWAY_INTERFACE] => CGI/1.1
+    [SERVER_SOFTWARE] => nginx/1.10.1
+    [REMOTE_ADDR] => 127.0.0.1
+    [REMOTE_PORT] => 60890
+    [SERVER_ADDR] => 127.0.0.1
+    [SERVER_PORT] => 80
+    [SERVER_NAME] => cinnamon.example.com
+    [REDIRECT_STATUS] => 200
+    [HTTP_HOST] => cinnamon.example.com
+    [HTTP_CONNECTION] => keep-alive
+    [HTTP_CONTENT_LENGTH] => 90
+    [HTTP_CACHE_CONTROL] => max-age=0
+    [HTTP_ORIGIN] => http://cinnamon.example.com
+    [HTTP_UPGRADE_INSECURE_REQUESTS] => 1
+    [HTTP_USER_AGENT] => Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36
+    [HTTP_CONTENT_TYPE] => application/x-www-form-urlencoded
+    [HTTP_ACCEPT] => text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+    [HTTP_REFERER] => http://cinnamon.example.com/user_new.html
+    [HTTP_ACCEPT_ENCODING] => gzip, deflate
+    [HTTP_ACCEPT_LANGUAGE] => ja,en-US;q=0.8,en;q=0.6
+    [PHP_SELF] => /index.php
+    [REQUEST_TIME_FLOAT] => 1492165404.9273
+    [REQUEST_TIME] => 1492165404
+)
+
+[2017-04-14 19:23:25.02732]  routes:Route Object
+(
+    [route] => Array
+        (
+            [/Base/index/] => Array
+                (
+                    [controller] => BaseController
+                    [action] => index
+                )
+
+            [/Base/new/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => new
+                )
+
+            [/Base/edit/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => edit
+                )
+
+            [/Base/create/] => Array
+                (
+                    [controller] => BaseController
+                    [action] => create
+                )
+
+            [/Base/confirm/] => Array
+                (
+                    [controller] => BaseController
+                    [action] => confirm
+                )
+
+            [/Base/show/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => show
+                )
+
+            [/Base/delete/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => delete
+                )
+
+            [/Books/index/] => Array
+                (
+                    [controller] => BooksController
+                    [action] => index
+                )
+
+            [/Books/new/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => new
+                )
+
+            [/Books/edit/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => edit
+                )
+
+            [/Books/create/] => Array
+                (
+                    [controller] => BooksController
+                    [action] => create
+                )
+
+            [/Books/confirm/] => Array
+                (
+                    [controller] => BooksController
+                    [action] => confirm
+                )
+
+            [/Books/show/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => show
+                )
+
+            [/Books/delete/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => delete
+                )
+
+            [/Default/index/] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => index
+                )
+
+            [/Default/new/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => new
+                )
+
+            [/Default/edit/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => edit
+                )
+
+            [/Default/create/] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => create
+                )
+
+            [/Default/confirm/] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => confirm
+                )
+
+            [/Default/show/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => show
+                )
+
+            [/Default/delete/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => delete
+                )
+
+            [/Users/index/] => Array
+                (
+                    [controller] => UsersController
+                    [action] => index
+                )
+
+            [/Users/new/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => new
+                )
+
+            [/Users/edit/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => edit
+                )
+
+            [/Users/create/] => Array
+                (
+                    [controller] => UsersController
+                    [action] => create
+                )
+
+            [/Users/confirm/] => Array
+                (
+                    [controller] => UsersController
+                    [action] => confirm
+                )
+
+            [/Users/show/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => show
+                )
+
+            [/Users/delete/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => delete
+                )
+
+            [/Users/search/] => Array
+                (
+                    [controller] => Users
+                    [action] => search
+                )
+
+        )
+
+    [default_actions:Route:private] => Array
+        (
+            [0] => index
+            [1] => new
+            [2] => edit
+            [3] => create
+            [4] => confirm
+            [5] => show
+            [6] => delete
+        )
+
+    [default_need_id_actions:Route:private] => Array
+        (
+            [0] => new
+            [1] => edit
+            [2] => show
+            [3] => delete
+        )
+
+    [url_not_found:Route:private] => Array
+        (
+            [controller] => DefaultController
+            [action] => index
+        )
+
+    [error_log] => Logger Object
+        (
+            [log_file:Logger:private] => /Users/satokadumasa/Project/PHP/strangerphp/logs/ERROR_20170414.log
+            [log_level:Logger:private] => ERROR
+        )
+
+    [info_log] => Logger Object
+        (
+            [log_file:Logger:private] => /Users/satokadumasa/Project/PHP/strangerphp/logs/INFO_20170414.log
+            [log_level:Logger:private] => INFO
+        )
+
+    [debug] => Logger Object
+        (
+            [log_file:Logger:private] => /Users/satokadumasa/Project/PHP/strangerphp/logs/DEBUG_20170414.log
+            [log_level:Logger:private] => DEBUG
+        )
+
+    [CONV_STRING_LIST:Route:private] => Array
+        (
+            [ID] => \d
+            [YEAR] => \d{4}
+            [MONTH] => \d{2}
+            [0] => MDAY
+            [1] => \d{2}
+        )
+
+)
+
+[2017-04-14 19:23:25.02867]  Route::findRoute() url:/Users/create/
+[2017-04-14 19:23:25.02997]  Route::findRoute() value:\/Users\/create\/>>>>value:Array
+(
+    [controller] => UsersController
+    [action] => create
+    [uri] => /Users/create/
+)
+
+[2017-04-14 19:23:25.03123]  Dispatcher::__construct() controller:UsersController:
+[2017-04-14 19:23:25.03244]  Dispatcher::__construct() POST:Array
+(
+    [User] => Array
+        (
+            [name] => susanoo1971
+            [Book] => Array
+                (
+                    [name] => gggggg
+                )
+
+        )
+
+    [bottom] => 送信
+)
+:
+[2017-04-14 19:23:25.03367]  Dispatcher::__construct() GET:Array
+(
+)
+:
+[2017-04-14 19:23:25.03656]  Dispatcher::__construct() route:Array
+(
+    [controller] => UsersController
+    [action] => create
+    [uri] => /Users/create/
+)
+:
+[2017-04-14 19:23:25.03776]  DbConnect::createConnection() dsn:mysql:host=localhost;dbname=cinnamon;charset=utf8
+[2017-04-14 19:23:25.03877]  DbConnect::createConnection() username:root
+[2017-04-14 19:23:25.03991]  DbConnect::createConnection() password:glxre297
+[2017-04-14 19:23:25.04113]  BaseController::getRequestValues() requestArray
+(
+    [User] => Array
+        (
+            [name] => susanoo1971
+            [Book] => Array
+                (
+                    [name] => gggggg
+                )
+
+        )
+
+    [bottom] => 送信
+)
+
+[2017-04-14 19:23:25.00424]  BaseModel::save() CH-01
+[2017-04-14 19:23:25.04321]  BaseModel::save() form:Array
+(
+    [User] => Array
+        (
+            [name] => susanoo1971
+            [Book] => Array
+                (
+                    [name] => gggggg
+                )
+
+        )
+
+    [bottom] => 送信
+)
+
+[2017-04-14 19:23:25.04451]  BaseModel::save() model_name:User
+[2017-04-14 19:23:25.04595]  BaseModel::save() col_name(1):name>>>>value:susanoo1971
+[2017-04-14 19:23:25.04732]  BaseModel::save() col_name(2):name>>>>value:susanoo1971
+[2017-04-14 19:23:25.04896]  BaseModel::save() col_name(4):name>>>>value:susanoo1971
+[2017-04-14 19:23:25.05062]  BaseModel::save() col_name(1):Book>>>>value:Array
+[2017-04-14 19:23:25.05249]  BaseModel::save() stmt:PDOStatement Object
+(
+    [queryString] => INSERT INTO users (name, created_at, modified_at) VALUES (:name, :created_at, :modified_at)
+)
+
+[2017-04-14 19:23:25.05383]  BaseModel::save() error:SQLSTATE[HY093]: Invalid parameter number
+[2017-04-14 19:27:13.01763]  Route::setDefaultRoutes() Start
+[2017-04-14 19:27:13.01898]  Route::setDefaultRoutes() controller:Base
+[2017-04-14 19:27:13.00198]  Route::setDefaultRoutes() uri:/Base/index/
+[2017-04-14 19:27:13.02075]  Route::setDefaultRoutes() uri:/Base/new/ID
+[2017-04-14 19:27:13.02237]  Route::setDefaultRoutes() uri:/Base/edit/ID
+[2017-04-14 19:27:13.02375]  Route::setDefaultRoutes() uri:/Base/create/
+[2017-04-14 19:27:13.02488]  Route::setDefaultRoutes() uri:/Base/confirm/
+[2017-04-14 19:27:13.02564]  Route::setDefaultRoutes() uri:/Base/show/ID
+[2017-04-14 19:27:13.02664]  Route::setDefaultRoutes() uri:/Base/delete/ID
+[2017-04-14 19:27:13.00277]  Route::setDefaultRoutes() controller:Books
+[2017-04-14 19:27:13.02862]  Route::setDefaultRoutes() uri:/Books/index/
+[2017-04-14 19:27:13.02947]  Route::setDefaultRoutes() uri:/Books/new/ID
+[2017-04-14 19:27:13.03038]  Route::setDefaultRoutes() uri:/Books/edit/ID
+[2017-04-14 19:27:13.03127]  Route::setDefaultRoutes() uri:/Books/create/
+[2017-04-14 19:27:13.03303]  Route::setDefaultRoutes() uri:/Books/confirm/
+[2017-04-14 19:27:13.03388]  Route::setDefaultRoutes() uri:/Books/show/ID
+[2017-04-14 19:27:13.03475]  Route::setDefaultRoutes() uri:/Books/delete/ID
+[2017-04-14 19:27:13.03561]  Route::setDefaultRoutes() controller:Default
+[2017-04-14 19:27:13.03641]  Route::setDefaultRoutes() uri:/Default/index/
+[2017-04-14 19:27:13.03728]  Route::setDefaultRoutes() uri:/Default/new/ID
+[2017-04-14 19:27:13.03821]  Route::setDefaultRoutes() uri:/Default/edit/ID
+[2017-04-14 19:27:13.03901]  Route::setDefaultRoutes() uri:/Default/create/
+[2017-04-14 19:27:13.03998]  Route::setDefaultRoutes() uri:/Default/confirm/
+[2017-04-14 19:27:13.00041]  Route::setDefaultRoutes() uri:/Default/show/ID
+[2017-04-14 19:27:13.04193]  Route::setDefaultRoutes() uri:/Default/delete/ID
+[2017-04-14 19:27:13.04272]  Route::setDefaultRoutes() controller:Users
+[2017-04-14 19:27:13.04354]  Route::setDefaultRoutes() uri:/Users/index/
+[2017-04-14 19:27:13.04439]  Route::setDefaultRoutes() uri:/Users/new/ID
+[2017-04-14 19:27:13.04524]  Route::setDefaultRoutes() uri:/Users/edit/ID
+[2017-04-14 19:27:13.04604]  Route::setDefaultRoutes() uri:/Users/create/
+[2017-04-14 19:27:13.04691]  Route::setDefaultRoutes() uri:/Users/confirm/
+[2017-04-14 19:27:13.04777]  Route::setDefaultRoutes() uri:/Users/show/ID
+[2017-04-14 19:27:13.00486]  Route::setDefaultRoutes() uri:/Users/delete/ID
+[2017-04-14 19:27:13.04941]  Route::setDefaultRoutes() setRoute
+[2017-04-14 19:27:13.05027]  Route::setDefaultRoutes() setRoute
+[2017-04-14 19:27:13.05122]  Dispatcher::__construct()
+[2017-04-14 19:27:13.05202]  ENV:Array
+(
+    [USER] => satokadumasa
+    [HOME] => /Users/satokadumasa
+    [FCGI_ROLE] => RESPONDER
+    [SCRIPT_FILENAME] => /Users/satokadumasa/Project/PHP/strangerphp/public/index.php
+    [QUERY_STRING] => 
+    [REQUEST_METHOD] => POST
+    [CONTENT_TYPE] => application/x-www-form-urlencoded
+    [CONTENT_LENGTH] => 90
+    [SCRIPT_NAME] => /index.php
+    [REQUEST_URI] => /Users/create/
+    [DOCUMENT_URI] => /index.php
+    [DOCUMENT_ROOT] => /Users/satokadumasa/Project/PHP/strangerphp/public
+    [SERVER_PROTOCOL] => HTTP/1.1
+    [REQUEST_SCHEME] => http
+    [GATEWAY_INTERFACE] => CGI/1.1
+    [SERVER_SOFTWARE] => nginx/1.10.1
+    [REMOTE_ADDR] => 127.0.0.1
+    [REMOTE_PORT] => 61828
+    [SERVER_ADDR] => 127.0.0.1
+    [SERVER_PORT] => 80
+    [SERVER_NAME] => cinnamon.example.com
+    [REDIRECT_STATUS] => 200
+    [HTTP_HOST] => cinnamon.example.com
+    [HTTP_CONNECTION] => keep-alive
+    [HTTP_CONTENT_LENGTH] => 90
+    [HTTP_CACHE_CONTROL] => max-age=0
+    [HTTP_ORIGIN] => http://cinnamon.example.com
+    [HTTP_UPGRADE_INSECURE_REQUESTS] => 1
+    [HTTP_USER_AGENT] => Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36
+    [HTTP_CONTENT_TYPE] => application/x-www-form-urlencoded
+    [HTTP_ACCEPT] => text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+    [HTTP_REFERER] => http://cinnamon.example.com/user_new.html
+    [HTTP_ACCEPT_ENCODING] => gzip, deflate
+    [HTTP_ACCEPT_LANGUAGE] => ja,en-US;q=0.8,en;q=0.6
+    [PHP_SELF] => /index.php
+    [REQUEST_TIME_FLOAT] => 1492165633.1749
+    [REQUEST_TIME] => 1492165633
+)
+
+[2017-04-14 19:27:13.05284]  routes:Route Object
+(
+    [route] => Array
+        (
+            [/Base/index/] => Array
+                (
+                    [controller] => BaseController
+                    [action] => index
+                )
+
+            [/Base/new/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => new
+                )
+
+            [/Base/edit/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => edit
+                )
+
+            [/Base/create/] => Array
+                (
+                    [controller] => BaseController
+                    [action] => create
+                )
+
+            [/Base/confirm/] => Array
+                (
+                    [controller] => BaseController
+                    [action] => confirm
+                )
+
+            [/Base/show/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => show
+                )
+
+            [/Base/delete/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => delete
+                )
+
+            [/Books/index/] => Array
+                (
+                    [controller] => BooksController
+                    [action] => index
+                )
+
+            [/Books/new/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => new
+                )
+
+            [/Books/edit/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => edit
+                )
+
+            [/Books/create/] => Array
+                (
+                    [controller] => BooksController
+                    [action] => create
+                )
+
+            [/Books/confirm/] => Array
+                (
+                    [controller] => BooksController
+                    [action] => confirm
+                )
+
+            [/Books/show/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => show
+                )
+
+            [/Books/delete/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => delete
+                )
+
+            [/Default/index/] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => index
+                )
+
+            [/Default/new/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => new
+                )
+
+            [/Default/edit/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => edit
+                )
+
+            [/Default/create/] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => create
+                )
+
+            [/Default/confirm/] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => confirm
+                )
+
+            [/Default/show/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => show
+                )
+
+            [/Default/delete/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => delete
+                )
+
+            [/Users/index/] => Array
+                (
+                    [controller] => UsersController
+                    [action] => index
+                )
+
+            [/Users/new/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => new
+                )
+
+            [/Users/edit/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => edit
+                )
+
+            [/Users/create/] => Array
+                (
+                    [controller] => UsersController
+                    [action] => create
+                )
+
+            [/Users/confirm/] => Array
+                (
+                    [controller] => UsersController
+                    [action] => confirm
+                )
+
+            [/Users/show/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => show
+                )
+
+            [/Users/delete/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => delete
+                )
+
+            [/Users/search/] => Array
+                (
+                    [controller] => Users
+                    [action] => search
+                )
+
+        )
+
+    [default_actions:Route:private] => Array
+        (
+            [0] => index
+            [1] => new
+            [2] => edit
+            [3] => create
+            [4] => confirm
+            [5] => show
+            [6] => delete
+        )
+
+    [default_need_id_actions:Route:private] => Array
+        (
+            [0] => new
+            [1] => edit
+            [2] => show
+            [3] => delete
+        )
+
+    [url_not_found:Route:private] => Array
+        (
+            [controller] => DefaultController
+            [action] => index
+        )
+
+    [error_log] => Logger Object
+        (
+            [log_file:Logger:private] => /Users/satokadumasa/Project/PHP/strangerphp/logs/ERROR_20170414.log
+            [log_level:Logger:private] => ERROR
+        )
+
+    [info_log] => Logger Object
+        (
+            [log_file:Logger:private] => /Users/satokadumasa/Project/PHP/strangerphp/logs/INFO_20170414.log
+            [log_level:Logger:private] => INFO
+        )
+
+    [debug] => Logger Object
+        (
+            [log_file:Logger:private] => /Users/satokadumasa/Project/PHP/strangerphp/logs/DEBUG_20170414.log
+            [log_level:Logger:private] => DEBUG
+        )
+
+    [CONV_STRING_LIST:Route:private] => Array
+        (
+            [ID] => \d
+            [YEAR] => \d{4}
+            [MONTH] => \d{2}
+            [0] => MDAY
+            [1] => \d{2}
+        )
+
+)
+
+[2017-04-14 19:27:13.05378]  Route::findRoute() url:/Users/create/
+[2017-04-14 19:27:13.00546]  Route::findRoute() value:\/Users\/create\/>>>>value:Array
+(
+    [controller] => UsersController
+    [action] => create
+    [uri] => /Users/create/
+)
+
+[2017-04-14 19:27:13.05542]  Dispatcher::__construct() controller:UsersController:
+[2017-04-14 19:27:13.05625]  Dispatcher::__construct() POST:Array
+(
+    [User] => Array
+        (
+            [name] => susanoo1971
+            [Book] => Array
+                (
+                    [name] => gggggg
+                )
+
+        )
+
+    [bottom] => 送信
+)
+:
+[2017-04-14 19:27:13.00571]  Dispatcher::__construct() GET:Array
+(
+)
+:
+[2017-04-14 19:27:13.00579]  Dispatcher::__construct() route:Array
+(
+    [controller] => UsersController
+    [action] => create
+    [uri] => /Users/create/
+)
+:
+[2017-04-14 19:27:13.05885]  DbConnect::createConnection() dsn:mysql:host=localhost;dbname=cinnamon;charset=utf8
+[2017-04-14 19:27:13.05957]  DbConnect::createConnection() username:root
+[2017-04-14 19:27:13.06043]  DbConnect::createConnection() password:glxre297
+[2017-04-14 19:27:13.06133]  BaseController::getRequestValues() requestArray
+(
+    [User] => Array
+        (
+            [name] => susanoo1971
+            [Book] => Array
+                (
+                    [name] => gggggg
+                )
+
+        )
+
+    [bottom] => 送信
+)
+
+[2017-04-14 19:28:16.05622]  Route::setDefaultRoutes() Start
+[2017-04-14 19:28:16.05766]  Route::setDefaultRoutes() controller:Base
+[2017-04-14 19:28:16.05866]  Route::setDefaultRoutes() uri:/Base/index/
+[2017-04-14 19:28:16.05957]  Route::setDefaultRoutes() uri:/Base/new/ID
+[2017-04-14 19:28:16.06054]  Route::setDefaultRoutes() uri:/Base/edit/ID
+[2017-04-14 19:28:16.06147]  Route::setDefaultRoutes() uri:/Base/create/
+[2017-04-14 19:28:16.06239]  Route::setDefaultRoutes() uri:/Base/confirm/
+[2017-04-14 19:28:16.06319]  Route::setDefaultRoutes() uri:/Base/show/ID
+[2017-04-14 19:28:16.06421]  Route::setDefaultRoutes() uri:/Base/delete/ID
+[2017-04-14 19:28:16.06522]  Route::setDefaultRoutes() controller:Books
+[2017-04-14 19:28:16.06645]  Route::setDefaultRoutes() uri:/Books/index/
+[2017-04-14 19:28:16.06739]  Route::setDefaultRoutes() uri:/Books/new/ID
+[2017-04-14 19:28:16.06833]  Route::setDefaultRoutes() uri:/Books/edit/ID
+[2017-04-14 19:28:16.06925]  Route::setDefaultRoutes() uri:/Books/create/
+[2017-04-14 19:28:16.07005]  Route::setDefaultRoutes() uri:/Books/confirm/
+[2017-04-14 19:28:16.07121]  Route::setDefaultRoutes() uri:/Books/show/ID
+[2017-04-14 19:28:16.07203]  Route::setDefaultRoutes() uri:/Books/delete/ID
+[2017-04-14 19:28:16.07289]  Route::setDefaultRoutes() controller:Default
+[2017-04-14 19:28:16.07372]  Route::setDefaultRoutes() uri:/Default/index/
+[2017-04-14 19:28:16.07458]  Route::setDefaultRoutes() uri:/Default/new/ID
+[2017-04-14 19:28:16.07541]  Route::setDefaultRoutes() uri:/Default/edit/ID
+[2017-04-14 19:28:16.07621]  Route::setDefaultRoutes() uri:/Default/create/
+[2017-04-14 19:28:16.07702]  Route::setDefaultRoutes() uri:/Default/confirm/
+[2017-04-14 19:28:16.07787]  Route::setDefaultRoutes() uri:/Default/show/ID
+[2017-04-14 19:28:16.07868]  Route::setDefaultRoutes() uri:/Default/delete/ID
+[2017-04-14 19:28:16.00796]  Route::setDefaultRoutes() controller:Users
+[2017-04-14 19:28:16.08043]  Route::setDefaultRoutes() uri:/Users/index/
+[2017-04-14 19:28:16.08126]  Route::setDefaultRoutes() uri:/Users/new/ID
+[2017-04-14 19:28:16.08216]  Route::setDefaultRoutes() uri:/Users/edit/ID
+[2017-04-14 19:28:16.08305]  Route::setDefaultRoutes() uri:/Users/create/
+[2017-04-14 19:28:16.08392]  Route::setDefaultRoutes() uri:/Users/confirm/
+[2017-04-14 19:28:16.08478]  Route::setDefaultRoutes() uri:/Users/show/ID
+[2017-04-14 19:28:16.08572]  Route::setDefaultRoutes() uri:/Users/delete/ID
+[2017-04-14 19:28:16.08688]  Route::setDefaultRoutes() setRoute
+[2017-04-14 19:28:16.08779]  Route::setDefaultRoutes() setRoute
+[2017-04-14 19:28:16.08866]  Dispatcher::__construct()
+[2017-04-14 19:28:16.08948]  ENV:Array
+(
+    [USER] => satokadumasa
+    [HOME] => /Users/satokadumasa
+    [FCGI_ROLE] => RESPONDER
+    [SCRIPT_FILENAME] => /Users/satokadumasa/Project/PHP/strangerphp/public/index.php
+    [QUERY_STRING] => 
+    [REQUEST_METHOD] => POST
+    [CONTENT_TYPE] => application/x-www-form-urlencoded
+    [CONTENT_LENGTH] => 90
+    [SCRIPT_NAME] => /index.php
+    [REQUEST_URI] => /Users/create/
+    [DOCUMENT_URI] => /index.php
+    [DOCUMENT_ROOT] => /Users/satokadumasa/Project/PHP/strangerphp/public
+    [SERVER_PROTOCOL] => HTTP/1.1
+    [REQUEST_SCHEME] => http
+    [GATEWAY_INTERFACE] => CGI/1.1
+    [SERVER_SOFTWARE] => nginx/1.10.1
+    [REMOTE_ADDR] => 127.0.0.1
+    [REMOTE_PORT] => 61828
+    [SERVER_ADDR] => 127.0.0.1
+    [SERVER_PORT] => 80
+    [SERVER_NAME] => cinnamon.example.com
+    [REDIRECT_STATUS] => 200
+    [HTTP_HOST] => cinnamon.example.com
+    [HTTP_CONNECTION] => keep-alive
+    [HTTP_CONTENT_LENGTH] => 90
+    [HTTP_CACHE_CONTROL] => max-age=0
+    [HTTP_ORIGIN] => http://cinnamon.example.com
+    [HTTP_UPGRADE_INSECURE_REQUESTS] => 1
+    [HTTP_USER_AGENT] => Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36
+    [HTTP_CONTENT_TYPE] => application/x-www-form-urlencoded
+    [HTTP_ACCEPT] => text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+    [HTTP_REFERER] => http://cinnamon.example.com/user_new.html
+    [HTTP_ACCEPT_ENCODING] => gzip, deflate
+    [HTTP_ACCEPT_LANGUAGE] => ja,en-US;q=0.8,en;q=0.6
+    [PHP_SELF] => /index.php
+    [REQUEST_TIME_FLOAT] => 1492165696.5608
+    [REQUEST_TIME] => 1492165696
+)
+
+[2017-04-14 19:28:16.09033]  routes:Route Object
+(
+    [route] => Array
+        (
+            [/Base/index/] => Array
+                (
+                    [controller] => BaseController
+                    [action] => index
+                )
+
+            [/Base/new/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => new
+                )
+
+            [/Base/edit/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => edit
+                )
+
+            [/Base/create/] => Array
+                (
+                    [controller] => BaseController
+                    [action] => create
+                )
+
+            [/Base/confirm/] => Array
+                (
+                    [controller] => BaseController
+                    [action] => confirm
+                )
+
+            [/Base/show/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => show
+                )
+
+            [/Base/delete/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => delete
+                )
+
+            [/Books/index/] => Array
+                (
+                    [controller] => BooksController
+                    [action] => index
+                )
+
+            [/Books/new/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => new
+                )
+
+            [/Books/edit/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => edit
+                )
+
+            [/Books/create/] => Array
+                (
+                    [controller] => BooksController
+                    [action] => create
+                )
+
+            [/Books/confirm/] => Array
+                (
+                    [controller] => BooksController
+                    [action] => confirm
+                )
+
+            [/Books/show/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => show
+                )
+
+            [/Books/delete/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => delete
+                )
+
+            [/Default/index/] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => index
+                )
+
+            [/Default/new/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => new
+                )
+
+            [/Default/edit/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => edit
+                )
+
+            [/Default/create/] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => create
+                )
+
+            [/Default/confirm/] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => confirm
+                )
+
+            [/Default/show/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => show
+                )
+
+            [/Default/delete/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => delete
+                )
+
+            [/Users/index/] => Array
+                (
+                    [controller] => UsersController
+                    [action] => index
+                )
+
+            [/Users/new/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => new
+                )
+
+            [/Users/edit/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => edit
+                )
+
+            [/Users/create/] => Array
+                (
+                    [controller] => UsersController
+                    [action] => create
+                )
+
+            [/Users/confirm/] => Array
+                (
+                    [controller] => UsersController
+                    [action] => confirm
+                )
+
+            [/Users/show/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => show
+                )
+
+            [/Users/delete/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => delete
+                )
+
+            [/Users/search/] => Array
+                (
+                    [controller] => Users
+                    [action] => search
+                )
+
+        )
+
+    [default_actions:Route:private] => Array
+        (
+            [0] => index
+            [1] => new
+            [2] => edit
+            [3] => create
+            [4] => confirm
+            [5] => show
+            [6] => delete
+        )
+
+    [default_need_id_actions:Route:private] => Array
+        (
+            [0] => new
+            [1] => edit
+            [2] => show
+            [3] => delete
+        )
+
+    [url_not_found:Route:private] => Array
+        (
+            [controller] => DefaultController
+            [action] => index
+        )
+
+    [error_log] => Logger Object
+        (
+            [log_file:Logger:private] => /Users/satokadumasa/Project/PHP/strangerphp/logs/ERROR_20170414.log
+            [log_level:Logger:private] => ERROR
+        )
+
+    [info_log] => Logger Object
+        (
+            [log_file:Logger:private] => /Users/satokadumasa/Project/PHP/strangerphp/logs/INFO_20170414.log
+            [log_level:Logger:private] => INFO
+        )
+
+    [debug] => Logger Object
+        (
+            [log_file:Logger:private] => /Users/satokadumasa/Project/PHP/strangerphp/logs/DEBUG_20170414.log
+            [log_level:Logger:private] => DEBUG
+        )
+
+    [CONV_STRING_LIST:Route:private] => Array
+        (
+            [ID] => \d
+            [YEAR] => \d{4}
+            [MONTH] => \d{2}
+            [0] => MDAY
+            [1] => \d{2}
+        )
+
+)
+
+[2017-04-14 19:28:16.09123]  Route::findRoute() url:/Users/create/
+[2017-04-14 19:28:16.09208]  Route::findRoute() value:\/Users\/create\/>>>>value:Array
+(
+    [controller] => UsersController
+    [action] => create
+    [uri] => /Users/create/
+)
+
+[2017-04-14 19:28:16.09288]  Dispatcher::__construct() controller:UsersController:
+[2017-04-14 19:28:16.09387]  Dispatcher::__construct() POST:Array
+(
+    [User] => Array
+        (
+            [name] => susanoo1971
+            [Book] => Array
+                (
+                    [name] => gggggg
+                )
+
+        )
+
+    [bottom] => 送信
+)
+:
+[2017-04-14 19:28:16.09528]  Dispatcher::__construct() GET:Array
+(
+)
+:
+[2017-04-14 19:28:16.09622]  Dispatcher::__construct() route:Array
+(
+    [controller] => UsersController
+    [action] => create
+    [uri] => /Users/create/
+)
+:
+[2017-04-14 19:28:16.09748]  DbConnect::createConnection() dsn:mysql:host=localhost;dbname=cinnamon;charset=utf8
+[2017-04-14 19:28:16.09826]  DbConnect::createConnection() username:root
+[2017-04-14 19:28:16.09931]  DbConnect::createConnection() password:glxre297
+[2017-04-14 19:28:17.00002]  BaseController::getRequestValues() requestArray
+(
+    [User] => Array
+        (
+            [name] => susanoo1971
+            [Book] => Array
+                (
+                    [name] => gggggg
+                )
+
+        )
+
+    [bottom] => 送信
+)
+
+[2017-04-14 19:28:17.00132]  BaseModel::save() CH-01
+[2017-04-14 19:28:17.00198]  BaseModel::save() form:Array
+(
+    [User] => Array
+        (
+            [name] => susanoo1971
+            [Book] => Array
+                (
+                    [name] => gggggg
+                )
+
+        )
+
+    [bottom] => 送信
+)
+
+[2017-04-14 19:28:17.00313]  BaseModel::save() model_name:User
+[2017-04-14 19:28:17.00437]  BaseModel::save() col_name(1):name>>>>value:susanoo1971
+[2017-04-14 19:28:17.00057]  BaseModel::save() col_name(2):name>>>>value:susanoo1971
+[2017-04-14 19:28:17.00645]  BaseModel::save() col_name(4):name>>>>value:susanoo1971
+[2017-04-14 19:28:17.00749]  BaseModel::save() col_name(1):Book>>>>value:Array
+[2017-04-14 19:29:33.00333]  Route::setDefaultRoutes() Start
+[2017-04-14 19:29:33.00515]  Route::setDefaultRoutes() controller:Base
+[2017-04-14 19:29:33.00608]  Route::setDefaultRoutes() uri:/Base/index/
+[2017-04-14 19:29:33.00699]  Route::setDefaultRoutes() uri:/Base/new/ID
+[2017-04-14 19:29:33.00793]  Route::setDefaultRoutes() uri:/Base/edit/ID
+[2017-04-14 19:29:33.00927]  Route::setDefaultRoutes() uri:/Base/create/
+[2017-04-14 19:29:33.01021]  Route::setDefaultRoutes() uri:/Base/confirm/
+[2017-04-14 19:29:33.01105]  Route::setDefaultRoutes() uri:/Base/show/ID
+[2017-04-14 19:29:33.01195]  Route::setDefaultRoutes() uri:/Base/delete/ID
+[2017-04-14 19:29:33.01277]  Route::setDefaultRoutes() controller:Books
+[2017-04-14 19:29:33.01367]  Route::setDefaultRoutes() uri:/Books/index/
+[2017-04-14 19:29:33.01451]  Route::setDefaultRoutes() uri:/Books/new/ID
+[2017-04-14 19:29:33.01536]  Route::setDefaultRoutes() uri:/Books/edit/ID
+[2017-04-14 19:29:33.00166]  Route::setDefaultRoutes() uri:/Books/create/
+[2017-04-14 19:29:33.01746]  Route::setDefaultRoutes() uri:/Books/confirm/
+[2017-04-14 19:29:33.01832]  Route::setDefaultRoutes() uri:/Books/show/ID
+[2017-04-14 19:29:33.01923]  Route::setDefaultRoutes() uri:/Books/delete/ID
+[2017-04-14 19:29:33.02014]  Route::setDefaultRoutes() controller:Default
+[2017-04-14 19:29:33.02098]  Route::setDefaultRoutes() uri:/Default/index/
+[2017-04-14 19:29:33.02186]  Route::setDefaultRoutes() uri:/Default/new/ID
+[2017-04-14 19:29:33.02281]  Route::setDefaultRoutes() uri:/Default/edit/ID
+[2017-04-14 19:29:33.00238]  Route::setDefaultRoutes() uri:/Default/create/
+[2017-04-14 19:29:33.02475]  Route::setDefaultRoutes() uri:/Default/confirm/
+[2017-04-14 19:29:33.02564]  Route::setDefaultRoutes() uri:/Default/show/ID
+[2017-04-14 19:29:33.02653]  Route::setDefaultRoutes() uri:/Default/delete/ID
+[2017-04-14 19:29:33.02737]  Route::setDefaultRoutes() controller:Users
+[2017-04-14 19:29:33.02842]  Route::setDefaultRoutes() uri:/Users/index/
+[2017-04-14 19:29:33.02928]  Route::setDefaultRoutes() uri:/Users/new/ID
+[2017-04-14 19:29:33.03016]  Route::setDefaultRoutes() uri:/Users/edit/ID
+[2017-04-14 19:29:33.03101]  Route::setDefaultRoutes() uri:/Users/create/
+[2017-04-14 19:29:33.03194]  Route::setDefaultRoutes() uri:/Users/confirm/
+[2017-04-14 19:29:33.03281]  Route::setDefaultRoutes() uri:/Users/show/ID
+[2017-04-14 19:29:33.03369]  Route::setDefaultRoutes() uri:/Users/delete/ID
+[2017-04-14 19:29:33.03452]  Route::setDefaultRoutes() setRoute
+[2017-04-14 19:29:33.03543]  Route::setDefaultRoutes() setRoute
+[2017-04-14 19:29:33.03638]  Dispatcher::__construct()
+[2017-04-14 19:29:33.03718]  ENV:Array
+(
+    [USER] => satokadumasa
+    [HOME] => /Users/satokadumasa
+    [FCGI_ROLE] => RESPONDER
+    [SCRIPT_FILENAME] => /Users/satokadumasa/Project/PHP/strangerphp/public/index.php
+    [QUERY_STRING] => 
+    [REQUEST_METHOD] => POST
+    [CONTENT_TYPE] => application/x-www-form-urlencoded
+    [CONTENT_LENGTH] => 90
+    [SCRIPT_NAME] => /index.php
+    [REQUEST_URI] => /Users/create/
+    [DOCUMENT_URI] => /index.php
+    [DOCUMENT_ROOT] => /Users/satokadumasa/Project/PHP/strangerphp/public
+    [SERVER_PROTOCOL] => HTTP/1.1
+    [REQUEST_SCHEME] => http
+    [GATEWAY_INTERFACE] => CGI/1.1
+    [SERVER_SOFTWARE] => nginx/1.10.1
+    [REMOTE_ADDR] => 127.0.0.1
+    [REMOTE_PORT] => 62407
+    [SERVER_ADDR] => 127.0.0.1
+    [SERVER_PORT] => 80
+    [SERVER_NAME] => cinnamon.example.com
+    [REDIRECT_STATUS] => 200
+    [HTTP_HOST] => cinnamon.example.com
+    [HTTP_CONNECTION] => keep-alive
+    [HTTP_CONTENT_LENGTH] => 90
+    [HTTP_CACHE_CONTROL] => max-age=0
+    [HTTP_ORIGIN] => http://cinnamon.example.com
+    [HTTP_UPGRADE_INSECURE_REQUESTS] => 1
+    [HTTP_USER_AGENT] => Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36
+    [HTTP_CONTENT_TYPE] => application/x-www-form-urlencoded
+    [HTTP_ACCEPT] => text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+    [HTTP_REFERER] => http://cinnamon.example.com/user_new.html
+    [HTTP_ACCEPT_ENCODING] => gzip, deflate
+    [HTTP_ACCEPT_LANGUAGE] => ja,en-US;q=0.8,en;q=0.6
+    [PHP_SELF] => /index.php
+    [REQUEST_TIME_FLOAT] => 1492165773.0293
+    [REQUEST_TIME] => 1492165773
+)
+
+[2017-04-14 19:29:33.03812]  routes:Route Object
+(
+    [route] => Array
+        (
+            [/Base/index/] => Array
+                (
+                    [controller] => BaseController
+                    [action] => index
+                )
+
+            [/Base/new/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => new
+                )
+
+            [/Base/edit/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => edit
+                )
+
+            [/Base/create/] => Array
+                (
+                    [controller] => BaseController
+                    [action] => create
+                )
+
+            [/Base/confirm/] => Array
+                (
+                    [controller] => BaseController
+                    [action] => confirm
+                )
+
+            [/Base/show/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => show
+                )
+
+            [/Base/delete/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => delete
+                )
+
+            [/Books/index/] => Array
+                (
+                    [controller] => BooksController
+                    [action] => index
+                )
+
+            [/Books/new/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => new
+                )
+
+            [/Books/edit/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => edit
+                )
+
+            [/Books/create/] => Array
+                (
+                    [controller] => BooksController
+                    [action] => create
+                )
+
+            [/Books/confirm/] => Array
+                (
+                    [controller] => BooksController
+                    [action] => confirm
+                )
+
+            [/Books/show/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => show
+                )
+
+            [/Books/delete/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => delete
+                )
+
+            [/Default/index/] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => index
+                )
+
+            [/Default/new/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => new
+                )
+
+            [/Default/edit/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => edit
+                )
+
+            [/Default/create/] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => create
+                )
+
+            [/Default/confirm/] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => confirm
+                )
+
+            [/Default/show/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => show
+                )
+
+            [/Default/delete/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => delete
+                )
+
+            [/Users/index/] => Array
+                (
+                    [controller] => UsersController
+                    [action] => index
+                )
+
+            [/Users/new/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => new
+                )
+
+            [/Users/edit/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => edit
+                )
+
+            [/Users/create/] => Array
+                (
+                    [controller] => UsersController
+                    [action] => create
+                )
+
+            [/Users/confirm/] => Array
+                (
+                    [controller] => UsersController
+                    [action] => confirm
+                )
+
+            [/Users/show/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => show
+                )
+
+            [/Users/delete/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => delete
+                )
+
+            [/Users/search/] => Array
+                (
+                    [controller] => Users
+                    [action] => search
+                )
+
+        )
+
+    [default_actions:Route:private] => Array
+        (
+            [0] => index
+            [1] => new
+            [2] => edit
+            [3] => create
+            [4] => confirm
+            [5] => show
+            [6] => delete
+        )
+
+    [default_need_id_actions:Route:private] => Array
+        (
+            [0] => new
+            [1] => edit
+            [2] => show
+            [3] => delete
+        )
+
+    [url_not_found:Route:private] => Array
+        (
+            [controller] => DefaultController
+            [action] => index
+        )
+
+    [error_log] => Logger Object
+        (
+            [log_file:Logger:private] => /Users/satokadumasa/Project/PHP/strangerphp/logs/ERROR_20170414.log
+            [log_level:Logger:private] => ERROR
+        )
+
+    [info_log] => Logger Object
+        (
+            [log_file:Logger:private] => /Users/satokadumasa/Project/PHP/strangerphp/logs/INFO_20170414.log
+            [log_level:Logger:private] => INFO
+        )
+
+    [debug] => Logger Object
+        (
+            [log_file:Logger:private] => /Users/satokadumasa/Project/PHP/strangerphp/logs/DEBUG_20170414.log
+            [log_level:Logger:private] => DEBUG
+        )
+
+    [CONV_STRING_LIST:Route:private] => Array
+        (
+            [ID] => \d
+            [YEAR] => \d{4}
+            [MONTH] => \d{2}
+            [0] => MDAY
+            [1] => \d{2}
+        )
+
+)
+
+[2017-04-14 19:29:33.03903]  Route::findRoute() url:/Users/create/
+[2017-04-14 19:29:33.03991]  Route::findRoute() value:\/Users\/create\/>>>>value:Array
+(
+    [controller] => UsersController
+    [action] => create
+    [uri] => /Users/create/
+)
+
+[2017-04-14 19:29:33.04073]  Dispatcher::__construct() controller:UsersController:
+[2017-04-14 19:29:33.04162]  Dispatcher::__construct() POST:Array
+(
+    [User] => Array
+        (
+            [name] => susanoo1971
+            [Book] => Array
+                (
+                    [name] => gggggg
+                )
+
+        )
+
+    [bottom] => 送信
+)
+:
+[2017-04-14 19:29:33.00426]  Dispatcher::__construct() GET:Array
+(
+)
+:
+[2017-04-14 19:29:33.04353]  Dispatcher::__construct() route:Array
+(
+    [controller] => UsersController
+    [action] => create
+    [uri] => /Users/create/
+)
+:
+[2017-04-14 19:29:33.04444]  DbConnect::createConnection() dsn:mysql:host=localhost;dbname=cinnamon;charset=utf8
+[2017-04-14 19:29:33.04534]  DbConnect::createConnection() username:root
+[2017-04-14 19:29:33.04625]  DbConnect::createConnection() password:glxre297
+[2017-04-14 19:29:33.04714]  BaseController::getRequestValues() requestArray
+(
+    [User] => Array
+        (
+            [name] => susanoo1971
+            [Book] => Array
+                (
+                    [name] => gggggg
+                )
+
+        )
+
+    [bottom] => 送信
+)
+
+[2017-04-14 19:29:33.00483]  BaseModel::save() CH-01
+[2017-04-14 19:29:33.04898]  BaseModel::save() form:Array
+(
+    [User] => Array
+        (
+            [name] => susanoo1971
+            [Book] => Array
+                (
+                    [name] => gggggg
+                )
+
+        )
+
+    [bottom] => 送信
+)
+
+[2017-04-14 19:29:33.04991]  BaseModel::save() model_name:User
+[2017-04-14 19:29:33.00508]  BaseModel::save() col_name(1):name>>>>value:susanoo1971
+[2017-04-14 19:29:33.05165]  BaseModel::save() col_name(2):name>>>>value:susanoo1971
+[2017-04-14 19:29:33.05348]  BaseModel::save() col_name(4):name>>>>value:susanoo1971
+[2017-04-14 19:29:33.05488]  BaseModel::save() col_name(1):Book>>>>value:Array
+[2017-04-14 19:29:33.05582]  BaseModel::save() stmt:PDOStatement Object
+(
+    [queryString] => INSERT INTO users (name, created_at, modified_at) VALUES (:name, :created_at, :modified_at)
+)
+
+[2017-04-14 19:29:33.05678]  BaseModel::save() error:SQLSTATE[HY093]: Invalid parameter number
+[2017-04-14 19:32:50.04453]  Route::setDefaultRoutes() Start
+[2017-04-14 19:32:50.04593]  Route::setDefaultRoutes() controller:Base
+[2017-04-14 19:32:50.04697]  Route::setDefaultRoutes() uri:/Base/index/
+[2017-04-14 19:32:50.04808]  Route::setDefaultRoutes() uri:/Base/new/ID
+[2017-04-14 19:32:50.04907]  Route::setDefaultRoutes() uri:/Base/edit/ID
+[2017-04-14 19:32:50.04988]  Route::setDefaultRoutes() uri:/Base/create/
+[2017-04-14 19:32:50.05102]  Route::setDefaultRoutes() uri:/Base/confirm/
+[2017-04-14 19:32:50.05185]  Route::setDefaultRoutes() uri:/Base/show/ID
+[2017-04-14 19:32:50.05279]  Route::setDefaultRoutes() uri:/Base/delete/ID
+[2017-04-14 19:32:50.05365]  Route::setDefaultRoutes() controller:Books
+[2017-04-14 19:32:50.05451]  Route::setDefaultRoutes() uri:/Books/index/
+[2017-04-14 19:32:50.05555]  Route::setDefaultRoutes() uri:/Books/new/ID
+[2017-04-14 19:32:50.05648]  Route::setDefaultRoutes() uri:/Books/edit/ID
+[2017-04-14 19:32:50.05739]  Route::setDefaultRoutes() uri:/Books/create/
+[2017-04-14 19:32:50.05823]  Route::setDefaultRoutes() uri:/Books/confirm/
+[2017-04-14 19:32:50.05911]  Route::setDefaultRoutes() uri:/Books/show/ID
+[2017-04-14 19:32:50.06002]  Route::setDefaultRoutes() uri:/Books/delete/ID
+[2017-04-14 19:32:50.00609]  Route::setDefaultRoutes() controller:Default
+[2017-04-14 19:32:50.06175]  Route::setDefaultRoutes() uri:/Default/index/
+[2017-04-14 19:32:50.06268]  Route::setDefaultRoutes() uri:/Default/new/ID
+[2017-04-14 19:32:50.06372]  Route::setDefaultRoutes() uri:/Default/edit/ID
+[2017-04-14 19:32:50.06459]  Route::setDefaultRoutes() uri:/Default/create/
+[2017-04-14 19:32:50.06662]  Route::setDefaultRoutes() uri:/Default/confirm/
+[2017-04-14 19:32:50.06814]  Route::setDefaultRoutes() uri:/Default/show/ID
+[2017-04-14 19:32:50.06904]  Route::setDefaultRoutes() uri:/Default/delete/ID
+[2017-04-14 19:32:50.06989]  Route::setDefaultRoutes() controller:Users
+[2017-04-14 19:32:50.07079]  Route::setDefaultRoutes() uri:/Users/index/
+[2017-04-14 19:32:50.07165]  Route::setDefaultRoutes() uri:/Users/new/ID
+[2017-04-14 19:32:50.07256]  Route::setDefaultRoutes() uri:/Users/edit/ID
+[2017-04-14 19:32:50.00734]  Route::setDefaultRoutes() uri:/Users/create/
+[2017-04-14 19:32:50.07426]  Route::setDefaultRoutes() uri:/Users/confirm/
+[2017-04-14 19:32:50.07511]  Route::setDefaultRoutes() uri:/Users/show/ID
+[2017-04-14 19:32:50.07603]  Route::setDefaultRoutes() uri:/Users/delete/ID
+[2017-04-14 19:32:50.07691]  Route::setDefaultRoutes() setRoute
+[2017-04-14 19:32:50.07774]  Route::setDefaultRoutes() setRoute
+[2017-04-14 19:32:50.07862]  Dispatcher::__construct()
+[2017-04-14 19:32:50.07943]  ENV:Array
+(
+    [USER] => satokadumasa
+    [HOME] => /Users/satokadumasa
+    [FCGI_ROLE] => RESPONDER
+    [SCRIPT_FILENAME] => /Users/satokadumasa/Project/PHP/strangerphp/public/index.php
+    [QUERY_STRING] => 
+    [REQUEST_METHOD] => POST
+    [CONTENT_TYPE] => application/x-www-form-urlencoded
+    [CONTENT_LENGTH] => 90
+    [SCRIPT_NAME] => /index.php
+    [REQUEST_URI] => /Users/create/
+    [DOCUMENT_URI] => /index.php
+    [DOCUMENT_ROOT] => /Users/satokadumasa/Project/PHP/strangerphp/public
+    [SERVER_PROTOCOL] => HTTP/1.1
+    [REQUEST_SCHEME] => http
+    [GATEWAY_INTERFACE] => CGI/1.1
+    [SERVER_SOFTWARE] => nginx/1.10.1
+    [REMOTE_ADDR] => 127.0.0.1
+    [REMOTE_PORT] => 63228
+    [SERVER_ADDR] => 127.0.0.1
+    [SERVER_PORT] => 80
+    [SERVER_NAME] => cinnamon.example.com
+    [REDIRECT_STATUS] => 200
+    [HTTP_HOST] => cinnamon.example.com
+    [HTTP_CONNECTION] => keep-alive
+    [HTTP_CONTENT_LENGTH] => 90
+    [HTTP_CACHE_CONTROL] => max-age=0
+    [HTTP_ORIGIN] => http://cinnamon.example.com
+    [HTTP_UPGRADE_INSECURE_REQUESTS] => 1
+    [HTTP_USER_AGENT] => Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36
+    [HTTP_CONTENT_TYPE] => application/x-www-form-urlencoded
+    [HTTP_ACCEPT] => text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+    [HTTP_REFERER] => http://cinnamon.example.com/user_new.html
+    [HTTP_ACCEPT_ENCODING] => gzip, deflate
+    [HTTP_ACCEPT_LANGUAGE] => ja,en-US;q=0.8,en;q=0.6
+    [PHP_SELF] => /index.php
+    [REQUEST_TIME_FLOAT] => 1492165970.4418
+    [REQUEST_TIME] => 1492165970
+)
+
+[2017-04-14 19:32:50.08042]  routes:Route Object
+(
+    [route] => Array
+        (
+            [/Base/index/] => Array
+                (
+                    [controller] => BaseController
+                    [action] => index
+                )
+
+            [/Base/new/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => new
+                )
+
+            [/Base/edit/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => edit
+                )
+
+            [/Base/create/] => Array
+                (
+                    [controller] => BaseController
+                    [action] => create
+                )
+
+            [/Base/confirm/] => Array
+                (
+                    [controller] => BaseController
+                    [action] => confirm
+                )
+
+            [/Base/show/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => show
+                )
+
+            [/Base/delete/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => delete
+                )
+
+            [/Books/index/] => Array
+                (
+                    [controller] => BooksController
+                    [action] => index
+                )
+
+            [/Books/new/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => new
+                )
+
+            [/Books/edit/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => edit
+                )
+
+            [/Books/create/] => Array
+                (
+                    [controller] => BooksController
+                    [action] => create
+                )
+
+            [/Books/confirm/] => Array
+                (
+                    [controller] => BooksController
+                    [action] => confirm
+                )
+
+            [/Books/show/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => show
+                )
+
+            [/Books/delete/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => delete
+                )
+
+            [/Default/index/] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => index
+                )
+
+            [/Default/new/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => new
+                )
+
+            [/Default/edit/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => edit
+                )
+
+            [/Default/create/] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => create
+                )
+
+            [/Default/confirm/] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => confirm
+                )
+
+            [/Default/show/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => show
+                )
+
+            [/Default/delete/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => delete
+                )
+
+            [/Users/index/] => Array
+                (
+                    [controller] => UsersController
+                    [action] => index
+                )
+
+            [/Users/new/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => new
+                )
+
+            [/Users/edit/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => edit
+                )
+
+            [/Users/create/] => Array
+                (
+                    [controller] => UsersController
+                    [action] => create
+                )
+
+            [/Users/confirm/] => Array
+                (
+                    [controller] => UsersController
+                    [action] => confirm
+                )
+
+            [/Users/show/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => show
+                )
+
+            [/Users/delete/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => delete
+                )
+
+            [/Users/search/] => Array
+                (
+                    [controller] => Users
+                    [action] => search
+                )
+
+        )
+
+    [default_actions:Route:private] => Array
+        (
+            [0] => index
+            [1] => new
+            [2] => edit
+            [3] => create
+            [4] => confirm
+            [5] => show
+            [6] => delete
+        )
+
+    [default_need_id_actions:Route:private] => Array
+        (
+            [0] => new
+            [1] => edit
+            [2] => show
+            [3] => delete
+        )
+
+    [url_not_found:Route:private] => Array
+        (
+            [controller] => DefaultController
+            [action] => index
+        )
+
+    [error_log] => Logger Object
+        (
+            [log_file:Logger:private] => /Users/satokadumasa/Project/PHP/strangerphp/logs/ERROR_20170414.log
+            [log_level:Logger:private] => ERROR
+        )
+
+    [info_log] => Logger Object
+        (
+            [log_file:Logger:private] => /Users/satokadumasa/Project/PHP/strangerphp/logs/INFO_20170414.log
+            [log_level:Logger:private] => INFO
+        )
+
+    [debug] => Logger Object
+        (
+            [log_file:Logger:private] => /Users/satokadumasa/Project/PHP/strangerphp/logs/DEBUG_20170414.log
+            [log_level:Logger:private] => DEBUG
+        )
+
+    [CONV_STRING_LIST:Route:private] => Array
+        (
+            [ID] => \d
+            [YEAR] => \d{4}
+            [MONTH] => \d{2}
+            [0] => MDAY
+            [1] => \d{2}
+        )
+
+)
+
+[2017-04-14 19:32:50.08136]  Route::findRoute() url:/Users/create/
+[2017-04-14 19:32:50.08234]  Route::findRoute() value:\/Users\/create\/>>>>value:Array
+(
+    [controller] => UsersController
+    [action] => create
+    [uri] => /Users/create/
+)
+
+[2017-04-14 19:32:50.08315]  Dispatcher::__construct() controller:UsersController:
+[2017-04-14 19:32:50.08409]  Dispatcher::__construct() POST:Array
+(
+    [User] => Array
+        (
+            [name] => susanoo1971
+            [Book] => Array
+                (
+                    [name] => gggggg
+                )
+
+        )
+
+    [bottom] => 送信
+)
+:
+[2017-04-14 19:32:50.08501]  Dispatcher::__construct() GET:Array
+(
+)
+:
+[2017-04-14 19:32:50.08587]  Dispatcher::__construct() route:Array
+(
+    [controller] => UsersController
+    [action] => create
+    [uri] => /Users/create/
+)
+:
+[2017-04-14 19:32:50.08681]  DbConnect::createConnection() dsn:mysql:host=localhost;dbname=cinnamon;charset=utf8
+[2017-04-14 19:32:50.08762]  DbConnect::createConnection() username:root
+[2017-04-14 19:32:50.00885]  DbConnect::createConnection() password:glxre297
+[2017-04-14 19:32:50.08949]  BaseController::getRequestValues() requestArray
+(
+    [User] => Array
+        (
+            [name] => susanoo1971
+            [Book] => Array
+                (
+                    [name] => gggggg
+                )
+
+        )
+
+    [bottom] => 送信
+)
+
+[2017-04-14 19:32:50.09055]  BaseModel::save() CH-01
+[2017-04-14 19:32:50.09121]  BaseModel::save() form:Array
+(
+    [User] => Array
+        (
+            [name] => susanoo1971
+            [Book] => Array
+                (
+                    [name] => gggggg
+                )
+
+        )
+
+    [bottom] => 送信
+)
+
+[2017-04-14 19:32:50.09253]  BaseModel::save() model_name:User
+[2017-04-14 19:32:50.09377]  BaseModel::save() col_name(1):name>>>>value:susanoo1971
+[2017-04-14 19:32:50.09509]  BaseModel::save() col_name(2):name>>>>value:susanoo1971
+[2017-04-14 19:32:50.09652]  BaseModel::save() col_name(4):name>>>>value:susanoo1971
+[2017-04-14 19:32:50.09755]  BaseModel::save() col_name(1):Book>>>>value:Array
+[2017-04-14 19:32:50.09847]  BaseModel::save() stmt:PDOStatement Object
+(
+    [queryString] => INSERT INTO users (name, created_at, modified_at) VALUES (:name, :created_at, :modified_at)
+)
+
+[2017-04-14 19:32:51.00229]  BaseModel::save() error:SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect datetime value: 'NOW()' for column 'created_at' at row 1
+[2017-04-14 19:38:04.00223]  Route::setDefaultRoutes() Start
+[2017-04-14 19:38:04.02341]  Route::setDefaultRoutes() controller:Base
+[2017-04-14 19:38:04.00249]  Route::setDefaultRoutes() uri:/Base/index/
+[2017-04-14 19:38:04.00263]  Route::setDefaultRoutes() uri:/Base/new/ID
+[2017-04-14 19:38:04.02718]  Route::setDefaultRoutes() uri:/Base/edit/ID
+[2017-04-14 19:38:04.02835]  Route::setDefaultRoutes() uri:/Base/create/
+[2017-04-14 19:38:04.03176]  Route::setDefaultRoutes() uri:/Base/confirm/
+[2017-04-14 19:38:04.03274]  Route::setDefaultRoutes() uri:/Base/show/ID
+[2017-04-14 19:38:04.03369]  Route::setDefaultRoutes() uri:/Base/delete/ID
+[2017-04-14 19:38:04.03458]  Route::setDefaultRoutes() controller:Books
+[2017-04-14 19:38:04.00355]  Route::setDefaultRoutes() uri:/Books/index/
+[2017-04-14 19:38:04.03644]  Route::setDefaultRoutes() uri:/Books/new/ID
+[2017-04-14 19:38:04.03738]  Route::setDefaultRoutes() uri:/Books/edit/ID
+[2017-04-14 19:38:04.03852]  Route::setDefaultRoutes() uri:/Books/create/
+[2017-04-14 19:38:04.00396]  Route::setDefaultRoutes() uri:/Books/confirm/
+[2017-04-14 19:38:04.04162]  Route::setDefaultRoutes() uri:/Books/show/ID
+[2017-04-14 19:38:04.04326]  Route::setDefaultRoutes() uri:/Books/delete/ID
+[2017-04-14 19:38:04.04467]  Route::setDefaultRoutes() controller:Default
+[2017-04-14 19:38:04.04567]  Route::setDefaultRoutes() uri:/Default/index/
+[2017-04-14 19:38:04.04731]  Route::setDefaultRoutes() uri:/Default/new/ID
+[2017-04-14 19:38:04.04865]  Route::setDefaultRoutes() uri:/Default/edit/ID
+[2017-04-14 19:38:04.04942]  Route::setDefaultRoutes() uri:/Default/create/
+[2017-04-14 19:38:04.05032]  Route::setDefaultRoutes() uri:/Default/confirm/
+[2017-04-14 19:38:04.05123]  Route::setDefaultRoutes() uri:/Default/show/ID
+[2017-04-14 19:38:04.05213]  Route::setDefaultRoutes() uri:/Default/delete/ID
+[2017-04-14 19:38:04.05309]  Route::setDefaultRoutes() controller:Users
+[2017-04-14 19:38:04.05397]  Route::setDefaultRoutes() uri:/Users/index/
+[2017-04-14 19:38:04.05489]  Route::setDefaultRoutes() uri:/Users/new/ID
+[2017-04-14 19:38:04.05586]  Route::setDefaultRoutes() uri:/Users/edit/ID
+[2017-04-14 19:38:04.05675]  Route::setDefaultRoutes() uri:/Users/create/
+[2017-04-14 19:38:04.05765]  Route::setDefaultRoutes() uri:/Users/confirm/
+[2017-04-14 19:38:04.05858]  Route::setDefaultRoutes() uri:/Users/show/ID
+[2017-04-14 19:38:04.00596]  Route::setDefaultRoutes() uri:/Users/delete/ID
+[2017-04-14 19:38:04.06044]  Route::setDefaultRoutes() setRoute
+[2017-04-14 19:38:04.06129]  Route::setDefaultRoutes() setRoute
+[2017-04-14 19:38:04.06218]  Dispatcher::__construct()
+[2017-04-14 19:38:04.06307]  ENV:Array
+(
+    [USER] => satokadumasa
+    [HOME] => /Users/satokadumasa
+    [FCGI_ROLE] => RESPONDER
+    [SCRIPT_FILENAME] => /Users/satokadumasa/Project/PHP/strangerphp/public/index.php
+    [QUERY_STRING] => 
+    [REQUEST_METHOD] => POST
+    [CONTENT_TYPE] => application/x-www-form-urlencoded
+    [CONTENT_LENGTH] => 90
+    [SCRIPT_NAME] => /index.php
+    [REQUEST_URI] => /Users/create/
+    [DOCUMENT_URI] => /index.php
+    [DOCUMENT_ROOT] => /Users/satokadumasa/Project/PHP/strangerphp/public
+    [SERVER_PROTOCOL] => HTTP/1.1
+    [REQUEST_SCHEME] => http
+    [GATEWAY_INTERFACE] => CGI/1.1
+    [SERVER_SOFTWARE] => nginx/1.10.1
+    [REMOTE_ADDR] => 127.0.0.1
+    [REMOTE_PORT] => 64737
+    [SERVER_ADDR] => 127.0.0.1
+    [SERVER_PORT] => 80
+    [SERVER_NAME] => cinnamon.example.com
+    [REDIRECT_STATUS] => 200
+    [HTTP_HOST] => cinnamon.example.com
+    [HTTP_CONNECTION] => keep-alive
+    [HTTP_CONTENT_LENGTH] => 90
+    [HTTP_CACHE_CONTROL] => max-age=0
+    [HTTP_ORIGIN] => http://cinnamon.example.com
+    [HTTP_UPGRADE_INSECURE_REQUESTS] => 1
+    [HTTP_USER_AGENT] => Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36
+    [HTTP_CONTENT_TYPE] => application/x-www-form-urlencoded
+    [HTTP_ACCEPT] => text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+    [HTTP_REFERER] => http://cinnamon.example.com/user_new.html
+    [HTTP_ACCEPT_ENCODING] => gzip, deflate
+    [HTTP_ACCEPT_LANGUAGE] => ja,en-US;q=0.8,en;q=0.6
+    [PHP_SELF] => /index.php
+    [REQUEST_TIME_FLOAT] => 1492166284.2156
+    [REQUEST_TIME] => 1492166284
+)
+
+[2017-04-14 19:38:04.06393]  routes:Route Object
+(
+    [route] => Array
+        (
+            [/Base/index/] => Array
+                (
+                    [controller] => BaseController
+                    [action] => index
+                )
+
+            [/Base/new/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => new
+                )
+
+            [/Base/edit/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => edit
+                )
+
+            [/Base/create/] => Array
+                (
+                    [controller] => BaseController
+                    [action] => create
+                )
+
+            [/Base/confirm/] => Array
+                (
+                    [controller] => BaseController
+                    [action] => confirm
+                )
+
+            [/Base/show/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => show
+                )
+
+            [/Base/delete/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => delete
+                )
+
+            [/Books/index/] => Array
+                (
+                    [controller] => BooksController
+                    [action] => index
+                )
+
+            [/Books/new/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => new
+                )
+
+            [/Books/edit/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => edit
+                )
+
+            [/Books/create/] => Array
+                (
+                    [controller] => BooksController
+                    [action] => create
+                )
+
+            [/Books/confirm/] => Array
+                (
+                    [controller] => BooksController
+                    [action] => confirm
+                )
+
+            [/Books/show/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => show
+                )
+
+            [/Books/delete/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => delete
+                )
+
+            [/Default/index/] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => index
+                )
+
+            [/Default/new/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => new
+                )
+
+            [/Default/edit/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => edit
+                )
+
+            [/Default/create/] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => create
+                )
+
+            [/Default/confirm/] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => confirm
+                )
+
+            [/Default/show/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => show
+                )
+
+            [/Default/delete/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => delete
+                )
+
+            [/Users/index/] => Array
+                (
+                    [controller] => UsersController
+                    [action] => index
+                )
+
+            [/Users/new/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => new
+                )
+
+            [/Users/edit/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => edit
+                )
+
+            [/Users/create/] => Array
+                (
+                    [controller] => UsersController
+                    [action] => create
+                )
+
+            [/Users/confirm/] => Array
+                (
+                    [controller] => UsersController
+                    [action] => confirm
+                )
+
+            [/Users/show/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => show
+                )
+
+            [/Users/delete/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => delete
+                )
+
+            [/Users/search/] => Array
+                (
+                    [controller] => Users
+                    [action] => search
+                )
+
+        )
+
+    [default_actions:Route:private] => Array
+        (
+            [0] => index
+            [1] => new
+            [2] => edit
+            [3] => create
+            [4] => confirm
+            [5] => show
+            [6] => delete
+        )
+
+    [default_need_id_actions:Route:private] => Array
+        (
+            [0] => new
+            [1] => edit
+            [2] => show
+            [3] => delete
+        )
+
+    [url_not_found:Route:private] => Array
+        (
+            [controller] => DefaultController
+            [action] => index
+        )
+
+    [error_log] => Logger Object
+        (
+            [log_file:Logger:private] => /Users/satokadumasa/Project/PHP/strangerphp/logs/ERROR_20170414.log
+            [log_level:Logger:private] => ERROR
+        )
+
+    [info_log] => Logger Object
+        (
+            [log_file:Logger:private] => /Users/satokadumasa/Project/PHP/strangerphp/logs/INFO_20170414.log
+            [log_level:Logger:private] => INFO
+        )
+
+    [debug] => Logger Object
+        (
+            [log_file:Logger:private] => /Users/satokadumasa/Project/PHP/strangerphp/logs/DEBUG_20170414.log
+            [log_level:Logger:private] => DEBUG
+        )
+
+    [CONV_STRING_LIST:Route:private] => Array
+        (
+            [ID] => \d
+            [YEAR] => \d{4}
+            [MONTH] => \d{2}
+            [0] => MDAY
+            [1] => \d{2}
+        )
+
+)
+
+[2017-04-14 19:38:04.06485]  Route::findRoute() url:/Users/create/
+[2017-04-14 19:38:04.06579]  Route::findRoute() value:\/Users\/create\/>>>>value:Array
+(
+    [controller] => UsersController
+    [action] => create
+    [uri] => /Users/create/
+)
+
+[2017-04-14 19:38:04.06665]  Dispatcher::__construct() controller:UsersController:
+[2017-04-14 19:38:04.06758]  Dispatcher::__construct() POST:Array
+(
+    [User] => Array
+        (
+            [name] => susanoo1971
+            [Book] => Array
+                (
+                    [name] => gggggg
+                )
+
+        )
+
+    [bottom] => 送信
+)
+:
+[2017-04-14 19:38:04.06845]  Dispatcher::__construct() GET:Array
+(
+)
+:
+[2017-04-14 19:38:04.00694]  Dispatcher::__construct() route:Array
+(
+    [controller] => UsersController
+    [action] => create
+    [uri] => /Users/create/
+)
+:
+[2017-04-14 19:38:04.07068]  DbConnect::createConnection() dsn:mysql:host=localhost;dbname=cinnamon;charset=utf8
+[2017-04-14 19:38:04.07145]  DbConnect::createConnection() username:root
+[2017-04-14 19:38:04.07235]  DbConnect::createConnection() password:glxre297
+[2017-04-14 19:38:04.00734]  BaseController::getRequestValues() requestArray
+(
+    [User] => Array
+        (
+            [name] => susanoo1971
+            [Book] => Array
+                (
+                    [name] => gggggg
+                )
+
+        )
+
+    [bottom] => 送信
+)
+
+[2017-04-14 19:38:04.07452]  BaseModel::save() CH-01
+[2017-04-14 19:38:04.00753]  BaseModel::save() form:Array
+(
+    [User] => Array
+        (
+            [name] => susanoo1971
+            [Book] => Array
+                (
+                    [name] => gggggg
+                )
+
+        )
+
+    [bottom] => 送信
+)
+
+[2017-04-14 19:38:04.07658]  BaseModel::save() error:SQLSTATE[21S01]: Insert value list does not match column list: 1136 Column count doesn't match value count at row 1
+[2017-04-14 19:39:17.00365]  Route::setDefaultRoutes() Start
+[2017-04-14 19:39:17.00508]  Route::setDefaultRoutes() controller:Base
+[2017-04-14 19:39:17.00625]  Route::setDefaultRoutes() uri:/Base/index/
+[2017-04-14 19:39:17.00731]  Route::setDefaultRoutes() uri:/Base/new/ID
+[2017-04-14 19:39:17.00844]  Route::setDefaultRoutes() uri:/Base/edit/ID
+[2017-04-14 19:39:17.00948]  Route::setDefaultRoutes() uri:/Base/create/
+[2017-04-14 19:39:17.01046]  Route::setDefaultRoutes() uri:/Base/confirm/
+[2017-04-14 19:39:17.01134]  Route::setDefaultRoutes() uri:/Base/show/ID
+[2017-04-14 19:39:17.01245]  Route::setDefaultRoutes() uri:/Base/delete/ID
+[2017-04-14 19:39:17.01343]  Route::setDefaultRoutes() controller:Books
+[2017-04-14 19:39:17.01429]  Route::setDefaultRoutes() uri:/Books/index/
+[2017-04-14 19:39:17.01595]  Route::setDefaultRoutes() uri:/Books/new/ID
+[2017-04-14 19:39:17.01707]  Route::setDefaultRoutes() uri:/Books/edit/ID
+[2017-04-14 19:39:17.01793]  Route::setDefaultRoutes() uri:/Books/create/
+[2017-04-14 19:39:17.01904]  Route::setDefaultRoutes() uri:/Books/confirm/
+[2017-04-14 19:39:17.02009]  Route::setDefaultRoutes() uri:/Books/show/ID
+[2017-04-14 19:39:17.02109]  Route::setDefaultRoutes() uri:/Books/delete/ID
+[2017-04-14 19:39:17.02206]  Route::setDefaultRoutes() controller:Default
+[2017-04-14 19:39:17.02294]  Route::setDefaultRoutes() uri:/Default/index/
+[2017-04-14 19:39:17.02384]  Route::setDefaultRoutes() uri:/Default/new/ID
+[2017-04-14 19:39:17.02477]  Route::setDefaultRoutes() uri:/Default/edit/ID
+[2017-04-14 19:39:17.02576]  Route::setDefaultRoutes() uri:/Default/create/
+[2017-04-14 19:39:17.02674]  Route::setDefaultRoutes() uri:/Default/confirm/
+[2017-04-14 19:39:17.02768]  Route::setDefaultRoutes() uri:/Default/show/ID
+[2017-04-14 19:39:17.02864]  Route::setDefaultRoutes() uri:/Default/delete/ID
+[2017-04-14 19:39:17.02958]  Route::setDefaultRoutes() controller:Users
+[2017-04-14 19:39:17.03057]  Route::setDefaultRoutes() uri:/Users/index/
+[2017-04-14 19:39:17.03143]  Route::setDefaultRoutes() uri:/Users/new/ID
+[2017-04-14 19:39:17.03235]  Route::setDefaultRoutes() uri:/Users/edit/ID
+[2017-04-14 19:39:17.00333]  Route::setDefaultRoutes() uri:/Users/create/
+[2017-04-14 19:39:17.03421]  Route::setDefaultRoutes() uri:/Users/confirm/
+[2017-04-14 19:39:17.03518]  Route::setDefaultRoutes() uri:/Users/show/ID
+[2017-04-14 19:39:17.03604]  Route::setDefaultRoutes() uri:/Users/delete/ID
+[2017-04-14 19:39:17.03702]  Route::setDefaultRoutes() setRoute
+[2017-04-14 19:39:17.03798]  Route::setDefaultRoutes() setRoute
+[2017-04-14 19:39:17.03903]  Dispatcher::__construct()
+[2017-04-14 19:39:17.03994]  ENV:Array
+(
+    [USER] => satokadumasa
+    [HOME] => /Users/satokadumasa
+    [FCGI_ROLE] => RESPONDER
+    [SCRIPT_FILENAME] => /Users/satokadumasa/Project/PHP/strangerphp/public/index.php
+    [QUERY_STRING] => 
+    [REQUEST_METHOD] => POST
+    [CONTENT_TYPE] => application/x-www-form-urlencoded
+    [CONTENT_LENGTH] => 90
+    [SCRIPT_NAME] => /index.php
+    [REQUEST_URI] => /Users/create/
+    [DOCUMENT_URI] => /index.php
+    [DOCUMENT_ROOT] => /Users/satokadumasa/Project/PHP/strangerphp/public
+    [SERVER_PROTOCOL] => HTTP/1.1
+    [REQUEST_SCHEME] => http
+    [GATEWAY_INTERFACE] => CGI/1.1
+    [SERVER_SOFTWARE] => nginx/1.10.1
+    [REMOTE_ADDR] => 127.0.0.1
+    [REMOTE_PORT] => 65029
+    [SERVER_ADDR] => 127.0.0.1
+    [SERVER_PORT] => 80
+    [SERVER_NAME] => cinnamon.example.com
+    [REDIRECT_STATUS] => 200
+    [HTTP_HOST] => cinnamon.example.com
+    [HTTP_CONNECTION] => keep-alive
+    [HTTP_CONTENT_LENGTH] => 90
+    [HTTP_CACHE_CONTROL] => max-age=0
+    [HTTP_ORIGIN] => http://cinnamon.example.com
+    [HTTP_UPGRADE_INSECURE_REQUESTS] => 1
+    [HTTP_USER_AGENT] => Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36
+    [HTTP_CONTENT_TYPE] => application/x-www-form-urlencoded
+    [HTTP_ACCEPT] => text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+    [HTTP_REFERER] => http://cinnamon.example.com/user_new.html
+    [HTTP_ACCEPT_ENCODING] => gzip, deflate
+    [HTTP_ACCEPT_LANGUAGE] => ja,en-US;q=0.8,en;q=0.6
+    [PHP_SELF] => /index.php
+    [REQUEST_TIME_FLOAT] => 1492166357.035
+    [REQUEST_TIME] => 1492166357
+)
+
+[2017-04-14 19:39:17.04088]  routes:Route Object
+(
+    [route] => Array
+        (
+            [/Base/index/] => Array
+                (
+                    [controller] => BaseController
+                    [action] => index
+                )
+
+            [/Base/new/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => new
+                )
+
+            [/Base/edit/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => edit
+                )
+
+            [/Base/create/] => Array
+                (
+                    [controller] => BaseController
+                    [action] => create
+                )
+
+            [/Base/confirm/] => Array
+                (
+                    [controller] => BaseController
+                    [action] => confirm
+                )
+
+            [/Base/show/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => show
+                )
+
+            [/Base/delete/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => delete
+                )
+
+            [/Books/index/] => Array
+                (
+                    [controller] => BooksController
+                    [action] => index
+                )
+
+            [/Books/new/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => new
+                )
+
+            [/Books/edit/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => edit
+                )
+
+            [/Books/create/] => Array
+                (
+                    [controller] => BooksController
+                    [action] => create
+                )
+
+            [/Books/confirm/] => Array
+                (
+                    [controller] => BooksController
+                    [action] => confirm
+                )
+
+            [/Books/show/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => show
+                )
+
+            [/Books/delete/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => delete
+                )
+
+            [/Default/index/] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => index
+                )
+
+            [/Default/new/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => new
+                )
+
+            [/Default/edit/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => edit
+                )
+
+            [/Default/create/] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => create
+                )
+
+            [/Default/confirm/] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => confirm
+                )
+
+            [/Default/show/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => show
+                )
+
+            [/Default/delete/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => delete
+                )
+
+            [/Users/index/] => Array
+                (
+                    [controller] => UsersController
+                    [action] => index
+                )
+
+            [/Users/new/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => new
+                )
+
+            [/Users/edit/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => edit
+                )
+
+            [/Users/create/] => Array
+                (
+                    [controller] => UsersController
+                    [action] => create
+                )
+
+            [/Users/confirm/] => Array
+                (
+                    [controller] => UsersController
+                    [action] => confirm
+                )
+
+            [/Users/show/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => show
+                )
+
+            [/Users/delete/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => delete
+                )
+
+            [/Users/search/] => Array
+                (
+                    [controller] => Users
+                    [action] => search
+                )
+
+        )
+
+    [default_actions:Route:private] => Array
+        (
+            [0] => index
+            [1] => new
+            [2] => edit
+            [3] => create
+            [4] => confirm
+            [5] => show
+            [6] => delete
+        )
+
+    [default_need_id_actions:Route:private] => Array
+        (
+            [0] => new
+            [1] => edit
+            [2] => show
+            [3] => delete
+        )
+
+    [url_not_found:Route:private] => Array
+        (
+            [controller] => DefaultController
+            [action] => index
+        )
+
+    [error_log] => Logger Object
+        (
+            [log_file:Logger:private] => /Users/satokadumasa/Project/PHP/strangerphp/logs/ERROR_20170414.log
+            [log_level:Logger:private] => ERROR
+        )
+
+    [info_log] => Logger Object
+        (
+            [log_file:Logger:private] => /Users/satokadumasa/Project/PHP/strangerphp/logs/INFO_20170414.log
+            [log_level:Logger:private] => INFO
+        )
+
+    [debug] => Logger Object
+        (
+            [log_file:Logger:private] => /Users/satokadumasa/Project/PHP/strangerphp/logs/DEBUG_20170414.log
+            [log_level:Logger:private] => DEBUG
+        )
+
+    [CONV_STRING_LIST:Route:private] => Array
+        (
+            [ID] => \d
+            [YEAR] => \d{4}
+            [MONTH] => \d{2}
+            [0] => MDAY
+            [1] => \d{2}
+        )
+
+)
+
+[2017-04-14 19:39:17.04196]  Route::findRoute() url:/Users/create/
+[2017-04-14 19:39:17.04287]  Route::findRoute() value:\/Users\/create\/>>>>value:Array
+(
+    [controller] => UsersController
+    [action] => create
+    [uri] => /Users/create/
+)
+
+[2017-04-14 19:39:17.04385]  Dispatcher::__construct() controller:UsersController:
+[2017-04-14 19:39:17.04472]  Dispatcher::__construct() POST:Array
+(
+    [User] => Array
+        (
+            [name] => susanoo1971
+            [Book] => Array
+                (
+                    [name] => gggggg
+                )
+
+        )
+
+    [bottom] => 送信
+)
+:
+[2017-04-14 19:39:17.04573]  Dispatcher::__construct() GET:Array
+(
+)
+:
+[2017-04-14 19:39:17.04675]  Dispatcher::__construct() route:Array
+(
+    [controller] => UsersController
+    [action] => create
+    [uri] => /Users/create/
+)
+:
+[2017-04-14 19:39:17.04773]  DbConnect::createConnection() dsn:mysql:host=localhost;dbname=cinnamon;charset=utf8
+[2017-04-14 19:39:17.04865]  DbConnect::createConnection() username:root
+[2017-04-14 19:39:17.04956]  DbConnect::createConnection() password:glxre297
+[2017-04-14 19:39:17.00506]  BaseController::getRequestValues() requestArray
+(
+    [User] => Array
+        (
+            [name] => susanoo1971
+            [Book] => Array
+                (
+                    [name] => gggggg
+                )
+
+        )
+
+    [bottom] => 送信
+)
+
+[2017-04-14 19:39:17.05169]  BaseModel::save() CH-01
+[2017-04-14 19:39:17.05244]  BaseModel::save() form:Array
+(
+    [User] => Array
+        (
+            [name] => susanoo1971
+            [Book] => Array
+                (
+                    [name] => gggggg
+                )
+
+        )
+
+    [bottom] => 送信
+)
+
+[2017-04-14 19:39:17.00537]  BaseModel::save() error:SQLSTATE[21S01]: Insert value list does not match column list: 1136 Column count doesn't match value count at row 1
+[2017-04-14 19:40:03.09835]  Route::setDefaultRoutes() Start
+[2017-04-14 19:40:03.09985]  Route::setDefaultRoutes() controller:Base
+[2017-04-14 19:40:04.00125]  Route::setDefaultRoutes() uri:/Base/index/
+[2017-04-14 19:40:04.00234]  Route::setDefaultRoutes() uri:/Base/new/ID
+[2017-04-14 19:40:04.00342]  Route::setDefaultRoutes() uri:/Base/edit/ID
+[2017-04-14 19:40:04.00443]  Route::setDefaultRoutes() uri:/Base/create/
+[2017-04-14 19:40:04.00531]  Route::setDefaultRoutes() uri:/Base/confirm/
+[2017-04-14 19:40:04.00625]  Route::setDefaultRoutes() uri:/Base/show/ID
+[2017-04-14 19:40:04.00734]  Route::setDefaultRoutes() uri:/Base/delete/ID
+[2017-04-14 19:40:04.00842]  Route::setDefaultRoutes() controller:Books
+[2017-04-14 19:40:04.00959]  Route::setDefaultRoutes() uri:/Books/index/
+[2017-04-14 19:40:04.01075]  Route::setDefaultRoutes() uri:/Books/new/ID
+[2017-04-14 19:40:04.01203]  Route::setDefaultRoutes() uri:/Books/edit/ID
+[2017-04-14 19:40:04.01295]  Route::setDefaultRoutes() uri:/Books/create/
+[2017-04-14 19:40:04.01393]  Route::setDefaultRoutes() uri:/Books/confirm/
+[2017-04-14 19:40:04.01481]  Route::setDefaultRoutes() uri:/Books/show/ID
+[2017-04-14 19:40:04.01588]  Route::setDefaultRoutes() uri:/Books/delete/ID
+[2017-04-14 19:40:04.01676]  Route::setDefaultRoutes() controller:Default
+[2017-04-14 19:40:04.01767]  Route::setDefaultRoutes() uri:/Default/index/
+[2017-04-14 19:40:04.00186]  Route::setDefaultRoutes() uri:/Default/new/ID
+[2017-04-14 19:40:04.01954]  Route::setDefaultRoutes() uri:/Default/edit/ID
+[2017-04-14 19:40:04.02089]  Route::setDefaultRoutes() uri:/Default/create/
+[2017-04-14 19:40:04.02182]  Route::setDefaultRoutes() uri:/Default/confirm/
+[2017-04-14 19:40:04.02277]  Route::setDefaultRoutes() uri:/Default/show/ID
+[2017-04-14 19:40:04.02373]  Route::setDefaultRoutes() uri:/Default/delete/ID
+[2017-04-14 19:40:04.02485]  Route::setDefaultRoutes() controller:Users
+[2017-04-14 19:40:04.02583]  Route::setDefaultRoutes() uri:/Users/index/
+[2017-04-14 19:40:04.02679]  Route::setDefaultRoutes() uri:/Users/new/ID
+[2017-04-14 19:40:04.02834]  Route::setDefaultRoutes() uri:/Users/edit/ID
+[2017-04-14 19:40:04.02978]  Route::setDefaultRoutes() uri:/Users/create/
+[2017-04-14 19:40:04.03097]  Route::setDefaultRoutes() uri:/Users/confirm/
+[2017-04-14 19:40:04.03211]  Route::setDefaultRoutes() uri:/Users/show/ID
+[2017-04-14 19:40:04.03315]  Route::setDefaultRoutes() uri:/Users/delete/ID
+[2017-04-14 19:40:04.03424]  Route::setDefaultRoutes() setRoute
+[2017-04-14 19:40:04.03516]  Route::setDefaultRoutes() setRoute
+[2017-04-14 19:40:04.03614]  Dispatcher::__construct()
+[2017-04-14 19:40:04.03747]  ENV:Array
+(
+    [USER] => satokadumasa
+    [HOME] => /Users/satokadumasa
+    [FCGI_ROLE] => RESPONDER
+    [SCRIPT_FILENAME] => /Users/satokadumasa/Project/PHP/strangerphp/public/index.php
+    [QUERY_STRING] => 
+    [REQUEST_METHOD] => POST
+    [CONTENT_TYPE] => application/x-www-form-urlencoded
+    [CONTENT_LENGTH] => 90
+    [SCRIPT_NAME] => /index.php
+    [REQUEST_URI] => /Users/create/
+    [DOCUMENT_URI] => /index.php
+    [DOCUMENT_ROOT] => /Users/satokadumasa/Project/PHP/strangerphp/public
+    [SERVER_PROTOCOL] => HTTP/1.1
+    [REQUEST_SCHEME] => http
+    [GATEWAY_INTERFACE] => CGI/1.1
+    [SERVER_SOFTWARE] => nginx/1.10.1
+    [REMOTE_ADDR] => 127.0.0.1
+    [REMOTE_PORT] => 65029
+    [SERVER_ADDR] => 127.0.0.1
+    [SERVER_PORT] => 80
+    [SERVER_NAME] => cinnamon.example.com
+    [REDIRECT_STATUS] => 200
+    [HTTP_HOST] => cinnamon.example.com
+    [HTTP_CONNECTION] => keep-alive
+    [HTTP_CONTENT_LENGTH] => 90
+    [HTTP_CACHE_CONTROL] => max-age=0
+    [HTTP_ORIGIN] => http://cinnamon.example.com
+    [HTTP_UPGRADE_INSECURE_REQUESTS] => 1
+    [HTTP_USER_AGENT] => Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36
+    [HTTP_CONTENT_TYPE] => application/x-www-form-urlencoded
+    [HTTP_ACCEPT] => text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+    [HTTP_REFERER] => http://cinnamon.example.com/user_new.html
+    [HTTP_ACCEPT_ENCODING] => gzip, deflate
+    [HTTP_ACCEPT_LANGUAGE] => ja,en-US;q=0.8,en;q=0.6
+    [PHP_SELF] => /index.php
+    [REQUEST_TIME_FLOAT] => 1492166403.982
+    [REQUEST_TIME] => 1492166403
+)
+
+[2017-04-14 19:40:04.03867]  routes:Route Object
+(
+    [route] => Array
+        (
+            [/Base/index/] => Array
+                (
+                    [controller] => BaseController
+                    [action] => index
+                )
+
+            [/Base/new/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => new
+                )
+
+            [/Base/edit/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => edit
+                )
+
+            [/Base/create/] => Array
+                (
+                    [controller] => BaseController
+                    [action] => create
+                )
+
+            [/Base/confirm/] => Array
+                (
+                    [controller] => BaseController
+                    [action] => confirm
+                )
+
+            [/Base/show/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => show
+                )
+
+            [/Base/delete/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => delete
+                )
+
+            [/Books/index/] => Array
+                (
+                    [controller] => BooksController
+                    [action] => index
+                )
+
+            [/Books/new/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => new
+                )
+
+            [/Books/edit/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => edit
+                )
+
+            [/Books/create/] => Array
+                (
+                    [controller] => BooksController
+                    [action] => create
+                )
+
+            [/Books/confirm/] => Array
+                (
+                    [controller] => BooksController
+                    [action] => confirm
+                )
+
+            [/Books/show/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => show
+                )
+
+            [/Books/delete/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => delete
+                )
+
+            [/Default/index/] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => index
+                )
+
+            [/Default/new/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => new
+                )
+
+            [/Default/edit/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => edit
+                )
+
+            [/Default/create/] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => create
+                )
+
+            [/Default/confirm/] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => confirm
+                )
+
+            [/Default/show/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => show
+                )
+
+            [/Default/delete/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => delete
+                )
+
+            [/Users/index/] => Array
+                (
+                    [controller] => UsersController
+                    [action] => index
+                )
+
+            [/Users/new/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => new
+                )
+
+            [/Users/edit/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => edit
+                )
+
+            [/Users/create/] => Array
+                (
+                    [controller] => UsersController
+                    [action] => create
+                )
+
+            [/Users/confirm/] => Array
+                (
+                    [controller] => UsersController
+                    [action] => confirm
+                )
+
+            [/Users/show/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => show
+                )
+
+            [/Users/delete/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => delete
+                )
+
+            [/Users/search/] => Array
+                (
+                    [controller] => Users
+                    [action] => search
+                )
+
+        )
+
+    [default_actions:Route:private] => Array
+        (
+            [0] => index
+            [1] => new
+            [2] => edit
+            [3] => create
+            [4] => confirm
+            [5] => show
+            [6] => delete
+        )
+
+    [default_need_id_actions:Route:private] => Array
+        (
+            [0] => new
+            [1] => edit
+            [2] => show
+            [3] => delete
+        )
+
+    [url_not_found:Route:private] => Array
+        (
+            [controller] => DefaultController
+            [action] => index
+        )
+
+    [error_log] => Logger Object
+        (
+            [log_file:Logger:private] => /Users/satokadumasa/Project/PHP/strangerphp/logs/ERROR_20170414.log
+            [log_level:Logger:private] => ERROR
+        )
+
+    [info_log] => Logger Object
+        (
+            [log_file:Logger:private] => /Users/satokadumasa/Project/PHP/strangerphp/logs/INFO_20170414.log
+            [log_level:Logger:private] => INFO
+        )
+
+    [debug] => Logger Object
+        (
+            [log_file:Logger:private] => /Users/satokadumasa/Project/PHP/strangerphp/logs/DEBUG_20170414.log
+            [log_level:Logger:private] => DEBUG
+        )
+
+    [CONV_STRING_LIST:Route:private] => Array
+        (
+            [ID] => \d
+            [YEAR] => \d{4}
+            [MONTH] => \d{2}
+            [0] => MDAY
+            [1] => \d{2}
+        )
+
+)
+
+[2017-04-14 19:40:04.03971]  Route::findRoute() url:/Users/create/
+[2017-04-14 19:40:04.04078]  Route::findRoute() value:\/Users\/create\/>>>>value:Array
+(
+    [controller] => UsersController
+    [action] => create
+    [uri] => /Users/create/
+)
+
+[2017-04-14 19:40:04.04182]  Dispatcher::__construct() controller:UsersController:
+[2017-04-14 19:40:04.04294]  Dispatcher::__construct() POST:Array
+(
+    [User] => Array
+        (
+            [name] => susanoo1971
+            [Book] => Array
+                (
+                    [name] => gggggg
+                )
+
+        )
+
+    [bottom] => 送信
+)
+:
+[2017-04-14 19:40:04.04428]  Dispatcher::__construct() GET:Array
+(
+)
+:
+[2017-04-14 19:40:04.00453]  Dispatcher::__construct() route:Array
+(
+    [controller] => UsersController
+    [action] => create
+    [uri] => /Users/create/
+)
+:
+[2017-04-14 19:40:04.04677]  DbConnect::createConnection() dsn:mysql:host=localhost;dbname=cinnamon;charset=utf8
+[2017-04-14 19:40:04.04768]  DbConnect::createConnection() username:root
+[2017-04-14 19:40:04.04866]  DbConnect::createConnection() password:glxre297
+[2017-04-14 19:40:04.04993]  BaseController::getRequestValues() requestArray
+(
+    [User] => Array
+        (
+            [name] => susanoo1971
+            [Book] => Array
+                (
+                    [name] => gggggg
+                )
+
+        )
+
+    [bottom] => 送信
+)
+
+[2017-04-14 19:40:04.05119]  BaseModel::save() CH-01
+[2017-04-14 19:40:04.05223]  BaseModel::save() form:Array
+(
+    [User] => Array
+        (
+            [name] => susanoo1971
+            [Book] => Array
+                (
+                    [name] => gggggg
+                )
+
+        )
+
+    [bottom] => 送信
+)
+
+[2017-04-14 19:40:04.05335]  BaseModel::save() error:SQLSTATE[21S01]: Insert value list does not match column list: 1136 Column count doesn't match value count at row 1
+[2017-04-14 19:40:12.00797]  Route::setDefaultRoutes() Start
+[2017-04-14 19:40:12.08129]  Route::setDefaultRoutes() controller:Base
+[2017-04-14 19:40:12.08292]  Route::setDefaultRoutes() uri:/Base/index/
+[2017-04-14 19:40:12.08428]  Route::setDefaultRoutes() uri:/Base/new/ID
+[2017-04-14 19:40:12.08556]  Route::setDefaultRoutes() uri:/Base/edit/ID
+[2017-04-14 19:40:12.08661]  Route::setDefaultRoutes() uri:/Base/create/
+[2017-04-14 19:40:12.08772]  Route::setDefaultRoutes() uri:/Base/confirm/
+[2017-04-14 19:40:12.08869]  Route::setDefaultRoutes() uri:/Base/show/ID
+[2017-04-14 19:40:12.08974]  Route::setDefaultRoutes() uri:/Base/delete/ID
+[2017-04-14 19:40:12.09064]  Route::setDefaultRoutes() controller:Books
+[2017-04-14 19:40:12.09154]  Route::setDefaultRoutes() uri:/Books/index/
+[2017-04-14 19:40:12.09269]  Route::setDefaultRoutes() uri:/Books/new/ID
+[2017-04-14 19:40:12.00936]  Route::setDefaultRoutes() uri:/Books/edit/ID
+[2017-04-14 19:40:12.09462]  Route::setDefaultRoutes() uri:/Books/create/
+[2017-04-14 19:40:12.00956]  Route::setDefaultRoutes() uri:/Books/confirm/
+[2017-04-14 19:40:12.09658]  Route::setDefaultRoutes() uri:/Books/show/ID
+[2017-04-14 19:40:12.09774]  Route::setDefaultRoutes() uri:/Books/delete/ID
+[2017-04-14 19:40:12.09864]  Route::setDefaultRoutes() controller:Default
+[2017-04-14 19:40:12.09958]  Route::setDefaultRoutes() uri:/Default/index/
+[2017-04-14 19:40:13.00052]  Route::setDefaultRoutes() uri:/Default/new/ID
+[2017-04-14 19:40:13.00152]  Route::setDefaultRoutes() uri:/Default/edit/ID
+[2017-04-14 19:40:13.00262]  Route::setDefaultRoutes() uri:/Default/create/
+[2017-04-14 19:40:13.00357]  Route::setDefaultRoutes() uri:/Default/confirm/
+[2017-04-14 19:40:13.00453]  Route::setDefaultRoutes() uri:/Default/show/ID
+[2017-04-14 19:40:13.00056]  Route::setDefaultRoutes() uri:/Default/delete/ID
+[2017-04-14 19:40:13.00652]  Route::setDefaultRoutes() controller:Users
+[2017-04-14 19:40:13.00762]  Route::setDefaultRoutes() uri:/Users/index/
+[2017-04-14 19:40:13.00854]  Route::setDefaultRoutes() uri:/Users/new/ID
+[2017-04-14 19:40:13.00967]  Route::setDefaultRoutes() uri:/Users/edit/ID
+[2017-04-14 19:40:13.01056]  Route::setDefaultRoutes() uri:/Users/create/
+[2017-04-14 19:40:13.01149]  Route::setDefaultRoutes() uri:/Users/confirm/
+[2017-04-14 19:40:13.01264]  Route::setDefaultRoutes() uri:/Users/show/ID
+[2017-04-14 19:40:13.00137]  Route::setDefaultRoutes() uri:/Users/delete/ID
+[2017-04-14 19:40:13.01477]  Route::setDefaultRoutes() setRoute
+[2017-04-14 19:40:13.00158]  Route::setDefaultRoutes() setRoute
+[2017-04-14 19:40:13.01679]  Dispatcher::__construct()
+[2017-04-14 19:40:13.01815]  ENV:Array
+(
+    [USER] => satokadumasa
+    [HOME] => /Users/satokadumasa
+    [FCGI_ROLE] => RESPONDER
+    [SCRIPT_FILENAME] => /Users/satokadumasa/Project/PHP/strangerphp/public/index.php
+    [QUERY_STRING] => 
+    [REQUEST_METHOD] => POST
+    [CONTENT_TYPE] => application/x-www-form-urlencoded
+    [CONTENT_LENGTH] => 90
+    [SCRIPT_NAME] => /index.php
+    [REQUEST_URI] => /Users/create/
+    [DOCUMENT_URI] => /index.php
+    [DOCUMENT_ROOT] => /Users/satokadumasa/Project/PHP/strangerphp/public
+    [SERVER_PROTOCOL] => HTTP/1.1
+    [REQUEST_SCHEME] => http
+    [GATEWAY_INTERFACE] => CGI/1.1
+    [SERVER_SOFTWARE] => nginx/1.10.1
+    [REMOTE_ADDR] => 127.0.0.1
+    [REMOTE_PORT] => 65029
+    [SERVER_ADDR] => 127.0.0.1
+    [SERVER_PORT] => 80
+    [SERVER_NAME] => cinnamon.example.com
+    [REDIRECT_STATUS] => 200
+    [HTTP_HOST] => cinnamon.example.com
+    [HTTP_CONNECTION] => keep-alive
+    [HTTP_CONTENT_LENGTH] => 90
+    [HTTP_CACHE_CONTROL] => max-age=0
+    [HTTP_ORIGIN] => http://cinnamon.example.com
+    [HTTP_UPGRADE_INSECURE_REQUESTS] => 1
+    [HTTP_USER_AGENT] => Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36
+    [HTTP_CONTENT_TYPE] => application/x-www-form-urlencoded
+    [HTTP_ACCEPT] => text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+    [HTTP_REFERER] => http://cinnamon.example.com/user_new.html
+    [HTTP_ACCEPT_ENCODING] => gzip, deflate
+    [HTTP_ACCEPT_LANGUAGE] => ja,en-US;q=0.8,en;q=0.6
+    [PHP_SELF] => /index.php
+    [REQUEST_TIME_FLOAT] => 1492166412.7944
+    [REQUEST_TIME] => 1492166412
+)
+
+[2017-04-14 19:40:13.01943]  routes:Route Object
+(
+    [route] => Array
+        (
+            [/Base/index/] => Array
+                (
+                    [controller] => BaseController
+                    [action] => index
+                )
+
+            [/Base/new/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => new
+                )
+
+            [/Base/edit/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => edit
+                )
+
+            [/Base/create/] => Array
+                (
+                    [controller] => BaseController
+                    [action] => create
+                )
+
+            [/Base/confirm/] => Array
+                (
+                    [controller] => BaseController
+                    [action] => confirm
+                )
+
+            [/Base/show/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => show
+                )
+
+            [/Base/delete/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => delete
+                )
+
+            [/Books/index/] => Array
+                (
+                    [controller] => BooksController
+                    [action] => index
+                )
+
+            [/Books/new/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => new
+                )
+
+            [/Books/edit/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => edit
+                )
+
+            [/Books/create/] => Array
+                (
+                    [controller] => BooksController
+                    [action] => create
+                )
+
+            [/Books/confirm/] => Array
+                (
+                    [controller] => BooksController
+                    [action] => confirm
+                )
+
+            [/Books/show/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => show
+                )
+
+            [/Books/delete/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => delete
+                )
+
+            [/Default/index/] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => index
+                )
+
+            [/Default/new/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => new
+                )
+
+            [/Default/edit/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => edit
+                )
+
+            [/Default/create/] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => create
+                )
+
+            [/Default/confirm/] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => confirm
+                )
+
+            [/Default/show/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => show
+                )
+
+            [/Default/delete/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => delete
+                )
+
+            [/Users/index/] => Array
+                (
+                    [controller] => UsersController
+                    [action] => index
+                )
+
+            [/Users/new/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => new
+                )
+
+            [/Users/edit/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => edit
+                )
+
+            [/Users/create/] => Array
+                (
+                    [controller] => UsersController
+                    [action] => create
+                )
+
+            [/Users/confirm/] => Array
+                (
+                    [controller] => UsersController
+                    [action] => confirm
+                )
+
+            [/Users/show/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => show
+                )
+
+            [/Users/delete/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => delete
+                )
+
+            [/Users/search/] => Array
+                (
+                    [controller] => Users
+                    [action] => search
+                )
+
+        )
+
+    [default_actions:Route:private] => Array
+        (
+            [0] => index
+            [1] => new
+            [2] => edit
+            [3] => create
+            [4] => confirm
+            [5] => show
+            [6] => delete
+        )
+
+    [default_need_id_actions:Route:private] => Array
+        (
+            [0] => new
+            [1] => edit
+            [2] => show
+            [3] => delete
+        )
+
+    [url_not_found:Route:private] => Array
+        (
+            [controller] => DefaultController
+            [action] => index
+        )
+
+    [error_log] => Logger Object
+        (
+            [log_file:Logger:private] => /Users/satokadumasa/Project/PHP/strangerphp/logs/ERROR_20170414.log
+            [log_level:Logger:private] => ERROR
+        )
+
+    [info_log] => Logger Object
+        (
+            [log_file:Logger:private] => /Users/satokadumasa/Project/PHP/strangerphp/logs/INFO_20170414.log
+            [log_level:Logger:private] => INFO
+        )
+
+    [debug] => Logger Object
+        (
+            [log_file:Logger:private] => /Users/satokadumasa/Project/PHP/strangerphp/logs/DEBUG_20170414.log
+            [log_level:Logger:private] => DEBUG
+        )
+
+    [CONV_STRING_LIST:Route:private] => Array
+        (
+            [ID] => \d
+            [YEAR] => \d{4}
+            [MONTH] => \d{2}
+            [0] => MDAY
+            [1] => \d{2}
+        )
+
+)
+
+[2017-04-14 19:40:13.02125]  Route::findRoute() url:/Users/create/
+[2017-04-14 19:40:13.02244]  Route::findRoute() value:\/Users\/create\/>>>>value:Array
+(
+    [controller] => UsersController
+    [action] => create
+    [uri] => /Users/create/
+)
+
+[2017-04-14 19:40:13.02401]  Dispatcher::__construct() controller:UsersController:
+[2017-04-14 19:40:13.02559]  Dispatcher::__construct() POST:Array
+(
+    [User] => Array
+        (
+            [name] => susanoo1971
+            [Book] => Array
+                (
+                    [name] => gggggg
+                )
+
+        )
+
+    [bottom] => 送信
+)
+:
+[2017-04-14 19:40:13.00265]  Dispatcher::__construct() GET:Array
+(
+)
+:
+[2017-04-14 19:40:13.02776]  Dispatcher::__construct() route:Array
+(
+    [controller] => UsersController
+    [action] => create
+    [uri] => /Users/create/
+)
+:
+[2017-04-14 19:40:13.02875]  DbConnect::createConnection() dsn:mysql:host=localhost;dbname=cinnamon;charset=utf8
+[2017-04-14 19:40:13.02985]  DbConnect::createConnection() username:root
+[2017-04-14 19:40:13.03117]  DbConnect::createConnection() password:glxre297
+[2017-04-14 19:40:13.03424]  BaseController::getRequestValues() requestArray
+(
+    [User] => Array
+        (
+            [name] => susanoo1971
+            [Book] => Array
+                (
+                    [name] => gggggg
+                )
+
+        )
+
+    [bottom] => 送信
+)
+
+[2017-04-14 19:40:13.03837]  BaseModel::save() CH-01
+[2017-04-14 19:40:13.03972]  BaseModel::save() form:Array
+(
+    [User] => Array
+        (
+            [name] => susanoo1971
+            [Book] => Array
+                (
+                    [name] => gggggg
+                )
+
+        )
+
+    [bottom] => 送信
+)
+
+[2017-04-14 19:40:13.04181]  BaseModel::save() error:SQLSTATE[21S01]: Insert value list does not match column list: 1136 Column count doesn't match value count at row 1
+[2017-04-14 19:40:51.08986]  Route::setDefaultRoutes() Start
+[2017-04-14 19:40:51.00919]  Route::setDefaultRoutes() controller:Base
+[2017-04-14 19:40:51.09313]  Route::setDefaultRoutes() uri:/Base/index/
+[2017-04-14 19:40:51.09422]  Route::setDefaultRoutes() uri:/Base/new/ID
+[2017-04-14 19:40:51.09552]  Route::setDefaultRoutes() uri:/Base/edit/ID
+[2017-04-14 19:40:51.09669]  Route::setDefaultRoutes() uri:/Base/create/
+[2017-04-14 19:40:51.00098]  Route::setDefaultRoutes() uri:/Base/confirm/
+[2017-04-14 19:40:51.09906]  Route::setDefaultRoutes() uri:/Base/show/ID
+[2017-04-14 19:40:52.00013]  Route::setDefaultRoutes() uri:/Base/delete/ID
+[2017-04-14 19:40:52.00127]  Route::setDefaultRoutes() controller:Books
+[2017-04-14 19:40:52.00229]  Route::setDefaultRoutes() uri:/Books/index/
+[2017-04-14 19:40:52.00376]  Route::setDefaultRoutes() uri:/Books/new/ID
+[2017-04-14 19:40:52.00049]  Route::setDefaultRoutes() uri:/Books/edit/ID
+[2017-04-14 19:40:52.00601]  Route::setDefaultRoutes() uri:/Books/create/
+[2017-04-14 19:40:52.00717]  Route::setDefaultRoutes() uri:/Books/confirm/
+[2017-04-14 19:40:52.00823]  Route::setDefaultRoutes() uri:/Books/show/ID
+[2017-04-14 19:40:52.00919]  Route::setDefaultRoutes() uri:/Books/delete/ID
+[2017-04-14 19:40:52.01016]  Route::setDefaultRoutes() controller:Default
+[2017-04-14 19:40:52.01128]  Route::setDefaultRoutes() uri:/Default/index/
+[2017-04-14 19:40:52.01221]  Route::setDefaultRoutes() uri:/Default/new/ID
+[2017-04-14 19:40:52.01337]  Route::setDefaultRoutes() uri:/Default/edit/ID
+[2017-04-14 19:40:52.01433]  Route::setDefaultRoutes() uri:/Default/create/
+[2017-04-14 19:40:52.01541]  Route::setDefaultRoutes() uri:/Default/confirm/
+[2017-04-14 19:40:52.01643]  Route::setDefaultRoutes() uri:/Default/show/ID
+[2017-04-14 19:40:52.01737]  Route::setDefaultRoutes() uri:/Default/delete/ID
+[2017-04-14 19:40:52.01838]  Route::setDefaultRoutes() controller:Users
+[2017-04-14 19:40:52.01945]  Route::setDefaultRoutes() uri:/Users/index/
+[2017-04-14 19:40:52.02036]  Route::setDefaultRoutes() uri:/Users/new/ID
+[2017-04-14 19:40:52.00215]  Route::setDefaultRoutes() uri:/Users/edit/ID
+[2017-04-14 19:40:52.02355]  Route::setDefaultRoutes() uri:/Users/create/
+[2017-04-14 19:40:52.00248]  Route::setDefaultRoutes() uri:/Users/confirm/
+[2017-04-14 19:40:52.00258]  Route::setDefaultRoutes() uri:/Users/show/ID
+[2017-04-14 19:40:52.02743]  Route::setDefaultRoutes() uri:/Users/delete/ID
+[2017-04-14 19:40:52.02858]  Route::setDefaultRoutes() setRoute
+[2017-04-14 19:40:52.02978]  Route::setDefaultRoutes() setRoute
+[2017-04-14 19:40:52.03076]  Dispatcher::__construct()
+[2017-04-14 19:40:52.03177]  ENV:Array
+(
+    [USER] => satokadumasa
+    [HOME] => /Users/satokadumasa
+    [FCGI_ROLE] => RESPONDER
+    [SCRIPT_FILENAME] => /Users/satokadumasa/Project/PHP/strangerphp/public/index.php
+    [QUERY_STRING] => 
+    [REQUEST_METHOD] => POST
+    [CONTENT_TYPE] => application/x-www-form-urlencoded
+    [CONTENT_LENGTH] => 90
+    [SCRIPT_NAME] => /index.php
+    [REQUEST_URI] => /Users/create/
+    [DOCUMENT_URI] => /index.php
+    [DOCUMENT_ROOT] => /Users/satokadumasa/Project/PHP/strangerphp/public
+    [SERVER_PROTOCOL] => HTTP/1.1
+    [REQUEST_SCHEME] => http
+    [GATEWAY_INTERFACE] => CGI/1.1
+    [SERVER_SOFTWARE] => nginx/1.10.1
+    [REMOTE_ADDR] => 127.0.0.1
+    [REMOTE_PORT] => 65029
+    [SERVER_ADDR] => 127.0.0.1
+    [SERVER_PORT] => 80
+    [SERVER_NAME] => cinnamon.example.com
+    [REDIRECT_STATUS] => 200
+    [HTTP_HOST] => cinnamon.example.com
+    [HTTP_CONNECTION] => keep-alive
+    [HTTP_CONTENT_LENGTH] => 90
+    [HTTP_CACHE_CONTROL] => max-age=0
+    [HTTP_ORIGIN] => http://cinnamon.example.com
+    [HTTP_UPGRADE_INSECURE_REQUESTS] => 1
+    [HTTP_USER_AGENT] => Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36
+    [HTTP_CONTENT_TYPE] => application/x-www-form-urlencoded
+    [HTTP_ACCEPT] => text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+    [HTTP_REFERER] => http://cinnamon.example.com/user_new.html
+    [HTTP_ACCEPT_ENCODING] => gzip, deflate
+    [HTTP_ACCEPT_LANGUAGE] => ja,en-US;q=0.8,en;q=0.6
+    [PHP_SELF] => /index.php
+    [REQUEST_TIME_FLOAT] => 1492166451.8907
+    [REQUEST_TIME] => 1492166451
+)
+
+[2017-04-14 19:40:52.03332]  routes:Route Object
+(
+    [route] => Array
+        (
+            [/Base/index/] => Array
+                (
+                    [controller] => BaseController
+                    [action] => index
+                )
+
+            [/Base/new/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => new
+                )
+
+            [/Base/edit/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => edit
+                )
+
+            [/Base/create/] => Array
+                (
+                    [controller] => BaseController
+                    [action] => create
+                )
+
+            [/Base/confirm/] => Array
+                (
+                    [controller] => BaseController
+                    [action] => confirm
+                )
+
+            [/Base/show/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => show
+                )
+
+            [/Base/delete/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => delete
+                )
+
+            [/Books/index/] => Array
+                (
+                    [controller] => BooksController
+                    [action] => index
+                )
+
+            [/Books/new/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => new
+                )
+
+            [/Books/edit/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => edit
+                )
+
+            [/Books/create/] => Array
+                (
+                    [controller] => BooksController
+                    [action] => create
+                )
+
+            [/Books/confirm/] => Array
+                (
+                    [controller] => BooksController
+                    [action] => confirm
+                )
+
+            [/Books/show/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => show
+                )
+
+            [/Books/delete/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => delete
+                )
+
+            [/Default/index/] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => index
+                )
+
+            [/Default/new/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => new
+                )
+
+            [/Default/edit/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => edit
+                )
+
+            [/Default/create/] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => create
+                )
+
+            [/Default/confirm/] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => confirm
+                )
+
+            [/Default/show/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => show
+                )
+
+            [/Default/delete/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => delete
+                )
+
+            [/Users/index/] => Array
+                (
+                    [controller] => UsersController
+                    [action] => index
+                )
+
+            [/Users/new/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => new
+                )
+
+            [/Users/edit/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => edit
+                )
+
+            [/Users/create/] => Array
+                (
+                    [controller] => UsersController
+                    [action] => create
+                )
+
+            [/Users/confirm/] => Array
+                (
+                    [controller] => UsersController
+                    [action] => confirm
+                )
+
+            [/Users/show/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => show
+                )
+
+            [/Users/delete/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => delete
+                )
+
+            [/Users/search/] => Array
+                (
+                    [controller] => Users
+                    [action] => search
+                )
+
+        )
+
+    [default_actions:Route:private] => Array
+        (
+            [0] => index
+            [1] => new
+            [2] => edit
+            [3] => create
+            [4] => confirm
+            [5] => show
+            [6] => delete
+        )
+
+    [default_need_id_actions:Route:private] => Array
+        (
+            [0] => new
+            [1] => edit
+            [2] => show
+            [3] => delete
+        )
+
+    [url_not_found:Route:private] => Array
+        (
+            [controller] => DefaultController
+            [action] => index
+        )
+
+    [error_log] => Logger Object
+        (
+            [log_file:Logger:private] => /Users/satokadumasa/Project/PHP/strangerphp/logs/ERROR_20170414.log
+            [log_level:Logger:private] => ERROR
+        )
+
+    [info_log] => Logger Object
+        (
+            [log_file:Logger:private] => /Users/satokadumasa/Project/PHP/strangerphp/logs/INFO_20170414.log
+            [log_level:Logger:private] => INFO
+        )
+
+    [debug] => Logger Object
+        (
+            [log_file:Logger:private] => /Users/satokadumasa/Project/PHP/strangerphp/logs/DEBUG_20170414.log
+            [log_level:Logger:private] => DEBUG
+        )
+
+    [CONV_STRING_LIST:Route:private] => Array
+        (
+            [ID] => \d
+            [YEAR] => \d{4}
+            [MONTH] => \d{2}
+            [0] => MDAY
+            [1] => \d{2}
+        )
+
+)
+
+[2017-04-14 19:40:52.03439]  Route::findRoute() url:/Users/create/
+[2017-04-14 19:40:52.03536]  Route::findRoute() value:\/Users\/create\/>>>>value:Array
+(
+    [controller] => UsersController
+    [action] => create
+    [uri] => /Users/create/
+)
+
+[2017-04-14 19:40:52.03639]  Dispatcher::__construct() controller:UsersController:
+[2017-04-14 19:40:52.03741]  Dispatcher::__construct() POST:Array
+(
+    [User] => Array
+        (
+            [name] => susanoo1971
+            [Book] => Array
+                (
+                    [name] => gggggg
+                )
+
+        )
+
+    [bottom] => 送信
+)
+:
+[2017-04-14 19:40:52.03851]  Dispatcher::__construct() GET:Array
+(
+)
+:
+[2017-04-14 19:40:52.03954]  Dispatcher::__construct() route:Array
+(
+    [controller] => UsersController
+    [action] => create
+    [uri] => /Users/create/
+)
+:
+[2017-04-14 19:40:52.04066]  DbConnect::createConnection() dsn:mysql:host=localhost;dbname=cinnamon;charset=utf8
+[2017-04-14 19:40:52.04173]  DbConnect::createConnection() username:root
+[2017-04-14 19:40:52.04273]  DbConnect::createConnection() password:glxre297
+[2017-04-14 19:40:52.04382]  BaseController::getRequestValues() requestArray
+(
+    [User] => Array
+        (
+            [name] => susanoo1971
+            [Book] => Array
+                (
+                    [name] => gggggg
+                )
+
+        )
+
+    [bottom] => 送信
+)
+
+[2017-04-14 19:40:52.04518]  BaseModel::save() CH-01
+[2017-04-14 19:40:52.04602]  BaseModel::save() SQL:INSERT INTO users (name, created_at, modified_at) VALUES (:name, NOW(), :created_at, NOW(), :modified_at)
+[2017-04-14 19:40:52.04745]  BaseModel::save() form:Array
+(
+    [User] => Array
+        (
+            [name] => susanoo1971
+            [Book] => Array
+                (
+                    [name] => gggggg
+                )
+
+        )
+
+    [bottom] => 送信
+)
+
+[2017-04-14 19:40:52.04877]  BaseModel::save() error:SQLSTATE[21S01]: Insert value list does not match column list: 1136 Column count doesn't match value count at row 1
+[2017-04-14 19:41:33.02181]  Route::setDefaultRoutes() Start
+[2017-04-14 19:41:33.02332]  Route::setDefaultRoutes() controller:Base
+[2017-04-14 19:41:33.02467]  Route::setDefaultRoutes() uri:/Base/index/
+[2017-04-14 19:41:33.02586]  Route::setDefaultRoutes() uri:/Base/new/ID
+[2017-04-14 19:41:33.02693]  Route::setDefaultRoutes() uri:/Base/edit/ID
+[2017-04-14 19:41:33.02789]  Route::setDefaultRoutes() uri:/Base/create/
+[2017-04-14 19:41:33.02888]  Route::setDefaultRoutes() uri:/Base/confirm/
+[2017-04-14 19:41:33.02996]  Route::setDefaultRoutes() uri:/Base/show/ID
+[2017-04-14 19:41:33.03097]  Route::setDefaultRoutes() uri:/Base/delete/ID
+[2017-04-14 19:41:33.03208]  Route::setDefaultRoutes() controller:Books
+[2017-04-14 19:41:33.03305]  Route::setDefaultRoutes() uri:/Books/index/
+[2017-04-14 19:41:33.03405]  Route::setDefaultRoutes() uri:/Books/new/ID
+[2017-04-14 19:41:33.00352]  Route::setDefaultRoutes() uri:/Books/edit/ID
+[2017-04-14 19:41:33.03615]  Route::setDefaultRoutes() uri:/Books/create/
+[2017-04-14 19:41:33.03709]  Route::setDefaultRoutes() uri:/Books/confirm/
+[2017-04-14 19:41:33.03813]  Route::setDefaultRoutes() uri:/Books/show/ID
+[2017-04-14 19:41:33.03951]  Route::setDefaultRoutes() uri:/Books/delete/ID
+[2017-04-14 19:41:33.04096]  Route::setDefaultRoutes() controller:Default
+[2017-04-14 19:41:33.00422]  Route::setDefaultRoutes() uri:/Default/index/
+[2017-04-14 19:41:33.04366]  Route::setDefaultRoutes() uri:/Default/new/ID
+[2017-04-14 19:41:33.00045]  Route::setDefaultRoutes() uri:/Default/edit/ID
+[2017-04-14 19:41:33.04601]  Route::setDefaultRoutes() uri:/Default/create/
+[2017-04-14 19:41:33.04709]  Route::setDefaultRoutes() uri:/Default/confirm/
+[2017-04-14 19:41:33.04899]  Route::setDefaultRoutes() uri:/Default/show/ID
+[2017-04-14 19:41:33.04999]  Route::setDefaultRoutes() uri:/Default/delete/ID
+[2017-04-14 19:41:33.05159]  Route::setDefaultRoutes() controller:Users
+[2017-04-14 19:41:33.05323]  Route::setDefaultRoutes() uri:/Users/index/
+[2017-04-14 19:41:33.05421]  Route::setDefaultRoutes() uri:/Users/new/ID
+[2017-04-14 19:41:33.05531]  Route::setDefaultRoutes() uri:/Users/edit/ID
+[2017-04-14 19:41:33.05625]  Route::setDefaultRoutes() uri:/Users/create/
+[2017-04-14 19:41:33.05735]  Route::setDefaultRoutes() uri:/Users/confirm/
+[2017-04-14 19:41:33.05836]  Route::setDefaultRoutes() uri:/Users/show/ID
+[2017-04-14 19:41:33.05939]  Route::setDefaultRoutes() uri:/Users/delete/ID
+[2017-04-14 19:41:33.06039]  Route::setDefaultRoutes() setRoute
+[2017-04-14 19:41:33.06142]  Route::setDefaultRoutes() setRoute
+[2017-04-14 19:41:33.06247]  Dispatcher::__construct()
+[2017-04-14 19:41:33.06348]  ENV:Array
+(
+    [USER] => satokadumasa
+    [HOME] => /Users/satokadumasa
+    [FCGI_ROLE] => RESPONDER
+    [SCRIPT_FILENAME] => /Users/satokadumasa/Project/PHP/strangerphp/public/index.php
+    [QUERY_STRING] => 
+    [REQUEST_METHOD] => POST
+    [CONTENT_TYPE] => application/x-www-form-urlencoded
+    [CONTENT_LENGTH] => 90
+    [SCRIPT_NAME] => /index.php
+    [REQUEST_URI] => /Users/create/
+    [DOCUMENT_URI] => /index.php
+    [DOCUMENT_ROOT] => /Users/satokadumasa/Project/PHP/strangerphp/public
+    [SERVER_PROTOCOL] => HTTP/1.1
+    [REQUEST_SCHEME] => http
+    [GATEWAY_INTERFACE] => CGI/1.1
+    [SERVER_SOFTWARE] => nginx/1.10.1
+    [REMOTE_ADDR] => 127.0.0.1
+    [REMOTE_PORT] => 65029
+    [SERVER_ADDR] => 127.0.0.1
+    [SERVER_PORT] => 80
+    [SERVER_NAME] => cinnamon.example.com
+    [REDIRECT_STATUS] => 200
+    [HTTP_HOST] => cinnamon.example.com
+    [HTTP_CONNECTION] => keep-alive
+    [HTTP_CONTENT_LENGTH] => 90
+    [HTTP_CACHE_CONTROL] => max-age=0
+    [HTTP_ORIGIN] => http://cinnamon.example.com
+    [HTTP_UPGRADE_INSECURE_REQUESTS] => 1
+    [HTTP_USER_AGENT] => Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36
+    [HTTP_CONTENT_TYPE] => application/x-www-form-urlencoded
+    [HTTP_ACCEPT] => text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+    [HTTP_REFERER] => http://cinnamon.example.com/user_new.html
+    [HTTP_ACCEPT_ENCODING] => gzip, deflate
+    [HTTP_ACCEPT_LANGUAGE] => ja,en-US;q=0.8,en;q=0.6
+    [PHP_SELF] => /index.php
+    [REQUEST_TIME_FLOAT] => 1492166493.2153
+    [REQUEST_TIME] => 1492166493
+)
+
+[2017-04-14 19:41:33.06453]  routes:Route Object
+(
+    [route] => Array
+        (
+            [/Base/index/] => Array
+                (
+                    [controller] => BaseController
+                    [action] => index
+                )
+
+            [/Base/new/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => new
+                )
+
+            [/Base/edit/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => edit
+                )
+
+            [/Base/create/] => Array
+                (
+                    [controller] => BaseController
+                    [action] => create
+                )
+
+            [/Base/confirm/] => Array
+                (
+                    [controller] => BaseController
+                    [action] => confirm
+                )
+
+            [/Base/show/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => show
+                )
+
+            [/Base/delete/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => delete
+                )
+
+            [/Books/index/] => Array
+                (
+                    [controller] => BooksController
+                    [action] => index
+                )
+
+            [/Books/new/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => new
+                )
+
+            [/Books/edit/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => edit
+                )
+
+            [/Books/create/] => Array
+                (
+                    [controller] => BooksController
+                    [action] => create
+                )
+
+            [/Books/confirm/] => Array
+                (
+                    [controller] => BooksController
+                    [action] => confirm
+                )
+
+            [/Books/show/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => show
+                )
+
+            [/Books/delete/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => delete
+                )
+
+            [/Default/index/] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => index
+                )
+
+            [/Default/new/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => new
+                )
+
+            [/Default/edit/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => edit
+                )
+
+            [/Default/create/] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => create
+                )
+
+            [/Default/confirm/] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => confirm
+                )
+
+            [/Default/show/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => show
+                )
+
+            [/Default/delete/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => delete
+                )
+
+            [/Users/index/] => Array
+                (
+                    [controller] => UsersController
+                    [action] => index
+                )
+
+            [/Users/new/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => new
+                )
+
+            [/Users/edit/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => edit
+                )
+
+            [/Users/create/] => Array
+                (
+                    [controller] => UsersController
+                    [action] => create
+                )
+
+            [/Users/confirm/] => Array
+                (
+                    [controller] => UsersController
+                    [action] => confirm
+                )
+
+            [/Users/show/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => show
+                )
+
+            [/Users/delete/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => delete
+                )
+
+            [/Users/search/] => Array
+                (
+                    [controller] => Users
+                    [action] => search
+                )
+
+        )
+
+    [default_actions:Route:private] => Array
+        (
+            [0] => index
+            [1] => new
+            [2] => edit
+            [3] => create
+            [4] => confirm
+            [5] => show
+            [6] => delete
+        )
+
+    [default_need_id_actions:Route:private] => Array
+        (
+            [0] => new
+            [1] => edit
+            [2] => show
+            [3] => delete
+        )
+
+    [url_not_found:Route:private] => Array
+        (
+            [controller] => DefaultController
+            [action] => index
+        )
+
+    [error_log] => Logger Object
+        (
+            [log_file:Logger:private] => /Users/satokadumasa/Project/PHP/strangerphp/logs/ERROR_20170414.log
+            [log_level:Logger:private] => ERROR
+        )
+
+    [info_log] => Logger Object
+        (
+            [log_file:Logger:private] => /Users/satokadumasa/Project/PHP/strangerphp/logs/INFO_20170414.log
+            [log_level:Logger:private] => INFO
+        )
+
+    [debug] => Logger Object
+        (
+            [log_file:Logger:private] => /Users/satokadumasa/Project/PHP/strangerphp/logs/DEBUG_20170414.log
+            [log_level:Logger:private] => DEBUG
+        )
+
+    [CONV_STRING_LIST:Route:private] => Array
+        (
+            [ID] => \d
+            [YEAR] => \d{4}
+            [MONTH] => \d{2}
+            [0] => MDAY
+            [1] => \d{2}
+        )
+
+)
+
+[2017-04-14 19:41:33.06565]  Route::findRoute() url:/Users/create/
+[2017-04-14 19:41:33.06667]  Route::findRoute() value:\/Users\/create\/>>>>value:Array
+(
+    [controller] => UsersController
+    [action] => create
+    [uri] => /Users/create/
+)
+
+[2017-04-14 19:41:33.06783]  Dispatcher::__construct() controller:UsersController:
+[2017-04-14 19:41:33.06889]  Dispatcher::__construct() POST:Array
+(
+    [User] => Array
+        (
+            [name] => susanoo1971
+            [Book] => Array
+                (
+                    [name] => gggggg
+                )
+
+        )
+
+    [bottom] => 送信
+)
+:
+[2017-04-14 19:41:33.00007]  Dispatcher::__construct() GET:Array
+(
+)
+:
+[2017-04-14 19:41:33.07102]  Dispatcher::__construct() route:Array
+(
+    [controller] => UsersController
+    [action] => create
+    [uri] => /Users/create/
+)
+:
+[2017-04-14 19:41:33.00721]  DbConnect::createConnection() dsn:mysql:host=localhost;dbname=cinnamon;charset=utf8
+[2017-04-14 19:41:33.07301]  DbConnect::createConnection() username:root
+[2017-04-14 19:41:33.00741]  DbConnect::createConnection() password:glxre297
+[2017-04-14 19:41:33.07531]  BaseController::getRequestValues() requestArray
+(
+    [User] => Array
+        (
+            [name] => susanoo1971
+            [Book] => Array
+                (
+                    [name] => gggggg
+                )
+
+        )
+
+    [bottom] => 送信
+)
+
+[2017-04-14 19:41:33.07663]  BaseModel::save() CH-01
+[2017-04-14 19:41:33.07744]  BaseModel::save() SQL:INSERT INTO users (name, created_at, modified_at) VALUES (:name, NOW(), NOW())
+[2017-04-14 19:41:33.07865]  BaseModel::save() form:Array
+(
+    [User] => Array
+        (
+            [name] => susanoo1971
+            [Book] => Array
+                (
+                    [name] => gggggg
+                )
+
+        )
+
+    [bottom] => 送信
+)
+
+[2017-04-14 19:41:33.00799]  BaseModel::save() model_name:User
+[2017-04-14 19:41:33.08133]  BaseModel::save() col_name(1):name>>>>value:susanoo1971
+[2017-04-14 19:41:33.08281]  BaseModel::save() col_name(2):name>>>>value:susanoo1971
+[2017-04-14 19:41:33.08387]  BaseModel::save() col_name(4):name>>>>value:susanoo1971
+[2017-04-14 19:41:33.08492]  BaseModel::save() col_name(1):Book>>>>value:Array
+[2017-04-14 19:41:33.08592]  BaseModel::save() stmt:PDOStatement Object
+(
+    [queryString] => INSERT INTO users (name, created_at, modified_at) VALUES (:name, NOW(), NOW())
+)
+
+[2017-04-14 19:41:59.08136]  Route::setDefaultRoutes() Start
+[2017-04-14 19:41:59.08314]  Route::setDefaultRoutes() controller:Base
+[2017-04-14 19:41:59.00846]  Route::setDefaultRoutes() uri:/Base/index/
+[2017-04-14 19:41:59.08604]  Route::setDefaultRoutes() uri:/Base/new/ID
+[2017-04-14 19:41:59.00873]  Route::setDefaultRoutes() uri:/Base/edit/ID
+[2017-04-14 19:41:59.08831]  Route::setDefaultRoutes() uri:/Base/create/
+[2017-04-14 19:41:59.08921]  Route::setDefaultRoutes() uri:/Base/confirm/
+[2017-04-14 19:41:59.09037]  Route::setDefaultRoutes() uri:/Base/show/ID
+[2017-04-14 19:41:59.09138]  Route::setDefaultRoutes() uri:/Base/delete/ID
+[2017-04-14 19:41:59.09244]  Route::setDefaultRoutes() controller:Books
+[2017-04-14 19:41:59.00936]  Route::setDefaultRoutes() uri:/Books/index/
+[2017-04-14 19:41:59.09472]  Route::setDefaultRoutes() uri:/Books/new/ID
+[2017-04-14 19:41:59.09583]  Route::setDefaultRoutes() uri:/Books/edit/ID
+[2017-04-14 19:41:59.09701]  Route::setDefaultRoutes() uri:/Books/create/
+[2017-04-14 19:41:59.09804]  Route::setDefaultRoutes() uri:/Books/confirm/
+[2017-04-14 19:41:59.09898]  Route::setDefaultRoutes() uri:/Books/show/ID
+[2017-04-14 19:41:59.09999]  Route::setDefaultRoutes() uri:/Books/delete/ID
+[2017-04-14 19:42:00.00106]  Route::setDefaultRoutes() controller:Default
+[2017-04-14 19:42:00.00217]  Route::setDefaultRoutes() uri:/Default/index/
+[2017-04-14 19:42:00.00319]  Route::setDefaultRoutes() uri:/Default/new/ID
+[2017-04-14 19:42:00.00428]  Route::setDefaultRoutes() uri:/Default/edit/ID
+[2017-04-14 19:42:00.00538]  Route::setDefaultRoutes() uri:/Default/create/
+[2017-04-14 19:42:00.00652]  Route::setDefaultRoutes() uri:/Default/confirm/
+[2017-04-14 19:42:00.00765]  Route::setDefaultRoutes() uri:/Default/show/ID
+[2017-04-14 19:42:00.00875]  Route::setDefaultRoutes() uri:/Default/delete/ID
+[2017-04-14 19:42:00.00986]  Route::setDefaultRoutes() controller:Users
+[2017-04-14 19:42:00.01088]  Route::setDefaultRoutes() uri:/Users/index/
+[2017-04-14 19:42:00.01202]  Route::setDefaultRoutes() uri:/Users/new/ID
+[2017-04-14 19:42:00.01306]  Route::setDefaultRoutes() uri:/Users/edit/ID
+[2017-04-14 19:42:00.01405]  Route::setDefaultRoutes() uri:/Users/create/
+[2017-04-14 19:42:00.01544]  Route::setDefaultRoutes() uri:/Users/confirm/
+[2017-04-14 19:42:00.01661]  Route::setDefaultRoutes() uri:/Users/show/ID
+[2017-04-14 19:42:00.01779]  Route::setDefaultRoutes() uri:/Users/delete/ID
+[2017-04-14 19:42:00.01892]  Route::setDefaultRoutes() setRoute
+[2017-04-14 19:42:00.01994]  Route::setDefaultRoutes() setRoute
+[2017-04-14 19:42:00.02107]  Dispatcher::__construct()
+[2017-04-14 19:42:00.02234]  ENV:Array
+(
+    [USER] => satokadumasa
+    [HOME] => /Users/satokadumasa
+    [FCGI_ROLE] => RESPONDER
+    [SCRIPT_FILENAME] => /Users/satokadumasa/Project/PHP/strangerphp/public/index.php
+    [QUERY_STRING] => 
+    [REQUEST_METHOD] => POST
+    [CONTENT_TYPE] => application/x-www-form-urlencoded
+    [CONTENT_LENGTH] => 90
+    [SCRIPT_NAME] => /index.php
+    [REQUEST_URI] => /Users/create/
+    [DOCUMENT_URI] => /index.php
+    [DOCUMENT_ROOT] => /Users/satokadumasa/Project/PHP/strangerphp/public
+    [SERVER_PROTOCOL] => HTTP/1.1
+    [REQUEST_SCHEME] => http
+    [GATEWAY_INTERFACE] => CGI/1.1
+    [SERVER_SOFTWARE] => nginx/1.10.1
+    [REMOTE_ADDR] => 127.0.0.1
+    [REMOTE_PORT] => 65029
+    [SERVER_ADDR] => 127.0.0.1
+    [SERVER_PORT] => 80
+    [SERVER_NAME] => cinnamon.example.com
+    [REDIRECT_STATUS] => 200
+    [HTTP_HOST] => cinnamon.example.com
+    [HTTP_CONNECTION] => keep-alive
+    [HTTP_CONTENT_LENGTH] => 90
+    [HTTP_CACHE_CONTROL] => max-age=0
+    [HTTP_ORIGIN] => http://cinnamon.example.com
+    [HTTP_UPGRADE_INSECURE_REQUESTS] => 1
+    [HTTP_USER_AGENT] => Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36
+    [HTTP_CONTENT_TYPE] => application/x-www-form-urlencoded
+    [HTTP_ACCEPT] => text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+    [HTTP_REFERER] => http://cinnamon.example.com/user_new.html
+    [HTTP_ACCEPT_ENCODING] => gzip, deflate
+    [HTTP_ACCEPT_LANGUAGE] => ja,en-US;q=0.8,en;q=0.6
+    [PHP_SELF] => /index.php
+    [REQUEST_TIME_FLOAT] => 1492166519.8115
+    [REQUEST_TIME] => 1492166519
+)
+
+[2017-04-14 19:42:00.02417]  routes:Route Object
+(
+    [route] => Array
+        (
+            [/Base/index/] => Array
+                (
+                    [controller] => BaseController
+                    [action] => index
+                )
+
+            [/Base/new/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => new
+                )
+
+            [/Base/edit/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => edit
+                )
+
+            [/Base/create/] => Array
+                (
+                    [controller] => BaseController
+                    [action] => create
+                )
+
+            [/Base/confirm/] => Array
+                (
+                    [controller] => BaseController
+                    [action] => confirm
+                )
+
+            [/Base/show/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => show
+                )
+
+            [/Base/delete/ID] => Array
+                (
+                    [controller] => BaseController
+                    [action] => delete
+                )
+
+            [/Books/index/] => Array
+                (
+                    [controller] => BooksController
+                    [action] => index
+                )
+
+            [/Books/new/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => new
+                )
+
+            [/Books/edit/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => edit
+                )
+
+            [/Books/create/] => Array
+                (
+                    [controller] => BooksController
+                    [action] => create
+                )
+
+            [/Books/confirm/] => Array
+                (
+                    [controller] => BooksController
+                    [action] => confirm
+                )
+
+            [/Books/show/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => show
+                )
+
+            [/Books/delete/ID] => Array
+                (
+                    [controller] => BooksController
+                    [action] => delete
+                )
+
+            [/Default/index/] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => index
+                )
+
+            [/Default/new/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => new
+                )
+
+            [/Default/edit/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => edit
+                )
+
+            [/Default/create/] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => create
+                )
+
+            [/Default/confirm/] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => confirm
+                )
+
+            [/Default/show/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => show
+                )
+
+            [/Default/delete/ID] => Array
+                (
+                    [controller] => DefaultController
+                    [action] => delete
+                )
+
+            [/Users/index/] => Array
+                (
+                    [controller] => UsersController
+                    [action] => index
+                )
+
+            [/Users/new/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => new
+                )
+
+            [/Users/edit/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => edit
+                )
+
+            [/Users/create/] => Array
+                (
+                    [controller] => UsersController
+                    [action] => create
+                )
+
+            [/Users/confirm/] => Array
+                (
+                    [controller] => UsersController
+                    [action] => confirm
+                )
+
+            [/Users/show/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => show
+                )
+
+            [/Users/delete/ID] => Array
+                (
+                    [controller] => UsersController
+                    [action] => delete
+                )
+
+            [/Users/search/] => Array
+                (
+                    [controller] => Users
+                    [action] => search
+                )
+
+        )
+
+    [default_actions:Route:private] => Array
+        (
+            [0] => index
+            [1] => new
+            [2] => edit
+            [3] => create
+            [4] => confirm
+            [5] => show
+            [6] => delete
+        )
+
+    [default_need_id_actions:Route:private] => Array
+        (
+            [0] => new
+            [1] => edit
+            [2] => show
+            [3] => delete
+        )
+
+    [url_not_found:Route:private] => Array
+        (
+            [controller] => DefaultController
+            [action] => index
+        )
+
+    [error_log] => Logger Object
+        (
+            [log_file:Logger:private] => /Users/satokadumasa/Project/PHP/strangerphp/logs/ERROR_20170414.log
+            [log_level:Logger:private] => ERROR
+        )
+
+    [info_log] => Logger Object
+        (
+            [log_file:Logger:private] => /Users/satokadumasa/Project/PHP/strangerphp/logs/INFO_20170414.log
+            [log_level:Logger:private] => INFO
+        )
+
+    [debug] => Logger Object
+        (
+            [log_file:Logger:private] => /Users/satokadumasa/Project/PHP/strangerphp/logs/DEBUG_20170414.log
+            [log_level:Logger:private] => DEBUG
+        )
+
+    [CONV_STRING_LIST:Route:private] => Array
+        (
+            [ID] => \d
+            [YEAR] => \d{4}
+            [MONTH] => \d{2}
+            [0] => MDAY
+            [1] => \d{2}
+        )
+
+)
+
+[2017-04-14 19:42:00.02586]  Route::findRoute() url:/Users/create/
+[2017-04-14 19:42:00.02777]  Route::findRoute() value:\/Users\/create\/>>>>value:Array
+(
+    [controller] => UsersController
+    [action] => create
+    [uri] => /Users/create/
+)
+
+[2017-04-14 19:42:00.00287]  Dispatcher::__construct() controller:UsersController:
+[2017-04-14 19:42:00.02979]  Dispatcher::__construct() POST:Array
+(
+    [User] => Array
+        (
+            [name] => susanoo1971
+            [Book] => Array
+                (
+                    [name] => gggggg
+                )
+
+        )
+
+    [bottom] => 送信
+)
+:
+[2017-04-14 19:42:00.03092]  Dispatcher::__construct() GET:Array
+(
+)
+:
+[2017-04-14 19:42:00.03213]  Dispatcher::__construct() route:Array
+(
+    [controller] => UsersController
+    [action] => create
+    [uri] => /Users/create/
+)
+:
+[2017-04-14 19:42:00.03324]  DbConnect::createConnection() dsn:mysql:host=localhost;dbname=cinnamon;charset=utf8
+[2017-04-14 19:42:00.03487]  DbConnect::createConnection() username:root
+[2017-04-14 19:42:00.03613]  DbConnect::createConnection() password:glxre297
+[2017-04-14 19:42:00.03728]  BaseController::getRequestValues() requestArray
+(
+    [User] => Array
+        (
+            [name] => susanoo1971
+            [Book] => Array
+                (
+                    [name] => gggggg
+                )
+
+        )
+
+    [bottom] => 送信
+)
+
+[2017-04-14 19:42:00.03846]  BaseModel::save() CH-01
+[2017-04-14 19:42:00.03938]  BaseModel::save() SQL:INSERT INTO users (name, created_at, modified_at) VALUES (:name, NOW(), NOW())
+[2017-04-14 19:42:00.04054]  BaseModel::save() form:Array
+(
+    [User] => Array
+        (
+            [name] => susanoo1971
+            [Book] => Array
+                (
+                    [name] => gggggg
+                )
+
+        )
+
+    [bottom] => 送信
+)
+
+[2017-04-14 19:42:00.04157]  BaseModel::save() model_name:User
+[2017-04-14 19:42:00.04261]  BaseModel::save() col_name(2):name>>>>value:susanoo1971
+[2017-04-14 19:42:00.04376]  BaseModel::save() col_name(4):name>>>>value:susanoo1971
+[2017-04-14 19:42:00.00448]  BaseModel::save() stmt:PDOStatement Object
+(
+    [queryString] => INSERT INTO users (name, created_at, modified_at) VALUES (:name, NOW(), NOW())
+)
+
