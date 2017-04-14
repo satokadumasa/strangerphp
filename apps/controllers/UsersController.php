@@ -21,6 +21,8 @@ class UsersController extends BaseController{
   }
 
   public function create() {
+    $user = new UserModel($this->dbh);
+    $user->save($this->request);
     echo "UsersController::create()<br>";
   }
 

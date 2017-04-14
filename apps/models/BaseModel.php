@@ -24,7 +24,7 @@ class BaseModel {
 
   protected $primary_key = 'id';
 
-  public function __construct(&$dbh, $form) {
+  public function __construct(&$dbh) {
     if($dbh) $this->setDbh($dbh);
 
     $this->error_log = new Logger('ERROR');
@@ -209,17 +209,6 @@ class BaseModel {
     return $cond;
   }
 
-  public function validation() {
-    // $this->form
-  }
-
-  // protected function setValue($form) {
-  //   $column_names = array_keys($this->columns);
-  //   foreach ($column_names as $column_name) {
-      
-  //   }
-  // }
-
   protected function setValue($key, $value){
     $type = $this->columns[$key]['type'];
     if (is_array($value)) {
@@ -255,11 +244,93 @@ class BaseModel {
     }
   }
 
+  public function getColumnType($col_name) {
+    $type = $this->columns[$col_name]['type'];
+    switch ($type) {
+      case 'INT':
+      case 'TINYINT':
+      case 'SMALLINT':
+      case 'BIGINT':
+        return PDO::PARAM_INT;
+        break;
+      case 'FLOAT':
+      case 'DOUBLE':
+        return PDO::PARAM_INT;
+        break;
+      case 'BOOL':
+        return PDO::PARAM_BOOL;
+        break;
+      case 'SET':
+      default:
+        return PDO::PARAM_STR;
+        break;
+    }
+
+  }
+
   public function getColumns() {
     return array_keys($this->columns);
   }
 
-  public function save($model_propety_and_values) {
-    $model_propety_and_values = $model_propety_and_values[$this->model_name];
+  public function save($form) {
+    try {
+      $this->validation($form);
+      $this->debug->log("BaseModel::save() CH-01");
+
+      if (isset($form[$this->model_name][$this->primary_key]))$sql = $this->createModifySql($form[$this->model_name]);  // CASE MODIFY
+      else $sql = $this->createInsertSql();  // CASE INSERT
+      $this->debug->log("BaseModel::save() form:".print_r($form, true));
+      $stmt = $this->dbh->prepare($sql);
+      $this->debug->log("BaseModel::save() model_name:" . $this->model_name);
+      foreach ($form[$this->model_name] as $key => $value) {
+        if (is_array($value)) continue;
+        $col_name = ":".$key;
+        $this->debug->log("BaseModel::save() col_name(1):" . $key .">>>>value:".$value);
+        switch ($key) {
+          case 'created_at':
+          case 'modified_at':
+            $this->debug->log("BaseModel::save() col_name(2):" . $key .">>>>value:".$value);
+            $stmt->bindParam($col_name, 'NOW()', PDO::PARAM_STR);
+            break;
+          default:
+            $this->debug->log("BaseModel::save() col_name(3):" . $key .">>>>value:".$value);
+            $stmt->bindValue($col_name, $value, $this->getColumnType($key));
+            break;
+        }
+      }
+      $this->debug->log("BaseModel::save() stmt:" . print_r($stmt, true));
+      $stmt->execute();
+    } catch (Exception $e) {
+      $this->debug->log("BaseModel::save() error:" . $e->getMessage());
+      throw new Exception($e->getMessage(), 1);
+    }
+  }
+
+  public function createInsertSql() {
+    $col_names = array_keys($this->columns);
+    $colums_str = null;
+    $values_str = null;
+    foreach ($col_names as $col_name) {
+      if ($col_name === $this->primary_key) continue;
+      $colums_str .= $colums_str ? ", " . $col_name : $col_name;
+      $values_str .= $values_str ? ", :".$col_name : ":".$col_name;
+    }
+    $sql = "INSERT INTO " . $this->table_name . " (" . $colums_str .") VALUES (" . $values_str . ")";
+    return $sql;
+  }
+
+  public function createModifySql($form) {
+    $col_names = array_keys($this->columns);
+    $colums_str = null;
+    $values_str = null;
+    foreach ($col_names as $col_name) {
+      $colums_str_tmp = $col_name . " = :" . $col_name;
+      $colums_str .= $colums_str ? ", " . $colums_str_tmp : $colums_str_tmp;
+    }
+    return  "UPDATE " . $this->table_name . " SET " . $colums_str ." WHERE " . $this->primary_key . " = :" . $this->primary_key ."";
+  }
+
+  public function validation($form) {
+    // $this->form
   }
 }
