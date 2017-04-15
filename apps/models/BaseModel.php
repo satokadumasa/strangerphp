@@ -298,15 +298,15 @@ class BaseModel {
           continue;
         }
         $colum_name = ":".$col_name;
-        $this->debug->log("BaseModel::save() col_name(2):" . $col_name .">>>>value:".$value);
+        $this->debug->log("BaseModel::save() col_name(2):" . $col_name .">>>>value:".print_r($value, true));
         switch ($col_name) {
           case 'created_at':
           case 'modified_at':
-            $this->debug->log("BaseModel::save() col_name(3):" . $col_name .">>>>value:".$value);
+            $this->debug->log("BaseModel::save() col_name(3):" . $col_name .">>>>value:".print_r($value, true));
             $stmt->bindParam($col_name, 'NOW()', PDO::PARAM_STR);
             break;
           default:
-            $this->debug->log("BaseModel::save() col_name(4):" . $col_name .">>>>value:".$value);
+            $this->debug->log("BaseModel::save() col_name(4):" . $col_name .">>>>value:".print_r($value, true));
             $stmt->bindValue($col_name, $value, $this->getColumnType($col_name));
             break;
         }
@@ -315,20 +315,24 @@ class BaseModel {
       $stmt->execute();
       $id = $this->dbh->lastInsertId($this->primary_key);
       $this->debug->log("BaseModel::save() id:" . print_r($id, true));
-
-      foreach ($form[$this->model_name] as $model_name => $value) {
-        if ($hssModels && in_array($model_name, $hssModels)) {
-          $model_class_name = $model_name."Model";
-          $obj = new $model_class_name($this->dbh);
-          $this->debug->log("BaseModel::save() model_name:" . $model_name);
-          $this->debug->log("BaseModel::save() foreign_key:" . $this->has[$model_name]['foreign_key']);
-          $value[$this->has[$model_name]['foreign_key']] = $id;
-          $f = [];
-          $f[$col_name] = $value;
-          $obj->save($f);
-        } 
-        else
-          continue;
+      if (isset($form[$this->model_name])) {
+        foreach ($form[$this->model_name] as $model_name => $value) {
+          if ($hssModels && in_array($model_name, $hssModels)) {
+            $array_keys = array_keys($value);
+            $this->debug->log("BaseModel::save() array_keys:".print_r($array_keys, true));
+            if ($this->is_hash(array_keys($value))) {
+              foreach ($value as $num => $val) {
+                $this->debug->log("BaseModel::save() value is hash");
+                $this->saveHasModel($model_name, $id, $val);
+              }
+            } else {
+              $this->debug->log("BaseModel::save() value is array");
+              $this->saveHasModel($model_name, $id, $value);
+            }
+          } 
+          else
+            continue;
+        }
       }
 
       $this->debug->log("BaseModel::save() stmt:" . print_r($stmt, true));
@@ -367,7 +371,31 @@ class BaseModel {
     return  "UPDATE " . $this->table_name . " SET " . $colums_str ." WHERE " . $this->primary_key . " = :" . $this->primary_key ."";
   }
 
+  public function saveHasModel($model_name, $id, $form) {
+    $model_class_name = $model_name."Model";
+    $obj = new $model_class_name($this->dbh);
+    $form[$this->has[$model_name]['foreign_key']] = $id;
+    $f = [];
+    $f[$model_name] = $form;
+    $this->debug->log("BaseModel::saveHasModel() foreign_key[".$this->has[$model_name]['foreign_key']."] form:" . print_r($f, true));
+    $obj->save($f);
+  }
+
   public function validation($form) {
     // $this->form
+  }
+
+  public function is_hash($data) {
+    $this->debug->log("BaseModel::is_hash() CH-01");
+    if (is_array($data)){
+      $this->debug->log("BaseModel::is_hash() CH-02");
+      foreach ($data as $key => $value) {
+        $this->debug->log("BaseModel::is_hash() value:".$value);
+        if (!is_numeric($value)) continue;
+        else return true;
+      }
+      return false;
+    }
+    return false;
   }
 }

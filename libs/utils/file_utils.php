@@ -6,17 +6,11 @@ class FileUtil{
 
   }
 
-  public function log($message){
-    try {
-
-      if($fp = fopen($this->log_file, 'a'){
-        fputs($fp, $message);
-      }
-      fclose($fp);
-    } catch($e) {
-
-    }
+  public static function is_hash($arr) {
+    if (array_values($arr) === $arr) 
+      return false;
+      echo '$arrは連想配列';
+    else
+      return true;
   }
-
-  
-} 
+}
