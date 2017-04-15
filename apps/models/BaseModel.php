@@ -245,6 +245,7 @@ class BaseModel {
   }
 
   public function getColumnType($col_name) {
+    $this->debug->log("BaseModel::getColumnType() columns:" . print_r($this->columns, true));
     $type = $this->columns[$col_name]['type'];
     switch ($type) {
       case 'INT':
@@ -274,44 +275,63 @@ class BaseModel {
 
   public function save($form) {
     try {
+      $hssModels = [];
+
       $this->validation($form);
-      $this->debug->log("BaseModel::save() CH-01");
 
       if (isset($form[$this->model_name][$this->primary_key])) $sql = $this->createModifySql($form[$this->model_name]);  // CASE MODIFY
       else $sql = $this->createInsertSql();  // CASE INSERT
 
       $this->debug->log("BaseModel::save() SQL:" . $sql);
-
       $this->debug->log("BaseModel::save() form:".print_r($form, true));
-      $stmt = $this->dbh->prepare($sql);
       $this->debug->log("BaseModel::save() model_name:" . $this->model_name);
-      foreach ($form[$this->model_name] as $key => $value) {
-        // $this->debug->log("BaseModel::save() col_name(1):" . $key .">>>>value:".$value);
-        if (is_array($value)) continue;
-        $col_name = ":".$key;
-        $this->debug->log("BaseModel::save() col_name(2):" . $key .">>>>value:".$value);
-        switch ($key) {
+      $this->debug->log("BaseModel::save() has:" . print_r($this->has,  true));
+
+      if($this->has){
+        $hssModels = array_keys($this->has);
+        $this->debug->log("BaseModel::save() hssModels:" . print_r($hssModels, true));
+      }
+
+      $stmt = $this->dbh->prepare($sql);
+      foreach ($form[$this->model_name] as $col_name => $value) {
+        if ($hssModels && in_array($col_name, $hssModels)) {
+          continue;
+        }
+        $colum_name = ":".$col_name;
+        $this->debug->log("BaseModel::save() col_name(2):" . $col_name .">>>>value:".$value);
+        switch ($col_name) {
           case 'created_at':
           case 'modified_at':
-            $this->debug->log("BaseModel::save() col_name(3):" . $key .">>>>value:".$value);
+            $this->debug->log("BaseModel::save() col_name(3):" . $col_name .">>>>value:".$value);
             $stmt->bindParam($col_name, 'NOW()', PDO::PARAM_STR);
             break;
           default:
-            $this->debug->log("BaseModel::save() col_name(4):" . $key .">>>>value:".$value);
-            $stmt->bindValue($col_name, $value, $this->getColumnType($key));
+            $this->debug->log("BaseModel::save() col_name(4):" . $col_name .">>>>value:".$value);
+            $stmt->bindValue($col_name, $value, $this->getColumnType($col_name));
             break;
         }
       }
 
-
-      // if (!isset($form[$this->model_name][$this->primary_key])){
-      //   $stmt->bindValue(':created_at', 'NOW()', PDO::PARAM_STR);
-      // }
-
-      // $stmt->bindValue(':modified_at', 'NOW()', PDO::PARAM_STR);
- 
-      $this->debug->log("BaseModel::save() stmt:" . print_r($stmt, true));
       $stmt->execute();
+      $id = $this->dbh->lastInsertId($this->primary_key);
+      $this->debug->log("BaseModel::save() id:" . print_r($id, true));
+
+      foreach ($form[$this->model_name] as $model_name => $value) {
+        if ($hssModels && in_array($model_name, $hssModels)) {
+          $model_class_name = $model_name."Model";
+          $obj = new $model_class_name($this->dbh);
+          $this->debug->log("BaseModel::save() model_name:" . $model_name);
+          $this->debug->log("BaseModel::save() foreign_key:" . $this->has[$model_name]['foreign_key']);
+          $value[$this->has[$model_name]['foreign_key']] = $id;
+          $f = [];
+          $f[$col_name] = $value;
+          $obj->save($f);
+        } 
+        else
+          continue;
+      }
+
+      $this->debug->log("BaseModel::save() stmt:" . print_r($stmt, true));
     } catch (Exception $e) {
       $this->debug->log("BaseModel::save() error:" . $e->getMessage());
       throw new Exception($e->getMessage(), 1);

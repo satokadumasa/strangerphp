@@ -21,9 +21,15 @@ class UsersController extends BaseController{
   }
 
   public function create() {
-    $user = new UserModel($this->dbh);
-    $user->save($this->request);
-    echo "UsersController::create()<br>";
+    try {
+      $this->dbh->beginTransaction();
+      $user = new UserModel($this->dbh);
+      $user->save($this->request);
+      echo "UsersController::create()<br>";
+      $this->dbh->commit();
+    } catch (Exception $e) {
+      $this->debug->log("UsersController::create() error:" . $e->getMessage());
+    }
   }
 
   public function edit() {
