@@ -17,7 +17,7 @@ class UsersController extends BaseController{
 
   public function show() {
     echo "UsersController::show()<br>";
-    $this->debug->log("UsersController::index() requestValues".print_r($this->requestValues, true));
+    $this->debug->log("UsersController::index() requestValues".print_r($this->request, true));
   }
 
   public function create() {
@@ -37,7 +37,15 @@ class UsersController extends BaseController{
   }
 
   public function delete() {
-    echo "UsersController::delete()<br>";
-    $this->debug->log("UsersController::delete() requestValues".print_r($this->requestValues, true));
+    try {
+      $this->dbh->beginTransaction();
+      $user = new UserModel($this->dbh);
+      $user->delete($this->request['id']);
+      $this->dbh->commit();
+      echo "UsersController::delete()<br>";
+      $this->debug->log("UsersController::delete() request:".print_r($this->request, true));
+    } catch (Exception $e) {
+      $this->debug->log("UsersController::delete() error:" . $e->getMessage());
+    }
   }
 }

@@ -22,7 +22,7 @@ class BaseModel {
 
   protected $form;
 
-  protected $primary_key = 'id';
+  public $primary_key = 'id';
 
   public function __construct(&$dbh) {
     if($dbh) $this->setDbh($dbh);
@@ -41,51 +41,8 @@ class BaseModel {
     $this->dbh = $dbh;
   }
 
-  public function where($column_name, $operator, $value) {
-    $this->conditions[] = array(
-      'column_name' => $column_name, 
-      'operator' => $operator, 
-      'value' => $value, 
-    );
-    return $this;
-  }
-
-  public function limit($limit_num) {
-    if (!is_int($limit_num)) throw new Exception("Error Processing Request", 1);
-    $this->limit_num = $limit_num;
-    return $this;
-  }
-
-  public function setMaxRows($max_rows) {
-    if (!is_int($max_rows)) throw new Exception("Error Processing Request", 1);
-    if ($max_rows > 0) $this->max_rows = $max_rows;
-    return $this;
-  }
-
-  public function offset($offset_num) {
-    if (!is_int($offset_num)) throw new Exception("Error Processing Request", 1);
-    $this->offset_num = $offset_num;
-    return $this;
-  }
-
-  public function pagenate($page){
-    if (!is_int($page)) throw new Exception("Error Processing Request", 1);
-    if ($page > 0 && $this->max_rows > 0) {
-      $this->limit_num = $this->max_rows * $page; 
-      $this->offset_num = $this->max_rows * ($page - 1); 
-    }
-    return $this;
-  }
-
-  public function asc($asc){
-    $this->ascs[] = $this->ascs ? ", ASC " . $this->model_name . "." . $asc :  " DESC " . $this->model_name . "." . $asc;
-  }
-
-  public function desc($asc){
-    $this->descs[] = $this->descs ? ", DESC " . $this->model_name . "." . $asc :  " DESC " . $this->model_name . "." . $asc;
-  }
-
-  public function find($keys = null) {
+  // 検索関連
+  public function find($type = 'first') {
     $datas = [];
     $primary_keys = [];
 
@@ -93,6 +50,7 @@ class BaseModel {
 
     $column_names = null;
 
+    $this->debug->log("BaseModel::find() sql:" . $sql);
     foreach ($this->dbh->query($sql) as $row) {
       $data = [];
       if(!$column_names) $column_names = array_keys($row);
@@ -101,16 +59,17 @@ class BaseModel {
         list($model_name, $col_name) = explode(".", $column_name);
         $data[$model_name][$col_name]= $row[$column_name];
       }
+
       $this->debug->log("BaseModel::find() data:" . print_r($data, true));
       if (array_search($data[$this->model_name][$this->primary_key], $primary_keys)) continue;
+
       $primary_keys[] = $data[$this->model_name][$this->primary_key];
       $datas[$data[$this->model_name][$this->primary_key]] = $data;
     }
-
-    $this->debug->log("BaseModel::find() primary_keys:" . print_r($primary_keys, true));
-
-    if (isset($primary_keys)) $this->findHasModelesData($datas, $primary_keys);
-
+    if (count($primary_keys) > 0) {
+      $this->debug->log("BaseModel::find() [".$this->model_name."]primary_keys:" . print_r($primary_keys, true));
+      $this->findHasModelesData($datas, $primary_keys);
+    }
     $this->debug->log("BaseModel::find() datas:".print_r($datas, true));
 
     return $datas;
@@ -125,16 +84,6 @@ class BaseModel {
         $this->debug->log("BaseModel::findHasModelesData() setDatas:".print_r($setDatas, true));
         $this->debug->log("BaseModel::findHasModelesData() ---------------------:");
         $this->setHasModelDatas($model_name, $options['foreign_key'],$datas, $setDatas, $primary_keys);
-      }
-    }
-  }
-
-  public function setHasModelDatas($model_name, $foreign_key_name,&$datas, $setDatas, $primary_keys) {
-    foreach ($primary_keys as $primary_key) {
-      foreach ($setDatas as $setData) {
-        if ($setData[$model_name][$foreign_key_name] == $primary_key) {
-          $datas[$setData[$model_name][$foreign_key_name]][$this->model_name][$model_name][] = $setData[$model_name];
-        }
       }
     }
   }
@@ -183,8 +132,6 @@ class BaseModel {
     if($this->limit_num > 0) $sql .= " LIMIT " . $this->limit_num ." "; 
     if($this->offset_num > 0) $sql .= " OFFSET " . $this->offset_num . " ";
 
-    $this->debug->log("BaseModel::createCondition() sql:".$sql);
-
     return $sql;
   }
 
@@ -199,7 +146,6 @@ class BaseModel {
       }
       $cond_tmp =  " " . $condition['column_name'];
       $cond_tmp .= " " . $condition['operator'];
-      $this->debug->log("BaseModel::createCondition() value:".$condition['value']);
       $cond_tmp .= " " . $condition['value'] . " ";
       $cond .= $cond ? " and " . $cond_tmp : $cond_tmp;
     }
@@ -209,70 +155,61 @@ class BaseModel {
     return $cond;
   }
 
-  protected function setValue($key, $value){
-    $type = $this->columns[$key]['type'];
-    if (is_array($value)) {
-      if ($type == 'SET') {
-        $val_tmp = '';
-        foreach ($value as $key => $val) {
-          $val = mysql_escape_string($val);
-          $val .= htmlspecialchars($val, ENT_QUOTES);
-          $val_tmp .= $val_tmp ? $val_tmp : ", " . $val_tmp;
+  public function where($column_name, $operator, $value) {
+    $this->conditions[] = array(
+      'column_name' => $column_name, 
+      'operator' => $operator, 
+      'value' => $value, 
+    );
+    return $this;
+  }
+
+  public function limit($limit_num) {
+    if (!is_int($limit_num)) throw new Exception("Error Processing Request", 1);
+    $this->limit_num = $limit_num;
+    return $this;
+  }
+
+  public function setMaxRows($max_rows) {
+    if (!is_int($max_rows)) throw new Exception("Error Processing Request", 1);
+    if ($max_rows > 0) $this->max_rows = $max_rows;
+    return $this;
+  }
+
+  public function offset($offset_num) {
+    if (!is_int($offset_num)) throw new Exception("Error Processing Request", 1);
+    $this->offset_num = $offset_num;
+    return $this;
+  }
+
+  public function pagenate($page){
+    if (!is_int($page)) throw new Exception("Error Processing Request", 1);
+    if ($page > 0 && $this->max_rows > 0) {
+      $this->limit_num = $this->max_rows * $page; 
+      $this->offset_num = $this->max_rows * ($page - 1); 
+    }
+    return $this;
+  }
+
+  public function asc($asc){
+    $this->ascs[] = $this->ascs ? ", ASC " . $this->model_name . "." . $asc :  " DESC " . $this->model_name . "." . $asc;
+  }
+
+  public function desc($asc){
+    $this->descs[] = $this->descs ? ", DESC " . $this->model_name . "." . $asc :  " DESC " . $this->model_name . "." . $asc;
+  }
+
+  public function setHasModelDatas($model_name, $foreign_key_name,&$datas, $setDatas, $primary_keys) {
+    foreach ($primary_keys as $primary_key) {
+      foreach ($setDatas as $setData) {
+        if ($setData[$model_name][$foreign_key_name] == $primary_key) {
+          $datas[$setData[$model_name][$foreign_key_name]][$this->model_name][$model_name][] = $setData[$model_name];
         }
-        $value = $val_tmp;
       }
-    } else {
-      $value = mysql_escape_string($value);
-      $value .= htmlspecialchars($value, ENT_QUOTES);
-    }
-
-    switch ($type) {
-      case 'INT':
-      case 'TINYINT':
-      case 'SMALLINT':
-      case 'BIGINT':
-      case 'FLOAT':
-      case 'DOUBLE':
-        return $value;
-        break;
-      case 'SET':
-        return "'" . $value . "'";
-        break;
-      default:
-        return "'".$value."'";
-        break;
     }
   }
 
-  public function getColumnType($col_name) {
-    $this->debug->log("BaseModel::getColumnType() columns:" . print_r($this->columns, true));
-    $type = $this->columns[$col_name]['type'];
-    switch ($type) {
-      case 'INT':
-      case 'TINYINT':
-      case 'SMALLINT':
-      case 'BIGINT':
-        return PDO::PARAM_INT;
-        break;
-      case 'FLOAT':
-      case 'DOUBLE':
-        return PDO::PARAM_INT;
-        break;
-      case 'BOOL':
-        return PDO::PARAM_BOOL;
-        break;
-      case 'SET':
-      default:
-        return PDO::PARAM_STR;
-        break;
-    }
-
-  }
-
-  public function getColumns() {
-    return array_keys($this->columns);
-  }
-
+  //  新規登録・更新
   public function save($form) {
     try {
       $hssModels = [];
@@ -282,14 +219,8 @@ class BaseModel {
       if (isset($form[$this->model_name][$this->primary_key])) $sql = $this->createModifySql($form[$this->model_name]);  // CASE MODIFY
       else $sql = $this->createInsertSql();  // CASE INSERT
 
-      $this->debug->log("BaseModel::save() SQL:" . $sql);
-      $this->debug->log("BaseModel::save() form:".print_r($form, true));
-      $this->debug->log("BaseModel::save() model_name:" . $this->model_name);
-      $this->debug->log("BaseModel::save() has:" . print_r($this->has,  true));
-
       if($this->has){
         $hssModels = array_keys($this->has);
-        $this->debug->log("BaseModel::save() hssModels:" . print_r($hssModels, true));
       }
 
       $stmt = $this->dbh->prepare($sql);
@@ -298,15 +229,12 @@ class BaseModel {
           continue;
         }
         $colum_name = ":".$col_name;
-        $this->debug->log("BaseModel::save() col_name(2):" . $col_name .">>>>value:".print_r($value, true));
         switch ($col_name) {
           case 'created_at':
           case 'modified_at':
-            $this->debug->log("BaseModel::save() col_name(3):" . $col_name .">>>>value:".print_r($value, true));
             $stmt->bindParam($col_name, 'NOW()', PDO::PARAM_STR);
             break;
           default:
-            $this->debug->log("BaseModel::save() col_name(4):" . $col_name .">>>>value:".print_r($value, true));
             $stmt->bindValue($col_name, $value, $this->getColumnType($col_name));
             break;
         }
@@ -314,19 +242,15 @@ class BaseModel {
 
       $stmt->execute();
       $id = $this->dbh->lastInsertId($this->primary_key);
-      $this->debug->log("BaseModel::save() id:" . print_r($id, true));
       if (isset($form[$this->model_name])) {
         foreach ($form[$this->model_name] as $model_name => $value) {
           if ($hssModels && in_array($model_name, $hssModels)) {
             $array_keys = array_keys($value);
-            $this->debug->log("BaseModel::save() array_keys:".print_r($array_keys, true));
             if ($this->is_hash(array_keys($value))) {
               foreach ($value as $num => $val) {
-                $this->debug->log("BaseModel::save() value is hash");
                 $this->saveHasModel($model_name, $id, $val);
               }
             } else {
-              $this->debug->log("BaseModel::save() value is array");
               $this->saveHasModel($model_name, $id, $value);
             }
           } 
@@ -334,10 +258,7 @@ class BaseModel {
             continue;
         }
       }
-
-      $this->debug->log("BaseModel::save() stmt:" . print_r($stmt, true));
     } catch (Exception $e) {
-      $this->debug->log("BaseModel::save() error:" . $e->getMessage());
       throw new Exception($e->getMessage(), 1);
     }
   }
@@ -381,16 +302,100 @@ class BaseModel {
     $obj->save($f);
   }
 
+  //  削除
+
+  //  共通
+  protected function setValue($key, $value){
+    $type = $this->columns[$key]['type'];
+    if (is_array($value)) {
+      if ($type == 'SET') {
+        $val_tmp = '';
+        foreach ($value as $key => $val) {
+          $val = mysql_escape_string($val);
+          $val .= htmlspecialchars($val, ENT_QUOTES);
+          $val_tmp .= $val_tmp ? $val_tmp : ", " . $val_tmp;
+        }
+        $value = $val_tmp;
+      }
+    } else {
+      $value = mysql_escape_string($value);
+      $value .= htmlspecialchars($value, ENT_QUOTES);
+    }
+
+    switch ($type) {
+      case 'INT':
+      case 'TINYINT':
+      case 'SMALLINT':
+      case 'BIGINT':
+      case 'FLOAT':
+      case 'DOUBLE':
+        return $value;
+        break;
+      case 'SET':
+        return "'" . $value . "'";
+        break;
+      default:
+        return "'".$value."'";
+        break;
+    }
+  }
+
+  public function getColumnType($col_name) {
+    $type = $this->columns[$col_name]['type'];
+    switch ($type) {
+      case 'INT':
+      case 'TINYINT':
+      case 'SMALLINT':
+      case 'BIGINT':
+        return PDO::PARAM_INT;
+        break;
+      case 'FLOAT':
+      case 'DOUBLE':
+        return PDO::PARAM_INT;
+        break;
+      case 'BOOL':
+        return PDO::PARAM_BOOL;
+        break;
+      case 'SET':
+      default:
+        return PDO::PARAM_STR;
+        break;
+    }
+  }
+
+  public function delete($id){
+    $this->debug->log("BaseModel::delete() has:".print_r($this->has, true));
+    //  隷属するモデルを先に検索・削除する。
+    if (isset($this->has)) {
+      foreach ($this->has as $model_name => $value) {
+        $model_class_name = $model_name . "Model" ;
+        $this->debug->log($model_class_name."::delete()");
+        $obj = new $model_class_name($this->dbh);
+        $datas = $obj->where($value['foreign_key'] , '=', $id)->find();
+        foreach ($datas as $key => $data) {
+          $obj->delete($data[$model_name][$obj->primary_key]);
+        }
+      }
+    }
+
+    $sql = "DELETE FROM " . $this->table_name . " WHERE " . $this->primary_key . "=:" . $this->primary_key;
+    $this->debug->log("BaseModel::delete() sql[".$sql."] id[".$id."]");
+    $stmt = $this->dbh->prepare($sql);
+    $stmt->bindValue($this->primary_key, $id, $this->getColumnType($this->primary_key));
+    $stmt->execute();
+  }
+
+  public function getColumns() {
+    return array_keys($this->columns);
+  }
+
   public function validation($form) {
     // $this->form
   }
 
   public function is_hash($data) {
-    $this->debug->log("BaseModel::is_hash() CH-01");
     if (is_array($data)){
-      $this->debug->log("BaseModel::is_hash() CH-02");
       foreach ($data as $key => $value) {
-        $this->debug->log("BaseModel::is_hash() value:".$value);
         if (!is_numeric($value)) continue;
         else return true;
       }
