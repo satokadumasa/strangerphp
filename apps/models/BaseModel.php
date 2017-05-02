@@ -7,7 +7,7 @@ class BaseModel {
   // public $model_name  = null;
   // public $belongthTo  = null;
   // public $has         = null;
-
+  // public $has_many_and_belongs_to = null;
   protected $conditions = [];
   protected $ascs = null;
   protected $descs = null;
@@ -42,7 +42,7 @@ class BaseModel {
   }
 
   // 検索関連
-  public function find($type = 'first') {
+  public function find($type = 'all') {
     $datas = [];
     $primary_keys = [];
 
@@ -60,30 +60,68 @@ class BaseModel {
         $data[$model_name][$col_name]= $row[$column_name];
       }
 
-      $this->debug->log("BaseModel::find() data:" . print_r($data, true));
+      // $this->debug->log("BaseModel::find() data:" . print_r($data, true));
       if (array_search($data[$this->model_name][$this->primary_key], $primary_keys)) continue;
 
       $primary_keys[] = $data[$this->model_name][$this->primary_key];
       $datas[$data[$this->model_name][$this->primary_key]] = $data;
     }
     if (count($primary_keys) > 0) {
-      $this->debug->log("BaseModel::find() [".$this->model_name."]primary_keys:" . print_r($primary_keys, true));
-      $this->findHasModelesData($datas, $primary_keys);
+      // $this->debug->log("BaseModel::find() [".$this->model_name."]primary_keys:" . print_r($primary_keys, true));
+      if ($this->has){
+        $this->findHasModelesData($datas, $this->has, $primary_keys);
+      }
+      if ($this->has_many_and_belongs_to) {
+        $this->findHasManyAndBelongsTo($datas, $primary_keys);
+      }
     }
-    $this->debug->log("BaseModel::find() datas:".print_r($datas, true));
+    // $this->debug->log("BaseModel::find() datas:".print_r($datas, true));
 
+    if ($type === 'first') {
+      $datas = $datas[0];
+      // $this->debug->log("BaseModel::find() datas(2):".print_r($datas, true));
+    }
     return $datas;
   }
 
-  public function findHasModelesData(&$datas, $primary_keys = null) {
-    if ($this->has) {
-      foreach ($this->has as $model_name => $options) {
-        $model_class_name = $model_name."Model";
-        $obj = new $model_class_name($this->dbh);
-        $setDatas = $obj->where($options['foreign_key'], 'IN', $primary_keys)->find();
-        $this->debug->log("BaseModel::findHasModelesData() setDatas:".print_r($setDatas, true));
-        $this->debug->log("BaseModel::findHasModelesData() ---------------------:");
-        $this->setHasModelDatas($model_name, $options['foreign_key'],$datas, $setDatas, $primary_keys);
+  public function findHasModelesData(&$datas, $has = null, $primary_keys = null) {
+    foreach ($has as $model_name => $options) {
+      $model_class_name = $model_name."Model";
+      $obj = new $model_class_name($this->dbh);
+      $setDatas = $obj->where($options['foreign_key'], 'IN', $primary_keys)->find();
+      $this->debug->log("BaseModel::findHasModelesData() setDatas:".print_r($setDatas, true));
+      $this->setHasModelDatas($model_name, $options['foreign_key'],$datas, $setDatas, $primary_keys);
+    }
+  }
+
+  public function findHasManyAndBelongsTo(&$datas, $primary_keys = null) 
+  {
+    foreach ($this->has_many_and_belongs_to as $hasModeName => $options) 
+    {
+      $belongth_to_model_name = $options['through'];
+      $belongth_to_model_class_name = $belongth_to_model_name."Model";
+      $belongth_to_model_class_instance = new $belongth_to_model_class_name($this->dbh);
+      $setDatas = $belongth_to_model_class_instance->where($options['foreign_key'], 'IN', $primary_keys)->find();
+      $this->debug->log("BaseModel::findHasManyAndBelongsTo() setDatas:" . print_r($setDatas, true));
+      $this->debug->log("BaseModel::findHasManyAndBelongsTo() hasModeName:" . $hasModeName);
+
+      foreach ($belongth_to_model_class_instance->belongthTo as $model_name => $value) 
+      {
+        if ($hasModeName === $model_name) 
+        {
+          foreach ($primary_keys as $primary_key) {
+            foreach ($setDatas as $setData) {
+              $this->debug->log("BaseModel::findHasManyAndBelongsTo() belongth_to_model_name:".$belongth_to_model_name);
+              $this->debug->log("BaseModel::findHasManyAndBelongsTo() hasModeName:".$hasModeName);
+              $this->debug->log("BaseModel::findHasManyAndBelongsTo() setData:".print_r($setData, true));
+              $this->debug->log("BaseModel::findHasManyAndBelongsTo() key1:".$setData[$this->model_name][$this->primary_key]);
+              $this->debug->log("BaseModel::findHasManyAndBelongsTo() key2:". $primary_key);
+              if ($setData[$this->model_name][$this->primary_key] == $primary_key) {
+                $datas[$setData[$this->model_name][$this->primary_key]][$this->model_name][$model_name][] = $setData[$model_name];
+              }
+            }
+          }
+        }
       }
     }
   }
@@ -222,10 +260,15 @@ class BaseModel {
       if($this->has){
         $hssModels = array_keys($this->has);
       }
-
+      if ($this->has_many_and_belongs_to) {
+        $hasManyAndBelongsToModels = array_keys($this->has_many_and_belongs_to);
+      }
       $stmt = $this->dbh->prepare($sql);
       foreach ($form[$this->model_name] as $col_name => $value) {
         if ($hssModels && in_array($col_name, $hssModels)) {
+          continue;
+        }
+        if ($hasManyAndBelongsToModels && in_array($col_name, $hasManyAndBelongsToModels)) {
           continue;
         }
         $colum_name = ":".$col_name;
@@ -241,6 +284,7 @@ class BaseModel {
       }
 
       $stmt->execute();
+      //  従属モデルへのセーブ処理
       $id = $this->dbh->lastInsertId($this->primary_key);
       if (isset($form[$this->model_name])) {
         foreach ($form[$this->model_name] as $model_name => $value) {
@@ -248,7 +292,12 @@ class BaseModel {
             $array_keys = array_keys($value);
             if ($this->is_hash(array_keys($value))) {
               foreach ($value as $num => $val) {
-                $this->saveHasModel($model_name, $id, $val);
+                if ($hssModels && in_array($model_name, $hssModels)) {
+                  $this->saveHasModel($model_name, $id, $val);
+                }
+                else if ($hasManyAndBelongsToModels && in_array($model_name, $hasManyAndBelongsToModels)) {
+                  $this->saveHasModel($model_name, $id, $val);
+                }
               }
             } else {
               $this->saveHasModel($model_name, $id, $value);

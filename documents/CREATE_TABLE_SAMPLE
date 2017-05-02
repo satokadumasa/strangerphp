@@ -1,0 +1,16 @@
+CREATE TABLE IF NOT EXISTS `user_dvds` (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  user_id INT UNSIGNED NOT NULL,
+  dvd_id INT UNSIGNED NOT NULL,
+  created_at datetime NOT NULL,
+  modified_at datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE INDEX index_user_dvd_id_and_user_id_and_dvd_id ON user_dvds (user_id,dvd_id);
+
+CREATE TABLE IF NOT EXISTS `dvds` (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name varchar(128) NOT NULL,
+  created_at datetime NOT NULL,
+  modified_at datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE INDEX index_dvd_id_and_name ON dvds (name);

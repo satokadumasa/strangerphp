@@ -19,6 +19,8 @@ class BooksController extends BaseController{
 
   public function show() {
     $this->debug->log("BooksController::show()");
+    $datas = null;
+    echo "datas:".print_r($datas, true);
   }
 
   public function create() {

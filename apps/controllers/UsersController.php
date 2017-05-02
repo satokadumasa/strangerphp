@@ -7,12 +7,15 @@ class UsersController extends BaseController{
   public function index() {
     echo "UsersController::index() dbh:".var_dump($this->dbh, true)."<br>";
     $user = new UserModel($this->dbh);
-    $users = $user->where('User.id', '>', 1)->limit(10)->offset(0)->find();
+    $this->debug->log("UsersController::index() has_many_and_belongs_to:".print_r($user->has_many_and_belongs_to, true));
+    $users = $user->where('User.id', '>', 1)->limit(10)->offset(0)->find('all');
     foreach ($users as $user) {
       echo "Users:".$user['User']['id'].":".$user['User']['name']."<br>";
     }
 
+    $this->debug->log("UsersController::index() users:".print_r($users, true));
     echo "UsersController::index()<br>";
+    exit();
   }
 
   public function show() {

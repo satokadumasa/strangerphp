@@ -16,7 +16,6 @@ class BaseController {
     $this->dbConnect = new DbConnect();
     $this->dbConnect->setConnectionInfo($default_database);
     $this->dbh = $this->dbConnect->createConnection();
-    // $_POST['Users.dada'] = 'sdasdasd';
     
     $this->setRequest($uri, $url);
   }
@@ -45,10 +44,6 @@ class BaseController {
     }
     $this->debug->log("BaseController::getRequestValues() request".print_r($this->request, true));
   }
-
-  // public function h($str) {
-  //   return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
-  // }
 
   /**
    * 指定された階層にある値を設定します。

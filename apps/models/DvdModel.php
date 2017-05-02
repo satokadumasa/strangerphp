@@ -1,18 +1,15 @@
 <?php
-class UserModel extends BaseModel {
-  public $table_name  = 'users';
-  public $model_name  = 'User';
-  public $model_class_name  = 'UserModel';
+class DvdModel extends BaseModel {
+  public $table_name  = 'dvds';
+  public $model_name  = 'Dvd';
+  public $model_class_name  = 'DvdModel';
   public $belongthTo  = null;
-  public $has = array(
-    'Book' => array(
-      'foreign_key' => 'user_id', 
-    ),
-  );
+  public $has = null;
+
   public $has_many_and_belongs_to = array(
-    'Dvd' => array(
+    'User' => array(
       'through' => 'UserDvd',
-      'foreign_key' => 'user_id',
+      'foreign_key' => 'dvd_id',
     ),
   );
 
