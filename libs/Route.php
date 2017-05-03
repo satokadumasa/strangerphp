@@ -71,6 +71,9 @@ class Route {
         $key = str_replace($k, $v, $key);
       }
       $pattern = "/".$key."/";
+      if (preg_match('/css/', $url)) {
+        return;
+      }
       if (preg_match($pattern, $url)) {
         $value['uri'] = $uri;
         $this->debug->log("Route::findRoute() value:".$key.">>>>value:".print_r($value, true));

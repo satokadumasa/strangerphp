@@ -13,6 +13,7 @@ class BookModel extends BaseModel {
   );
 
   public $has = null;
+  public $has_many_and_belongs_to = null;
 
   public $columns = array(
     'id' => array('type' => 'int', 'length' => 8, 'null' => false, 'key' => 'PRI', 'default' => null, ), 

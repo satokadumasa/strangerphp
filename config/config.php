@@ -17,6 +17,7 @@ define('_ACTION', '([A-Z].*)');
 // define('YEAR', '\d{4}');
 // define('MONTH', '\d{2}');
 // define('MDAY', '\d{2}');
+define('SP_TAG', '##');
 
 define('PRODUCTION', 1);
 define('DEVELOPEMENT', 3);

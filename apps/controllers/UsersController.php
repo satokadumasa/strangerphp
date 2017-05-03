@@ -2,25 +2,31 @@
 class UsersController extends BaseController{
   public function __construct($default_database, $uri, $url = null) {
     parent::__construct($default_database, $uri, $url);
+    $this->controller_class_name = str_replace('Controller', '', get_class($this));;
   }
 
   public function index() {
-    echo "UsersController::index() dbh:".var_dump($this->dbh, true)."<br>";
     $user = new UserModel($this->dbh);
-    $this->debug->log("UsersController::index() has_many_and_belongs_to:".print_r($user->has_many_and_belongs_to, true));
-    $users = $user->where('User.id', '>', 1)->limit(10)->offset(0)->find('all');
+    $limit = 10 * (isset($this->request['page']) ? $this->request['page'] : 1);
+    $offset = 10 * (isset($this->request['page']) ? $this->request['page'] - 1 : 0);
+    $users = $user->where('User.id', '>', 0)->limit($limit)->offset($offset)->find('all');
     foreach ($users as $user) {
       echo "Users:".$user['User']['id'].":".$user['User']['name']."<br>";
     }
 
     $this->debug->log("UsersController::index() users:".print_r($users, true));
-    echo "UsersController::index()<br>";
-    exit();
   }
 
   public function show() {
-    echo "UsersController::show()<br>";
     $this->debug->log("UsersController::index() requestValues".print_r($this->request, true));
+    $id = $this->request['id'];
+    $user = new UserModel($this->dbh);
+    $datas = $user->where('User.id', '=', $id)->find('first');
+
+    // echo "Users:".$users['User']['id'].":".$users['User']['name']."<br>";
+
+    // echo "UsersController::show()<br>";
+    $this->set('datas', $datas);
   }
 
   public function create() {

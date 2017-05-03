@@ -7,6 +7,11 @@ class BaseController {
   protected $dbh = null;
   protected $dbConnect = null;
   protected $request = [];
+  protected $view = null;
+  protected $datas = [];
+
+  public $action = null;
+  public $controller_class_name = null;
 
   public function __construct($default_database, $uri, $url) {
     $this->error_log = new Logger('ERROR');
@@ -18,6 +23,7 @@ class BaseController {
     $this->dbh = $this->dbConnect->createConnection();
     
     $this->setRequest($uri, $url);
+    $this->view = new View();
   }
 
   public function setRequest($uri, $url) {
@@ -46,6 +52,41 @@ class BaseController {
   }
 
   /**
+   *
+   */
+  public function setAction($action) {
+    $this->action = $action;
+  }
+
+  /**
+   *
+   */
+  public function before() {
+    $this->debug->log("BaseController::befor()");
+  }
+
+  /**
+   *
+   */
+  public function after() {
+    $this->debug->log("BaseController::after()");
+  }
+
+  /**
+   *
+   */
+  protected function set($key, $data){
+    $this->datas[$key] = $data;
+  }
+
+  /**
+   *
+   */
+  public function render(){
+    $this->view->render($this->controller_class_name, $this->action, $this->datas);
+  }
+
+  /**
    * 指定された階層にある値を設定します。
    *
    * @param   array   $array  配列
@@ -71,6 +112,7 @@ class BaseController {
       return $array;
   }
   */
+
   private function perseKey($key, $value) {
     // $this->debug->log("BaseController::perseKey() key(array)".$key);
     // $keys = explode('::', $key);

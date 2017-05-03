@@ -8,7 +8,6 @@ class Dispatcher {
     $this->error_log = new Logger('ERROR');
     $this->info_log = new Logger('INFO');
     $this->debug = new Logger('DEBUG');
-    $this->debug->log("Dispatcher::__construct()");
   }
 
   public function dispatcheController() {
@@ -21,9 +20,13 @@ class Dispatcher {
     $this->debug->log("Dispatcher::__construct() POST:".print_r($_POST, true).":");
     $this->debug->log("Dispatcher::__construct() GET:".print_r($_GET, true).":");
     $this->debug->log("Dispatcher::__construct() route:".print_r($route, true).":");
-    echo "Dispatcher::__construct() controller:".$controller_name."<br>";
     $controller = new $controller_name($this->default_database, $route['uri'], $_SERVER['REQUEST_URI']);
+    $controller->setAction($route['action']);
+    $controller->before();
     $controller->$route['action']();
+    $controller->after();
+    $controller->render();
+    exit();
   }
 
   // private function 
