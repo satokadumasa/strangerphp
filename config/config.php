@@ -13,10 +13,6 @@ define('HELPER_PATH', APP_PATH . 'helpers/');
 
 define('_CONTROLLER', '([A-Z].*)');
 define('_ACTION', '([A-Z].*)');
-// define('ID', '\d');
-// define('YEAR', '\d{4}');
-// define('MONTH', '\d{2}');
-// define('MDAY', '\d{2}');
 define('SP_TAG', '##');
 
 define('PRODUCTION', 1);

@@ -6,13 +6,24 @@ class UsersController extends BaseController{
   }
 
   public function index() {
+    // preg_match_all("|<!----(.*)---->|U",
+    // "<div><!----UserList:1:name----></div>sasdad<div><!----UserList:2:name----></div>adddd<div align=left>this is a test</div>ddd<div><!----UserList:3:name----></div>",
+    // $out);
+    // echo "string:" . print_r($out, true)."<br>";
+    // preg_match_all("|<!----(.*)---->|U",
+    // "<div><!---UserList:1:name---></div>sasdad<div><!---UserList:2:name---></div>adddd<div align=left>this is a test</div>ddd<div><!---UserList:3:name---></div>",
+    // $out);
+    // if (count($out[1])) echo "string:" . print_r($out, true)."<br>";
+    // exit();
     $user = new UserModel($this->dbh);
     $limit = 10 * (isset($this->request['page']) ? $this->request['page'] : 1);
     $offset = 10 * (isset($this->request['page']) ? $this->request['page'] - 1 : 0);
     $users = $user->where('User.id', '>', 0)->limit($limit)->offset($offset)->find('all');
-    foreach ($users as $user) {
-      echo "Users:".$user['User']['id'].":".$user['User']['name']."<br>";
-    }
+    // foreach ($users as $user) {
+    //   echo "Users:".$user['User']['id'].":".$user['User']['name']."<br>";
+    // }
+    $this->set('User', $users);
+
 
     $this->debug->log("UsersController::index() users:".print_r($users, true));
   }
@@ -22,10 +33,7 @@ class UsersController extends BaseController{
     $id = $this->request['id'];
     $user = new UserModel($this->dbh);
     $datas = $user->where('User.id', '=', $id)->find('first');
-
-    // echo "Users:".$users['User']['id'].":".$users['User']['name']."<br>";
-
-    // echo "UsersController::show()<br>";
+    $this->set('title', 'ユーザー情報詳細');
     $this->set('datas', $datas);
   }
 

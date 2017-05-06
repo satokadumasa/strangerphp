@@ -26,9 +26,9 @@ DIV.t {
 </head>
 <body>
 デフォルトレイアウト<br>
-<!----renderpartial:common/top_menu:top_menu---->
-<!----renderpartial:common/side_menu:side_menu---->
-<!----renderpartial:CONTROLLER/ACTION:datas---->
-<!----renderpartial:common/footer:footer---->
+    <!----renderpartial:common/top_menu:top_menu---->
+    <!----renderpartial:common/side_menu:side_menu---->
+    <!----renderpartial:CONTROLLER/ACTION:datas---->
+    <!----renderpartial:common/footer:footer---->
 </body>
 </html>

@@ -1,0 +1,16 @@
+<div>
+  <div>
+    <div>
+      ユーザー一覧
+    </div>
+    <div>
+      <!----iteratior:User:start---->
+      <div>
+        <div><!----User:id----></div>
+        <div><!----User:name----></div>
+        <div><!----User:created_at----></div>
+      </div>
+      <!----iteratior:User:end---->
+    </div>
+  </div>
+</div>
