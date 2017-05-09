@@ -14,6 +14,7 @@ class BooksController extends BaseController{
     foreach ($books as $book) {
       echo "Users:".$book['Book']['id'].":".$book['Book']['name'].":".$book['User']['id'].":".$book['User']['name']."<br>";
     }
+    $this->debug->log("BooksController::index() books:".print_r($books, true));
     $this->debug->log("BooksController::index() request:".print_r($this->request, true));
     echo "UsersController::index()<br>";
   }

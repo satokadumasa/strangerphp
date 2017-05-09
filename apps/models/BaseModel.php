@@ -103,7 +103,7 @@ class BaseModel {
           foreach ($primary_keys as $primary_key) {
             foreach ($setDatas as $setData) {
               if ($setData[$this->model_name][$this->primary_key] == $primary_key) {
-                $datas[$setData[$this->model_name][$this->primary_key]][$this->model_name][$model_name][] = $setData[$model_name];
+                $datas[$setData[$this->model_name][$this->primary_key]][$this->model_name][$model_name][][$model_name] = $setData[$model_name];
               }
             }
           }
@@ -227,7 +227,7 @@ class BaseModel {
     foreach ($primary_keys as $primary_key) {
       foreach ($setDatas as $setData) {
         if ($setData[$model_name][$foreign_key_name] == $primary_key) {
-          $datas[$setData[$model_name][$foreign_key_name]][$this->model_name][$model_name][] = $setData[$model_name];
+          $datas[$setData[$model_name][$foreign_key_name]][$this->model_name][$model_name][][$model_name] = $setData[$model_name];
         }
       }
     }

@@ -19,9 +19,8 @@ class UsersController extends BaseController{
     $limit = 10 * (isset($this->request['page']) ? $this->request['page'] : 1);
     $offset = 10 * (isset($this->request['page']) ? $this->request['page'] - 1 : 0);
     $users = $user->where('User.id', '>', 0)->limit($limit)->offset($offset)->find('all');
-    // foreach ($users as $user) {
-    //   echo "Users:".$user['User']['id'].":".$user['User']['name']."<br>";
-    // }
+
+    $this->set('Title', 'ユーザー情報詳細');
     $this->set('User', $users);
 
 
@@ -33,16 +32,16 @@ class UsersController extends BaseController{
     $id = $this->request['id'];
     $user = new UserModel($this->dbh);
     $datas = $user->where('User.id', '=', $id)->find('first');
-    $this->set('title', 'ユーザー情報詳細');
+    $this->set('Title', 'ユーザー情報詳細');
     $this->set('datas', $datas);
   }
 
   public function create() {
     try {
+      echo "UsersController::create()<br>";
       $this->dbh->beginTransaction();
       $user = new UserModel($this->dbh);
       $user->save($this->request);
-      echo "UsersController::create()<br>";
       $this->dbh->commit();
     } catch (Exception $e) {
       $this->debug->log("UsersController::create() error:" . $e->getMessage());

@@ -6,9 +6,9 @@
     <div>
       <stg>iteratior:User:begin</stg>
       <div>
-        <div><stg>User::id</stg>></div>
-        <div><stg>User::name</stg>></div>
-        <div><stg>User::created_at</stg>></div>
+        <div><stg>User:id</stg>></div>
+        <div><stg>User:name</stg>></div>
+        <div><stg>User:created_at</stg>></div>
       </div>
       <!----iteratior:User:end---->
     </div>

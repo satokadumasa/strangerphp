@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>HTMLリファレンス</title>
+<title><!----value:Title----></title>
 <meta name="viewport" content="width:device-width,initial-scale=1.0">
 <link rel="stylesheet" href="/css/defoult.csss">
 <style type="text/css">
