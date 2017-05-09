@@ -74,9 +74,7 @@ class View {
         }
         else if (strpos($value, '<!----iteratior:') && strpos($value, ':start')) {
           //  イテレーター
-          $this->debug->log("View::framingView() iteratior:".$value);
           $keys = explode(':', $matchs[1][0]);
-          $this->debug->log("View::framingView() keys:".print_r($keys, true));
           /**
            *  イレーター処理メソッド呼び出し
            *
@@ -85,29 +83,11 @@ class View {
            *  file_context   :  テンプレートの内容
            */
           foreach ($datas[$keys[1]] as $data) {
-            $this->debug->log("View::framingView() iteratior:data:".print_r($data, true));
-            $this->viewIterator($i, $data, $file_context);
-            $this->debug->log("View::framingView() iteratior:data:i:".$i);
+            $ret = $this->viewIterator($i, $data, $file_context);
           }
-          // for(; $j < count($file_context); $j++) {
-          //   if (strpos($value, '<!----iteratior:') && strpos($value, ':end')) {
-          //     break;
-          //   }
-          // }
+          echo "View::framingView() iteratior:ret".$ret."<br>";
+          $i = $ret;
         }
-        /*
-        else {
-          $this->debug->log("View::framingView() others:".$value);
-          foreach ($matchs[1] as $k => $v) {
-            $arr = explode(':', $v);
-            $value_name = 'datas';
-            for($k = 1; $k < count($arr) ; $k++) {
-              $value_name .= "[".$arr[$k]."]";
-              $this->debug->log("View::framingView() value_name:".$value_name);
-            }
-          }
-        }
-        */
       }
       echo $value;
     }
@@ -149,15 +129,11 @@ class View {
       if (strpos($value, '<!----iteratior:') && strpos($value, ':start')) {
         //  イテレーター再帰呼び出し
         $keys = explode(':', $matchs[1][0]);
-        $this->debug->log("View::viewIterator() datas(2):".print_r($datas, true));
-        $this->debug->log("View::viewIterator() keys:".print_r($keys, true));
         if (isset($datas[$keys[1]][$keys[2]])) {
-          $this->debug->log("View::viewIterator() datas(3):".print_r($datas[$keys[1]][$keys[2]], true));
           foreach ($datas[$keys[1]][$keys[2]] as $data) {
-            $this->debug->log("View::viewIterator() data:".print_r($data, true));
             $ret = $this->viewIterator($j, $data, $file_context);
           }
-          // $j = $ret + 1;
+          $j = $ret;
         }
         else {
           for(; $j < count($file_context); $j++) {

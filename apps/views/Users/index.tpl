@@ -4,24 +4,26 @@
       ユーザー一覧
     </div>
     <div>
-      【User】<br>
+      ------------------------------<br>
       <!----iteratior:User:start---->
+      【User】<br>
       <div>
         <div>User.Id:<!----value:User:id----></div>
         <div>User.Name:<!----value:User:name----></div>
         <div>User.Created_at:<!----value:User:created_at----></div>
+        ---------------<br>
         <!----iteratior:User:Book:start---->
-        ---------------
         【Book】<br>
         <div>
           <div>Book.Id:<!----value:Book:id----></div>
           <div>Book.name:<!----value:Book:name----></div>
           <div>Book.created_at:<!----value:Book:created_at----></div>
         </div>
-        ---------------
         <!----iteratior:User:Book:end---->
+        ---------------<br>
       </div>
       <!----iteratior:User:end---->
+      ------------------------------<br>
     </div>
   </div>
 </div>
