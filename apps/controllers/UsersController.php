@@ -6,15 +6,6 @@ class UsersController extends BaseController{
   }
 
   public function index() {
-    // preg_match_all("|<!----(.*)---->|U",
-    // "<div><!----UserList:1:name----></div>sasdad<div><!----UserList:2:name----></div>adddd<div align=left>this is a test</div>ddd<div><!----UserList:3:name----></div>",
-    // $out);
-    // echo "string:" . print_r($out, true)."<br>";
-    // preg_match_all("|<!----(.*)---->|U",
-    // "<div><!---UserList:1:name---></div>sasdad<div><!---UserList:2:name---></div>adddd<div align=left>this is a test</div>ddd<div><!---UserList:3:name---></div>",
-    // $out);
-    // if (count($out[1])) echo "string:" . print_r($out, true)."<br>";
-    // exit();
     $user = new UserModel($this->dbh);
     $limit = 10 * (isset($this->request['page']) ? $this->request['page'] : 1);
     $offset = 10 * (isset($this->request['page']) ? $this->request['page'] - 1 : 0);

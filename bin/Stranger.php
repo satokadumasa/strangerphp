@@ -73,24 +73,20 @@ class Stranger {
       );
 
       if (count($matchs[1]) > 0) {
-        echo "value(0):".$value."\n";
-        echo "matchs:".print_r($matchs, true)."\n";
         if(strpos($value, '<!----class_name')) {
-          echo "value(1):".$value."\n";
           $value = str_replace('<!----class_name---->', $this->class_name, $value);
-          echo "value:(2)".$value."\n";
         }
         if(strpos($value, '<!----table_name')) {
           //  変数展開
-          echo "value(3):".$value."\n";
           $value = str_replace('<!----table_name---->', $this->table_name, $value);
-          echo "value(3):".$value."\n";
         }
-        if (strpos($value, <!----columns---->)) {
+        if (strpos($value, '<!----columns---->')) {
           $columns_str = "";
+          echo "argv count:".count($this->argv)."\n";
           for ($j = 4; $j < count($this->argv); $j++) {
-            $this->generateColumnsStr($this->argv[$j]);
+            $columns_str .= $this->generateColumnsStr($this->argv[$j]);
           }
+          $value = $columns_str;
         }
       }
       $fwrite = fwrite($fp, $value);
@@ -132,27 +128,57 @@ class Stranger {
    *  
    *  context   : 置換対象文字列
    *  matchs    : 置換対象キー文字列
-   *  
+   *  datas     : 置き換えデータ
    */
   protected function convertKeyToValue($context, $matchs, $datas){
-    foreach ($matchs as $v) {
-      $keys = explode(':', $v);
-      $arr_value = $datas[$keys[1]];
-      for($i = 2; $i < count($keys) ; $i++) {
-        $arr_value = $arr_value[$keys[$i]];
-      }
-      $search = '<!----'.$v.'---->';
-      $context = str_replace($search, $arr_value, $context);
+    foreach ($matchs as $match) {
+      $search = '<!----'.$match.'---->';
+      echo "search:".$search."\n";
+      echo "match:".$datas[$match]."\n";
+      $context = str_replace($search, $datas[$match], $context);
     }
+    echo "context:".$context."\n";
     return $context;
   }
 
+  /**
+   *  
+   *  
+   *  column_define :   
+   */
   protected function generateColumnsStr($column_define){
+    $columns_str = "";
     $arr = explode(':', $column_define);
-    $column_name = $arr[0];
-    $type = $arr[1];
-    $length = $arr[2] ? $arr[2] : 255;
-    $null_def = $arr[3] ? $arr[3] : 'false';
-    
+    echo "arr:".print_r($arr, true)."\n";
+    $datas = array(
+        'column_name' => $arr[0],
+        'type' => $arr[1],
+        'length' => isset($arr[2]) ? $arr[2] : 255,
+        'null' => isset($arr[3]) ? $arr[3] : 'false',
+        'key' => isset($arr[4]) ? $arr[4] : '',
+        'default' => isset($arr[5]) ? $arr[4] : 'null',
+      );
+
+    echo "datas:".print_r($datas, true)."\n";
+
+    $template_fileatime = SCAFFOLD_TEMPLATE_PATH."/models/parts/column.tpl";
+    $file_context = file($template_fileatime);
+    for($i = 0; $i < count($file_context); $i++) {
+      $value = $file_context[$i];
+      preg_match_all(
+        "<!----(.*)---->",
+        $value,
+        $matchs
+      );
+      if (count($matchs[1]) > 0){
+        $columns_str .= $this->convertKeyToValue($value, $matchs[1], $datas);
+      }
+      else {
+        $columns_str .= $value ;
+      }
+    }
+
+    echo "columns_str:".$columns_str."\n";
+    return $columns_str;
   }
 }

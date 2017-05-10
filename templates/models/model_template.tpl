@@ -10,6 +10,7 @@ class <!----class_name---->Model extends BaseModel {
   public $has_many_and_belongs_to = null;
 
   public $columns = array(
+    'id' => array('type' => 'int', 'length' => 8, 'null' => false, 'key' => 'PRI', 'default' => null, ), 
     <!----columns---->
     'created_at' => array('type' => 'datetime', 'length' => 19, 'null' => false, 'key' => 'PRI', 'default' => null, ), 
     'modified_at' => array('type' => 'datetime', 'length' => 19, 'null' => false, 'key' => 'PRI', 'default' => null, ), 
