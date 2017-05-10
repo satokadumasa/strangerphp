@@ -29,6 +29,8 @@ class Stranger {
     $this->debug->log("Stranger::exec argv:".print_r($this->argv, true));
     $this->table_name = $this->argv[3];
     $this->class_name = StringUtil::convertTableNameToClassName($this->table_name);
+
+    $this->modelGenerate();
   }
 
   //  generate scaffold
@@ -58,22 +60,37 @@ class Stranger {
     //  テンプレートファイル名作成 
     $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/models/model_template.tpl';
     //  出力先ファイルを開く  
-    $fp = fopen("c:\\folder\\resource.txt", "w");
+    $fp = fopen(MODEL_PATH ."/" . $this->class_name . "Model.php", "w");
     //  テンプレートファイル読み込み
     $file_context = file($template_fileatime);
     for($i = 0; $i < count($file_context); $i++) {
       $value = $file_context[$i];
-      $value = str_replace('¥n', '', $value);
       //  展開先の取得
       preg_match_all(
         "<!----(.*)---->",
         $value,
         $matchs
       );
+
       if (count($matchs[1]) > 0) {
-        if(strpos($value, '<!----class_name:') || strpos($value, '<!----table_name:')) {
+        echo "value(0):".$value."\n";
+        echo "matchs:".print_r($matchs, true)."\n";
+        if(strpos($value, '<!----class_name')) {
+          echo "value(1):".$value."\n";
+          $value = str_replace('<!----class_name---->', $this->class_name, $value);
+          echo "value:(2)".$value."\n";
+        }
+        if(strpos($value, '<!----table_name')) {
           //  変数展開
-          $value = $this->convertKeyToValue($value, $matchs[1], $datas);
+          echo "value(3):".$value."\n";
+          $value = str_replace('<!----table_name---->', $this->table_name, $value);
+          echo "value(3):".$value."\n";
+        }
+        if (strpos($value, <!----columns---->)) {
+          $columns_str = "";
+          for ($j = 4; $j < count($this->argv); $j++) {
+            $this->generateColumnsStr($this->argv[$j]);
+          }
         }
       }
       $fwrite = fwrite($fp, $value);
@@ -128,5 +145,14 @@ class Stranger {
       $context = str_replace($search, $arr_value, $context);
     }
     return $context;
+  }
+
+  protected function generateColumnsStr($column_define){
+    $arr = explode(':', $column_define);
+    $column_name = $arr[0];
+    $type = $arr[1];
+    $length = $arr[2] ? $arr[2] : 255;
+    $null_def = $arr[3] ? $arr[3] : 'false';
+    
   }
 }
