@@ -4,7 +4,8 @@ class ClassLoader {
     $scan_dir_list = array(
       CONTROLLER_PATH,
       MODEL_PATH,
-      LIB_PATH
+      LIB_PATH,
+      BIN_PATH,
     );
     $class = str_replace("\\", "/", $class);
     foreach ($scan_dir_list as $scan_dir) {

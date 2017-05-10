@@ -18,20 +18,12 @@ class View {
 
   public function render($controller_class_name, $action, $datas){
     $this->layout = VIEW_TEMPLATE_PATH . "/Layout/" . $this->layout . ".tpl";
-    // $this->debug->log("View::render() layout:" . $this->layout);
     $this->framingView($datas , $this->layout, $controller_class_name, $action);
   }
 
   protected function framingView($datas, $fileatime, $controller_class_name = null, $action = null) {
-    echo "TPL:" . $fileatime ."<br>";
-    $this->debug->log("View::framingView() datas:".print_r($datas, true));
     $file_context = file($fileatime);
-    // $this->debug->log("View::render() datas:" . print_r($datas, true));
-    // $this->debug->log("View::render() file_context:" . print_r($file_context, true));
-
-    // foreach ($file_context as $key => $value) {
     for($i = 0; $i < count($file_context); $i++) {
-      // $this->debug->log("View::framingView() value:" . $value);
       $value = $file_context[$i];
       $value = str_replace('¥n', '', $value);
       //  展開先の取得
@@ -41,11 +33,9 @@ class View {
         $matchs
       );
       if (count($matchs[1]) > 0) {
-        $this->debug->log("View::framingView() matchs:".print_r($matchs, true));
         if (strpos($value, '!----renderpartial') > 0) {
           //  部分テンプレート読み込み  
           $renderpartial = $matchs[1][0];
-          $this->debug->log("View::framingView() renderpartial:".$matchs[1][0]);
           if (strpos($value, 'CONTROLLER/ACTION') > 0) {
             if (isset($action)) {
               $renderpartial = str_replace('ACTION', $action, $renderpartial);
@@ -69,8 +59,6 @@ class View {
           ) 
           */
           $value = $this->convertKeyToValue($value, $matchs[1], $datas);
-          $this->debug->log("View::framingView() value:".$value);
-
         }
         else if (strpos($value, '<!----iteratior:') && strpos($value, ':start')) {
           //  イテレーター
@@ -85,7 +73,6 @@ class View {
           foreach ($datas[$keys[1]] as $data) {
             $ret = $this->viewIterator($i, $data, $file_context);
           }
-          echo "View::framingView() iteratior:ret".$ret."<br>";
           $i = $ret;
         }
       }
@@ -94,17 +81,17 @@ class View {
   }
 
   /**
+   *  キー置換メソッド
+   *  
    *  context   : 置換対象文字列
+   *  matchs    : 置換対象キー文字列
    *  
    */
   protected function convertKeyToValue($context, $matchs, $datas){
-    $this->debug->log("View::convertKeyToValue() datas:".print_r($datas, true));
     foreach ($matchs as $v) {
       $keys = explode(':', $v);
-      $this->debug->log("View::convertKeyToValue() v:".print_r($v, true));
       $arr_value = $datas[$keys[1]];
       for($i = 2; $i < count($keys) ; $i++) {
-        $this->debug->log("View::convertKeyToValue() keys[$i]:".print_r($keys[$i], true));
         $arr_value = $arr_value[$keys[$i]];
       }
       $search = '<!----'.$v.'---->';
@@ -112,9 +99,15 @@ class View {
     }
     return $context;
   }
+
+  /**
+   *  イテレータ表示機能
+   *  
+   *  i     : Line counter
+   *  datas : 表示用データ  
+   *  file_context  : テンプレート内容  
+   */
   public function viewIterator($i, $datas, $file_context) {
-    $this->debug->log("View::viewIterator() datas:".print_r($datas, true));
-    $this->debug->log("View::viewIterator() file_context[$i]:".$file_context[$i]);
     $iterator = [];
     $keys = [];
     $j = 0;
@@ -150,7 +143,6 @@ class View {
         break;
       }
       else if (strpos($value, '<!----value:')){
-        $this->debug->log("View::viewIterator() matchs[1]:".print_r($matchs[1], true));
         $value = $this->convertKeyToValue($value, $matchs[1], $datas);        
       }
       echo $value;
