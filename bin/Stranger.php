@@ -56,7 +56,6 @@ class Stranger {
   //  generate model
   public function modelGenerate(){
     $this->debug->log("Stranger::modelGenerate()");
-    echo "SCAFFOLD_TEMPLATE_PATH:".SCAFFOLD_TEMPLATE_PATH."\n";
     //  テンプレートファイル名作成 
     $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/models/model_template.tpl';
     //  出力先ファイルを開く  
@@ -82,7 +81,6 @@ class Stranger {
         }
         if (strpos($value, '<!----columns---->')) {
           $columns_str = "";
-          echo "argv count:".count($this->argv)."\n";
           for ($j = 4; $j < count($this->argv); $j++) {
             $columns_str .= $this->generateColumnsStr($this->argv[$j]);
           }
@@ -133,11 +131,8 @@ class Stranger {
   protected function convertKeyToValue($context, $matchs, $datas){
     foreach ($matchs as $match) {
       $search = '<!----'.$match.'---->';
-      echo "search:".$search."\n";
-      echo "match:".$datas[$match]."\n";
       $context = str_replace($search, $datas[$match], $context);
     }
-    echo "context:".$context."\n";
     return $context;
   }
 
@@ -149,7 +144,7 @@ class Stranger {
   protected function generateColumnsStr($column_define){
     $columns_str = "";
     $arr = explode(':', $column_define);
-    echo "arr:".print_r($arr, true)."\n";
+
     $datas = array(
         'column_name' => $arr[0],
         'type' => $arr[1],
@@ -158,8 +153,6 @@ class Stranger {
         'key' => isset($arr[4]) ? $arr[4] : '',
         'default' => isset($arr[5]) ? $arr[4] : 'null',
       );
-
-    echo "datas:".print_r($datas, true)."\n";
 
     $template_fileatime = SCAFFOLD_TEMPLATE_PATH."/models/parts/column.tpl";
     $file_context = file($template_fileatime);
@@ -178,7 +171,6 @@ class Stranger {
       }
     }
 
-    echo "columns_str:".$columns_str."\n";
     return $columns_str;
   }
 }
