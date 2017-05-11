@@ -6,5 +6,5 @@ spl_autoload_register(array('ClassLoader', 'loadClass'));
 
 require_once CONFIG_PATH . "/routes.php";
 
-$stranger = new Stranger($argv);
+$stranger = new Stranger($argv, $default_database);
 $stranger->execute();
