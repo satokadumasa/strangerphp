@@ -38,8 +38,18 @@ class Stranger {
     $this->table_name = $this->argv[3];
     $this->class_name = StringUtil::convertTableNameToClassName($this->table_name);
 
-    $this->modelGenerate();
-    $this->maigrateGenerate();
+    if ($this->argv[1] == '-g' &&  ($this->argv[2] == 'scaffold' || $this->argv[2] == 'controller')) {
+      echo "create Controller.\n";
+      $this->controllerGenerate();
+    }
+    if ($this->argv[1] == '-g' &&  ($this->argv[2] == 'scaffold' || $this->argv[2] == 'model')) {
+      echo "create Model.\n";
+      $this->modelGenerate();
+    }
+    if ($this->argv[1] == '-g' &&  ($this->argv[2] == 'scaffold' || $this->argv[2] == 'model' || $this->argv[2] == 'add_clumn')) {
+      echo "create Migration file.\n";
+      $this->maigrateGenerate();
+    }
   }
 
   //  generate scaffold
@@ -54,7 +64,13 @@ class Stranger {
 
   //  generate controller
   public function controllerGenerate(){
-    $this->debug->log("Stranger::controllerGenerate()");
+    $template_fileatime = SCAFFOLD_TEMPLATE_PATH . 'controllers/controller_template.tpl';
+
+
+    //  出力先ファイルを開く  
+    $out_put_filename =  CONTROLLER_PATH ."/" . $this->class_name . "Controller.php";
+    $fp = fopen($out_put_filename, "w");
+    $return = $this->applyTemplate($template_fileatime, $fp, $this->class_name, null, null);
   }
 
   //  destroy controller
@@ -66,9 +82,9 @@ class Stranger {
   public function modelGenerate(){
     $this->debug->log("Stranger::modelGenerate()");
     //  テンプレートファイル名作成 
-    $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/models/model_template.tpl';
-    $out_put_filename =  MODEL_PATH ."/" . $this->class_name . "Model.php";
+    $template_fileatime = SCAFFOLD_TEMPLATE_PATH . 'models/model_template.tpl';
     //  出力先ファイルを開く  
+    $out_put_filename =  MODEL_PATH ."/" . $this->class_name . "Model.php";
     $fp = fopen($out_put_filename, "w");
     $return = $this->applyTemplate($template_fileatime, $fp, $this->class_name, null);
     fclose($fp);
@@ -118,7 +134,7 @@ class Stranger {
    *
    *
    */
-  public function applyTemplate($template_fileatime, &$fp, $class_name, $migration_class_name = null) {
+  public function applyTemplate($template_fileatime, &$fp, $class_name, $migration_class_name = null, $method_name = null) {
     //  テンプレートファイル読み込み
     $file_context = file($template_fileatime);
     for($i = 0; $i < count($file_context); $i++) {
@@ -159,6 +175,25 @@ class Stranger {
           $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/migrate/parts/drop_clumn.tpl';
           $this->applyTemplate($template_fileatime, $fp, $class_name);
           continue;
+        }
+        if (strpos($value, '<!----controller_method---->')) {
+          echo "create scaffold controller.\n mode:".print_r($this->argv[2], true)."\n";
+          if ($this->argv[2] == 'scaffold') {
+            echo "create scaffold controller.\n";
+            $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/controllers/parts/scaffold_controller_methods_template.tpl';
+            $this->applyTemplate($template_fileatime, $fp, $class_name, null, null);
+          }
+          else {
+            echo "create non-scaffold controller.\n";
+            for ($i = 3; $i < count($this->argv); $i++) {
+              $this->argv[$i];
+              $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/controllers/parts/method_template.tpl';
+              $this->applyTemplate($template_fileatime, $fp, $class_name, null, $this->argv[$i]);
+            }
+          }
+        }
+        if (strpos($value, '<!----method_name---->')) {
+          $value = str_replace('<!----method_name---->', $method_name, $value);
         }
         if (strpos($value, '<!----columns---->')) {
           $columns_str = "";
