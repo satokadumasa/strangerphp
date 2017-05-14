@@ -7,9 +7,15 @@ class Stranger {
   protected $table_name = null;
   protected $class_name = null;
   protected $default_database = null;
+  protected $dbh = null;
+
   public function __construct($argv, $default_database) {
     $this->argv = $argv;
     $this->default_database = $default_database;
+
+    $this->dbConnect = new DbConnect();
+    $this->dbConnect->setConnectionInfo($default_database);
+    $this->dbh = $this->dbConnect->createConnection();
 
     $this->error_log = new Logger('ERROR');
     $this->info_log = new Logger('INFO');
@@ -61,42 +67,14 @@ class Stranger {
     $this->debug->log("Stranger::modelGenerate()");
     //  テンプレートファイル名作成 
     $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/models/model_template.tpl';
+    $out_put_filename =  MODEL_PATH ."/" . $this->class_name . "Model.php";
     //  出力先ファイルを開く  
-    $fp = fopen(MODEL_PATH ."/" . $this->class_name . "Model.php", "w");
-    //  テンプレートファイル読み込み
-    $file_context = file($template_fileatime);
-    for($i = 0; $i < count($file_context); $i++) {
-      $value = $file_context[$i];
-      //  展開先の取得
-      preg_match_all(
-        "<!----(.*)---->",
-        $value,
-        $matchs
-      );
-
-      if (count($matchs[1]) > 0) {
-        if(strpos($value, '<!----class_name')) {
-          $value = str_replace('<!----class_name---->', $this->class_name, $value);
-        }
-        if(strpos($value, '<!----table_name')) {
-          //  変数展開
-          $value = str_replace('<!----table_name---->', $this->table_name, $value);
-        }
-        if (strpos($value, '<!----columns---->')) {
-          $columns_str = "";
-          for ($j = 4; $j < count($this->argv); $j++) {
-            $columns_str .= $this->generateColumnsStr($this->argv[$j], 'model');
-          }
-          $value = $columns_str;
-        }
-      }
-      $fwrite = fwrite($fp, $value);
-      if ($fwrite === false) {
-        fclose($fp);
-        return false;
-      }
+    $fp = fopen($out_put_filename, "w");
+    $return = $this->applyTemplate($template_fileatime, $fp, $this->class_name, null);
+    fclose($fp);
+    if ($return === false) {
+      return false;
     }
-    return fclose($fp);
   }
 
   //  destroy model
@@ -119,10 +97,28 @@ class Stranger {
     $this->debug->log("Stranger::maigrateGenerate()");
     //  テンプレートファイル名作成 
     $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/migrate/migration_template.tpl';
-    //  出力先ファイルを開く  
     $now_date = date('YmdHis');
-    $class_name = $now_date . 'Create' . $this->class_name;
-    $fp = fopen(MIGRATION_PATH .'/' . $class_name . ".php", "w");
+    $migration_class_name = $now_date . 'Create' . $this->class_name;
+    $out_put_filename = MIGRATION_PATH .'/' . $migration_class_name . ".php";
+    //  出力先ファイルを開く
+    $fp = fopen($out_put_filename, "w");
+    $return = $this->applyTemplate($template_fileatime, $fp, $this->class_name, $migration_class_name);
+    fclose($fp);
+    if ($return === false) {
+      return false;
+    }
+  }
+
+  //  destroy maigrate_file  
+  public function maigrateDestroy(){
+    $this->debug->log("Stranger::maigrateDestroy()");
+  }
+
+  /**
+   *
+   *
+   */
+  public function applyTemplate($template_fileatime, &$fp, $class_name, $migration_class_name = null) {
     //  テンプレートファイル読み込み
     $file_context = file($template_fileatime);
     for($i = 0; $i < count($file_context); $i++) {
@@ -135,16 +131,34 @@ class Stranger {
       );
 
       if (count($matchs[1]) > 0) {
-        if(strpos($value, '<!----class_name')) {
-          $value = str_replace('<!----class_name---->', $class_name, $value);
+        if (strpos($value, '<!----migration_class_name')) {
+          $value = str_replace('<!----migration_class_name---->', $migration_class_name, $value);
         }
-        if(strpos($value, '<!----table_name')) {
+        if (strpos($value, '<!----class_name')) {
+          $value = str_replace('<!----class_name---->', $this->class_name, $value);
+        }
+        if (strpos($value, '<!----table_name')) {
           //  変数展開
           $value = str_replace('<!----table_name---->', $this->table_name, $value);
         }
-        if(strpos($value, '<!----pk_name')) {
+        if (strpos($value, '<!----pk_name')) {
           //  変数展開
           $value = str_replace('<!----pk_name---->', 'id', $value);
+        }
+        $this->debug->log("Stranger::applyTemplate() value:".$value);
+        if (strpos($value, '<!----up_template---->')) {
+          $this->debug->log("Stranger::applyTemplate() up_template:");
+          $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/migrate/parts/create_table.tpl';
+          $this->applyTemplate($template_fileatime, $fp, $this->class_name);
+          if ($fwrite === false) {
+            return false;
+          }
+          continue;
+        }
+        if (strpos($value, '<!----down_template---->')) {
+          $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/migrate/parts/drop_clumn.tpl';
+          $this->applyTemplate($template_fileatime, $fp, $class_name);
+          continue;
         }
         if (strpos($value, '<!----columns---->')) {
           $columns_str = "";
@@ -156,16 +170,10 @@ class Stranger {
       }
       $fwrite = fwrite($fp, $value);
       if ($fwrite === false) {
-        fclose($fp);
         return false;
       }
     }
-    return fclose($fp);
-  }
 
-  //  destroy maigrate_file  
-  public function maigrateDestroy(){
-    $this->debug->log("Stranger::maigrateDestroy()");
   }
 
   /**
