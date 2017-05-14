@@ -23,6 +23,10 @@ class Stranger {
   }
 
   //  
+  /**
+   *  stranger command execute method
+   *
+   */
   public function execute() {
     /***
     argv = array(
@@ -38,31 +42,71 @@ class Stranger {
     $this->table_name = $this->argv[3];
     $this->class_name = StringUtil::convertTableNameToClassName($this->table_name);
 
-    if ($this->argv[1] == '-g' &&  ($this->argv[2] == 'scaffold' || $this->argv[2] == 'controller')) {
-      echo "create Controller.\n";
-      $this->controllerGenerate();
+    if ($this->argv[1] == '-g') {
+      if ($this->argv[2] == 'scaffold') {
+        $this->scaffoldGenerate();
+      }
+      else if ($this->argv[2] == 'controller'){
+        $this->controllerGenerate();
+      }
+      else if ($this->argv[2] == 'model'){
+        $this->modelGenerate();
+      }
+      else if ($this->argv[2] == 'model' || $this->argv[2] == 'add_clumn'){
+        $this->maigrateGenerate();
+      }
+      else {
+        echo "Please specify the correct parameter.";
+      }
     }
-    if ($this->argv[1] == '-g' &&  ($this->argv[2] == 'scaffold' || $this->argv[2] == 'model')) {
-      echo "create Model.\n";
-      $this->modelGenerate();
+    else if ($this->argv[1] == '-g') {
+      if ($this->argv[2] == 'scaffold') {
+        scaffoldDestroy();
+      }
+      else if ($this->argv[2] == 'controller'){
+        $this->controllerDestroy();
+      }
+      else if ($this->argv[2] == 'model'){
+        $this->modelDestroy();
+      }
+      else if ($this->argv[2] == 'model' || $this->argv[2] == 'add_clumn'){
+        $this->maigrateDestroy();
+      }
+      else {
+        echo "Please specify the correct parameter.";
+      }
     }
-    if ($this->argv[1] == '-g' &&  ($this->argv[2] == 'scaffold' || $this->argv[2] == 'model' || $this->argv[2] == 'add_clumn')) {
-      echo "create Migration file.\n";
-      $this->maigrateGenerate();
+    else {
+      echo "Please specify the correct parameter.";
     }
   }
 
   //  generate scaffold
+  /**
+   *  キャッフォルドファイル一括生成メソッド 
+   */
   public function scaffoldGenerate(){
     $this->debug->log("Stranger::scaffoldGenerate()");
+    $this->controllerGenerate();
+    $this->modelGenerate();
+    $this->maigrateGenerate();
   }
 
   //  destroy scaffold
+  /**
+   *  キャッフォルドファイル一括削除メソッド 
+   */
   public function scaffoldDestroy(){
     $this->debug->log("Stranger::scaffoldDestroy()");
+    $this->controllerGenerate();
+    $this->modelGenerate();
+    $this->maigrateGenerate();
   }
 
   //  generate controller
+  /**
+   *  コントローラー生成メソッド 
+   */
   public function controllerGenerate(){
     $template_fileatime = SCAFFOLD_TEMPLATE_PATH . 'controllers/controller_template.tpl';
 
@@ -74,11 +118,17 @@ class Stranger {
   }
 
   //  destroy controller
+  /**
+   *  コントローラー削除メソッド 
+   */
   public function controllerDestroy(){
     $this->debug->log("Stranger::controllerDestroy()");
   }
 
   //  generate model
+  /**
+   *  モデル生成メソッド 
+   */
   public function modelGenerate(){
     $this->debug->log("Stranger::modelGenerate()");
     //  テンプレートファイル名作成 
@@ -94,21 +144,33 @@ class Stranger {
   }
 
   //  destroy model
+  /**
+   *  モデル削除メソッド 
+   */
   public function modelDestroy(){
     $this->debug->log("Stranger::modelDestroy()");
   }
 
   //  generate template
+  /**
+   *  Viewテンプレート生成メソッド 
+   */
   public function templateGenerate(){
     $this->debug->log("Stranger::templateGenerate()");
   }
 
   //  destroy template
+  /**
+   *  Viewテンプレート削除メソッド 
+   */
   public function templateDestroy(){
     $this->debug->log("Stranger::templateDestroy()");
   }
 
   //  generate maigrate_file  
+  /**
+   *  マイグレーションファイル生成メソッド
+   */
   public function maigrateGenerate(){
     $this->debug->log("Stranger::maigrateGenerate()");
     //  テンプレートファイル名作成 
@@ -125,14 +187,22 @@ class Stranger {
     }
   }
 
-  //  destroy maigrate_file  
+  //  destroy maigrate_file 
+  /**
+   *  マイグレーションファイル削除メソッド
+   */ 
   public function maigrateDestroy(){
     $this->debug->log("Stranger::maigrateDestroy()");
   }
 
   /**
+   *  テンプレート適用メソッド
    *
-   *
+   *  template_fileatime : テンプレートファイル名  
+   *  fp : 出力先ファイルポインター 
+   *  class_name : クラス名
+   *  migration_class_name : マイグレーションファイル　クラス名 
+   *  method_name : コントローラメソッド名
    */
   public function applyTemplate($template_fileatime, &$fp, $class_name, $migration_class_name = null, $method_name = null) {
     //  テンプレートファイル読み込み
@@ -191,6 +261,7 @@ class Stranger {
               $this->applyTemplate($template_fileatime, $fp, $class_name, null, $this->argv[$i]);
             }
           }
+          continue;
         }
         if (strpos($value, '<!----method_name---->')) {
           $value = str_replace('<!----method_name---->', $method_name, $value);
