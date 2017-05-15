@@ -41,7 +41,21 @@ class Stranger {
     $this->debug->log("Stranger::exec argv:".print_r($this->argv, true));
     $this->table_name = $this->argv[3];
     $this->class_name = StringUtil::convertTableNameToClassName($this->table_name);
+    if ($this->argv[1] == '-g') {
+      $this->executeGenerates();
+    }
+    else if ($this->argv[1] == '-d') {
+      $this->executeDestroies();
+    }
+    else if ($this->argv[1] == 'db:migrate') {
+      $arr = explode(':', $this->argv[1]);
+    }
+  }
 
+  /**
+   *  テンプレート、モデル、コントローラー生成 
+   */
+  public function executeGenerates(){
     if ($this->argv[1] == '-g') {
       if ($this->argv[2] == 'scaffold') {
         $this->scaffoldGenerate();
@@ -59,6 +73,12 @@ class Stranger {
         echo "Please specify the correct parameter.\n";
       }
     }
+  }
+
+  /**
+   *  テンプレート、モデル、コントローラー削除
+   */
+  public function executeDestroies(){
     else if ($this->argv[1] == '-d') {
       if ($this->argv[2] == 'scaffold') {
         scaffoldDestroy();
