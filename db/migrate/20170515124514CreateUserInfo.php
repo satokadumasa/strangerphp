@@ -1,5 +1,5 @@
 <?php
-class 20170514235139CreateUserInfo extends BaseMigrate{
+class 20170515124514CreateUserInfo extends BaseMigrate{
   private $dbh = null;
   public function __construct($default_database) {
     parent::__construct($default_database);
@@ -22,7 +22,7 @@ EOM;
 
   public function down(){
     $sql = <<<EOM
-  ALTER TABLE user_infos DROP COLUMN <!----column_name---->;
+DROP TABLE user_infos;
 EOM;
     parent::down($sql);
   } 

@@ -52,14 +52,14 @@ class Stranger {
       else if ($this->argv[2] == 'model'){
         $this->modelGenerate();
       }
-      else if ($this->argv[2] == 'model' || $this->argv[2] == 'add_clumn'){
+      else if ($this->argv[2] == 'model' || $this->argv[2] == 'add_column'){
         $this->maigrateGenerate();
       }
       else {
-        echo "Please specify the correct parameter.";
+        echo "Please specify the correct parameter.\n";
       }
     }
-    else if ($this->argv[1] == '-g') {
+    else if ($this->argv[1] == '-d') {
       if ($this->argv[2] == 'scaffold') {
         scaffoldDestroy();
       }
@@ -69,15 +69,15 @@ class Stranger {
       else if ($this->argv[2] == 'model'){
         $this->modelDestroy();
       }
-      else if ($this->argv[2] == 'model' || $this->argv[2] == 'add_clumn'){
+      else if ($this->argv[2] == 'model' || $this->argv[2] == 'drop_column'){
         $this->maigrateDestroy();
       }
       else {
-        echo "Please specify the correct parameter.";
+        echo "Please specify the correct parameter.\n";
       }
     }
     else {
-      echo "Please specify the correct parameter.";
+      echo "Please specify the correct parameter.\n";
     }
   }
 
@@ -233,8 +233,14 @@ class Stranger {
         }
         $this->debug->log("Stranger::applyTemplate() value:".$value);
         if (strpos($value, '<!----up_template---->')) {
-          $this->debug->log("Stranger::applyTemplate() up_template:");
-          $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/migrate/parts/create_table.tpl';
+          if ($this->argv[2] == 'scaffold' || $this->argv[2] == 'model') {
+            $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/migrate/parts/create_table.tpl';
+          }
+          else if ($this->argv[2] == 'add_column'){
+            for ($j = 4; $j < count($this->argv); $j++) {
+              $columns_str .= $this->generateColumnsStr($this->argv[$j], 'add_column');
+            }
+          }
           $this->applyTemplate($template_fileatime, $fp, $this->class_name);
           if ($fwrite === false) {
             return false;
@@ -242,8 +248,15 @@ class Stranger {
           continue;
         }
         if (strpos($value, '<!----down_template---->')) {
-          $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/migrate/parts/drop_clumn.tpl';
-          $this->applyTemplate($template_fileatime, $fp, $class_name);
+          if ($this->argv[2] == 'scaffold' || $this->argv[2] == 'model') {
+            $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/migrate/parts/drop_table.tpl';
+            $this->applyTemplate($template_fileatime, $fp, $class_name);
+          }
+          else if ($this->argv[2] == 'drop_column'){
+            for ($j = 4; $j < count($this->argv); $j++) {
+              $columns_str .= $this->generateColumnsStr($this->argv[$j], 'drop_column');
+            }
+          }
           continue;
         }
         if (strpos($value, '<!----controller_method---->')) {
@@ -255,7 +268,7 @@ class Stranger {
           }
           else {
             echo "create non-scaffold controller.\n";
-            for ($i = 3; $i < count($this->argv); $i++) {
+            for ($j = 4; $i < count($this->argv); $i++) {
               $this->argv[$i];
               $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/controllers/parts/method_template.tpl';
               $this->applyTemplate($template_fileatime, $fp, $class_name, null, $this->argv[$i]);
@@ -279,7 +292,6 @@ class Stranger {
         return false;
       }
     }
-
   }
 
   /**
@@ -321,6 +333,12 @@ class Stranger {
     }
     else if ($type == 'sql'){
       $template_fileatime = SCAFFOLD_TEMPLATE_PATH."/migrate/parts/column.tpl";
+    }
+    else if ($type == 'add_column') {
+      $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/migrate/parts/add_column.tpl';
+    }
+    else if ($type == 'drop_column') {
+      $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/migrate/parts/drop_column.tpl';
     }
     $file_context = file($template_fileatime);
     for($i = 0; $i < count($file_context); $i++) {
