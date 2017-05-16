@@ -79,7 +79,7 @@ class Stranger {
    *  テンプレート、モデル、コントローラー削除
    */
   public function executeDestroies(){
-    else if ($this->argv[1] == '-d') {
+    if ($this->argv[1] == '-d') {
       if ($this->argv[2] == 'scaffold') {
         scaffoldDestroy();
       }
@@ -110,6 +110,7 @@ class Stranger {
     $this->controllerGenerate();
     $this->modelGenerate();
     $this->maigrateGenerate();
+    $this->templateGenerate();
   }
 
   //  destroy scaffold
@@ -129,8 +130,6 @@ class Stranger {
    */
   public function controllerGenerate(){
     $template_fileatime = SCAFFOLD_TEMPLATE_PATH . 'controllers/controller_template.tpl';
-
-
     //  出力先ファイルを開く  
     $out_put_filename =  CONTROLLER_PATH ."/" . $this->class_name . "Controller.php";
     $fp = fopen($out_put_filename, "w");
@@ -177,6 +176,36 @@ class Stranger {
    */
   public function templateGenerate(){
     $this->debug->log("Stranger::templateGenerate()");
+    $view_template_folder = VIEW_TEMPLATE_PATH . $this->class_name . '/';
+    if (!file_exists($view_template_folder)) {
+      if(!mkdir($view_template_folder)) return false;
+    }
+    //  index 
+    $index = $view_template_folder . 'index.tpl';
+    $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/views/detail.tpl';
+    $this->createViewTemplate($template_fileatime, $index);
+
+    //  show
+    $show = $view_template_folder . 'show.tpl';
+    $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/views/detail.tpl';
+    $this->createViewTemplate($template_fileatime, $show);
+    //  create
+    $create = $view_template_folder . 'create.tpl';
+    $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/views/form_exterior.tpl';
+    $this->createViewTemplate($template_fileatime, $create);
+    //  edit
+    $edit = $view_template_folder . 'edit.tpl';
+    $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/views/form_exterior.tpl';
+    $this->createViewTemplate($template_fileatime, $edit);
+  }
+
+  public function createViewTemplate($template_fileatime, $view_template) {
+    $fp = fopen($view_template, "w");
+    $return = $this->applyTemplate($template_fileatime, $fp, $this->class_name);
+    fclose($fp);
+    if ($return === false) {
+      return false;
+    }
   }
 
   //  destroy template
