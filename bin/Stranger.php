@@ -185,28 +185,32 @@ class Stranger {
     echo "create index template.\n";
     $index = $view_template_folder . 'index.tpl';
     $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/views/index.tpl';
-    $this->createViewTemplate($template_fileatime, $index);
+    $method = 'index';
+    $this->createViewTemplate($template_fileatime, $index, $method);
 
     //  show
     echo "create show template.\n";
     $show = $view_template_folder . 'show.tpl';
     $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/views/detail.tpl';
-    $this->createViewTemplate($template_fileatime, $show);
+    $method = 'detail';
+    $this->createViewTemplate($template_fileatime, $show, $method);
     //  create
     echo "create create template.\n";
     $create = $view_template_folder . 'create.tpl';
     $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/views/form_exterior.tpl';
-    $this->createViewTemplate($template_fileatime, $create);
+    $method = 'create';
+    $this->createViewTemplate($template_fileatime, $create, $method);
     //  edit
     echo "create edit template.\n";
     $edit = $view_template_folder . 'edit.tpl';
     $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/views/form_exterior.tpl';
-    $this->createViewTemplate($template_fileatime, $edit);
+    $method = 'edit';
+    $this->createViewTemplate($template_fileatime, $edit, $method);
   }
 
-  public function createViewTemplate($template_fileatime, $view_template) {
+  public function createViewTemplate($template_fileatime, $view_template, $method) {
     $fp = fopen($view_template, "w");
-    $return = $this->applyTemplate($template_fileatime, $fp, $this->class_name);
+    $return = $this->applyTemplate($template_fileatime, $fp, $this->class_name, null, $method);
     fclose($fp);
     if ($return === false) {
       return false;
@@ -282,6 +286,9 @@ class Stranger {
         }
         if (strpos($value, '<!----class_name')) {
           $value = str_replace('<!----class_name---->', $this->class_name, $value);
+        }
+        if (strpos($value, '<!----action_name---->')) {
+          $value = str_replace('<!----action_name---->', $method_name, $value);
         }
         if (strpos($value, '<!----table_name')) {
           //  変数展開
