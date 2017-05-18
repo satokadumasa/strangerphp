@@ -3,6 +3,6 @@
       <!----columun_name----> 
     </div>
     <div>
-      <!----<!----columun_name---->---->
+      <!----<----column_name---->---->
     </div>
   </div>

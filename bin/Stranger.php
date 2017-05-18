@@ -175,25 +175,30 @@ class Stranger {
    *  Viewテンプレート生成メソッド 
    */
   public function templateGenerate(){
+    echo "create view templates.\n";
     $this->debug->log("Stranger::templateGenerate()");
     $view_template_folder = VIEW_TEMPLATE_PATH . $this->class_name . '/';
     if (!file_exists($view_template_folder)) {
       if(!mkdir($view_template_folder)) return false;
     }
     //  index 
+    echo "create index template.\n";
     $index = $view_template_folder . 'index.tpl';
-    $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/views/detail.tpl';
+    $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/views/index.tpl';
     $this->createViewTemplate($template_fileatime, $index);
 
     //  show
+    echo "create show template.\n";
     $show = $view_template_folder . 'show.tpl';
     $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/views/detail.tpl';
     $this->createViewTemplate($template_fileatime, $show);
     //  create
+    echo "create create template.\n";
     $create = $view_template_folder . 'create.tpl';
     $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/views/form_exterior.tpl';
     $this->createViewTemplate($template_fileatime, $create);
     //  edit
+    echo "create edit template.\n";
     $edit = $view_template_folder . 'edit.tpl';
     $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/views/form_exterior.tpl';
     $this->createViewTemplate($template_fileatime, $edit);
@@ -339,8 +344,50 @@ class Stranger {
           }
           continue;
         }
+        if (strpos($value, '<!----detail_columns---->')) {
+          $value = $this->geterateColumnString($this->argv);
+          $fwrite = fwrite($fp, $value);
+          if ($fwrite === false) {
+            return false;
+          }
+        }
+        if (strpos($value, '<!----details---->')) {
+          //  詳細画面テンプレート挿入
+          echo "insert detail template.\n";
+          $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/views/detail.tpl';
+          $this->applyTemplate($template_fileatime, $fp, $class_name, null, null);
+        }
+        if (strpos($value, '<!----columun_name---->')) {
+          echo "covert [columun_name].\n";
+          for ($j = 4; $j < count($this->argv); $j++) {
+            $columns_str .= $this->convertKeyToValue($value, $matchs[0], $this->argv);
+          }
+          $value = $columns_str;
+          $fwrite = fwrite($fp, $value);
+          if ($fwrite === false) {
+            return false;
+          }
+          continue;
+        }
         if (strpos($value, '<!----method_name---->')) {
           $value = str_replace('<!----method_name---->', $method_name, $value);
+        }
+        //detail_columun_name
+        /*
+        if (strpos($value, '<!----detail_columun_name---->')) {
+          for ($j = 4; $j < count($this->argv); $j++) {
+            $columns_str .= $this->generateColumnsStr($this->argv[$j], 'view');
+          }
+          $value = $columns_str;
+        }
+        */
+        if (strpos($value, '<!----form_columns---->')) {
+          $columns_str = "";
+          for ($j = 4; $j < count($this->argv); $j++) {
+            $columns_str .= $this->generateColumnsStr($this->argv[$j], 'form');
+          }
+          $value = $columns_str;
+          $this->debug->log("Stranger::applyTemplate() form_columns:".$value);
         }
         if (strpos($value, '<!----columns---->')) {
           $columns_str = "";
@@ -394,6 +441,7 @@ class Stranger {
         'null_ok' => isset($arr[3]) ? '' : 'NOT NULL',
         'key' => isset($arr[4]) ? $arr[4] : '',
         'default' => isset($arr[5]) ? $arr[4] : 'null',
+        'model_name' => $this->class_name,
       );
     if ($type == 'model') {
       $template_fileatime = SCAFFOLD_TEMPLATE_PATH."/models/parts/column.tpl";
@@ -406,6 +454,12 @@ class Stranger {
     }
     else if ($type == 'drop_col') {
       $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/migrate/parts/drop_column.tpl';
+    }
+    else if ($type == 'view') {
+      $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/views/parts/column.tpl';
+    }
+    else if ($type == 'form') {
+      $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/views/parts/form/column.tpl';
     }
     $file_context = file($template_fileatime);
     for($i = 0; $i < count($file_context); $i++) {
@@ -425,6 +479,40 @@ class Stranger {
     }
 
     return $columns_str;
+  }
+
+  /**
+   * 
+   *
+   * @param $argv 
+   */
+  protected function geterateColumnString($argv) {
+    for ($i = 4; $i < count($argv); $i++) {
+      $arr = explode(':', $argv[$i]);
+      $value = null;
+
+      $datas = array(
+          'column_name' => $arr[0],
+          'type' => $arr[1],
+          'type_str' => $this->convertTypeKeyString($arr[1], (isset($arr[2]) ? $arr[2] : 255), $value),
+          'length' => isset($arr[2]) ? $arr[2] : 255,
+          'null' => isset($arr[3]) ? $arr[3] : 'false',
+          'null_ok' => isset($arr[3]) ? '' : 'NOT NULL',
+          'key' => isset($arr[4]) ? $arr[4] : '',
+          'default' => isset($arr[5]) ? $arr[4] : 'null',
+        );
+      $column_string = null;
+      $column_string .= "  <div>\n";
+      $column_string .= "    <div>\n";
+      $column_string .= "      <!----" . $datas['column_name'] . "---->\n";
+      $column_string .= "    </div>\n";
+      $column_string .= "    <div>\n";
+      $column_string .= "      <!----value:" . $this->class_name . ":" . $datas['column_name'] . "---->\n";
+      $column_string .= "    </div>\n";
+      $column_string .= "  </div>\n";
+
+      return $column_string;
+    }
   }
 
   protected function convertTypeKeyString($type, $length, $value) {

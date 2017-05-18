@@ -1,5 +1,5 @@
 <div>
-  <!----columns---->
+  <!----detail_columns---->
 </div>
 <div>
   <A HREF="<!----class_name---->/index">INDEX</A>
