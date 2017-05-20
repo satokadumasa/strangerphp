@@ -561,28 +561,30 @@ class Stranger {
 
   protected function convertTypeKeyString($type, $length, $value) {
     switch ($type) {
-      case 'INT':
-      case 'TINYINT':
-      case 'SMALLINT':
-      case 'BIGINT':
-      case 'FLOAT':
-      case 'DOUBLE':
+      case 'int':
+      case 'tinyint':
+      case 'smallint':
+      case 'bigint':
+      case 'float':
+      case 'double':
         return $type."($length)";
         break;
-      case 'DATE':
-      case 'DATETIME':
-      case 'TIMESTAMP':
-      case 'TIME':
-      case 'YEAR':
+      case 'date':
+      case 'datetime':
+      case 'timestamp':
+      case 'time':
+      case 'year':
         return $type;
         break;
-      case 'SET':
-      case 'ENUM':
+      case 'set':
+      case 'enum':
         return $type . "(" . $length . ")";
         break;
       case 'string':
         return  "varchar(" . $length . ")";
         break;
+      case 'text':
+        return $type;
       default:
         return $type . "(" . $length . ")";
         break;
