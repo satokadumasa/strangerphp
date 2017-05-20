@@ -39,12 +39,14 @@ class Stranger {
     )
     */
     $this->debug->log("Stranger::exec argv:".print_r($this->argv, true));
-    if (!$this->argv[1] == 'migrate') {
-      $this->table_name = $this->argv[3];
-      $this->class_name = StringUtil::convertTableNameToClassName($this->table_name);
-    }
+    $this->table_name = $this->argv[3];
+    $this->class_name = StringUtil::convertTableNameToClassName($this->table_name);
     if ($this->argv[1] == '-g') {
       $this->executeGenerates();
+    }
+    if ($this->argv[1] == 'migrate'){
+        $this->execMigration();
+        exit();
     }
     else if ($this->argv[1] == '-d') {
       $this->executeDestroies();
@@ -339,6 +341,21 @@ class Stranger {
         if (strpos($value, '<!----method_name---->')) {
           $value = str_replace('<!----method_name---->', $method_name, $value);
         }
+        if (strpos($value, '<!----form_columns---->')) {
+          $columns_str = "";
+          for ($j = 4; $j < count($this->argv); $j++) {
+            $columns_str .= $this->generateColumnsStr($this->argv[$j], 'form');
+          }
+          $value = $columns_str;
+          $this->debug->log("Stranger::applyTemplate() form_columns:".$value);
+        }
+        if (strpos($value, '<!----columns---->')) {
+          $columns_str = "";
+          for ($j = 4; $j < count($this->argv); $j++) {
+            $columns_str .= $this->generateColumnsStr($this->argv[$j], 'sql');
+          }
+          $value = $columns_str;
+        }
         if (strpos($value, '<!----up_template---->')) {
           $this->debug->log("Stranger::applyTemplate() value:".$value);
           if ($this->argv[2] == 'scaffold' || $this->argv[2] == 'model') {
@@ -416,21 +433,6 @@ class Stranger {
             return false;
           }
           continue;
-        }
-        if (strpos($value, '<!----form_columns---->')) {
-          $columns_str = "";
-          for ($j = 4; $j < count($this->argv); $j++) {
-            $columns_str .= $this->generateColumnsStr($this->argv[$j], 'form');
-          }
-          $value = $columns_str;
-          $this->debug->log("Stranger::applyTemplate() form_columns:".$value);
-        }
-        if (strpos($value, '<!----columns---->')) {
-          $columns_str = "";
-          for ($j = 4; $j < count($this->argv); $j++) {
-            $columns_str .= $this->generateColumnsStr($this->argv[$j], 'sql');
-          }
-          $value = $columns_str;
         }
       }
       $fwrite = fwrite($fp, $value);
