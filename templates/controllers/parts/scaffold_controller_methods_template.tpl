@@ -26,11 +26,20 @@
   }
 
   public function create() {
-    $this->debug->log("BooksController::create()");
+    $this->debug->log("<!----class_name---->Controller::create()");
+    try {
+      echo "<!----class_name---->Controller::create()<br>";
+      $this->dbh->beginTransaction();
+      $<!----table_name----> = new <!----class_name---->Model($this->dbh);
+      $<!----table_name---->->save($this->request);
+      $this->dbh->commit();
+    } catch (Exception $e) {
+      $this->debug->log("<!----class_name---->Controller::create() error:" . $e->getMessage());
+    }
   }
 
   public function edit() {
-    $this->debug->log("BooksController::edit()");
+    $this->debug->log("<!----class_name---->Controller::edit()");
   }
 
   public function delete() {
