@@ -39,8 +39,10 @@ class Stranger {
     )
     */
     $this->debug->log("Stranger::exec argv:".print_r($this->argv, true));
-    $this->table_name = $this->argv[3];
-    $this->class_name = StringUtil::convertTableNameToClassName($this->table_name);
+    if (!$this->argv[1] == 'migrate') {
+      $this->table_name = $this->argv[3];
+      $this->class_name = StringUtil::convertTableNameToClassName($this->table_name);
+    }
     if ($this->argv[1] == '-g') {
       $this->executeGenerates();
     }
@@ -319,22 +321,23 @@ class Stranger {
       );
 
       if (count($matchs[1]) > 0) {
-        if (strpos($value, '<!----migration_class_name')) {
+        if (strpos($value, '<!----migration_class_name---->')) {
           $value = str_replace('<!----migration_class_name---->', $migration_class_name, $value);
         }
-        if (strpos($value, '<!----class_name')) {
+        if (strpos($value, '<!----class_name---->')) {
           $value = str_replace('<!----class_name---->', $this->class_name, $value);
         }
         if (strpos($value, '<!----action_name---->')) {
           $value = str_replace('<!----action_name---->', $method_name, $value);
         }
-        if (strpos($value, '<!----table_name')) {
-          //  変数展開
+        if (strpos($value, '<!----table_name---->')) {
           $value = str_replace('<!----table_name---->', $this->table_name, $value);
         }
-        if (strpos($value, '<!----pk_name')) {
-          //  変数展開
+        if (strpos($value, '<!----pk_name---->')) {
           $value = str_replace('<!----pk_name---->', 'id', $value);
+        }
+        if (strpos($value, '<!----method_name---->')) {
+          $value = str_replace('<!----method_name---->', $method_name, $value);
         }
         if (strpos($value, '<!----up_template---->')) {
           $this->debug->log("Stranger::applyTemplate() value:".$value);
@@ -414,18 +417,6 @@ class Stranger {
           }
           continue;
         }
-        if (strpos($value, '<!----method_name---->')) {
-          $value = str_replace('<!----method_name---->', $method_name, $value);
-        }
-        //detail_columun_name
-        /*
-        if (strpos($value, '<!----detail_columun_name---->')) {
-          for ($j = 4; $j < count($this->argv); $j++) {
-            $columns_str .= $this->generateColumnsStr($this->argv[$j], 'view');
-          }
-          $value = $columns_str;
-        }
-        */
         if (strpos($value, '<!----form_columns---->')) {
           $columns_str = "";
           for ($j = 4; $j < count($this->argv); $j++) {
@@ -562,8 +553,14 @@ class Stranger {
   protected function convertTypeKeyString($type, $length, $value) {
     switch ($type) {
       case 'int':
+        return $type."(8)";
+        break;
       case 'tinyint':
+        return $type."(1)";
+        break;
       case 'smallint':
+        return $type."(3)";
+        break;
       case 'bigint':
       case 'float':
       case 'double':
