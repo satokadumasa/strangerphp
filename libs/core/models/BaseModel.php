@@ -20,6 +20,8 @@ class BaseModel {
 
   public $primary_key = 'id';
 
+  public $primary_key_value = null;
+
   public function __construct(&$dbh) {
     if($dbh) $this->setDbh($dbh);
 
@@ -271,7 +273,7 @@ class BaseModel {
 
       $stmt->execute();
       //  従属モデルへのセーブ処理
-      $id = $this->dbh->lastInsertId($this->primary_key);
+      $this->primary_key_value = $this->dbh->lastInsertId($this->primary_key);
       if (isset($form[$this->model_name])) {
         foreach ($form[$this->model_name] as $model_name => $value) {
           if ($hssModels && in_array($model_name, $hssModels)) {

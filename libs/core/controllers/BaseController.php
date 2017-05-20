@@ -43,7 +43,7 @@ class BaseController {
     $urls = explode('/', explode('?', $url)[0]);
     $uris = explode('/', $uri);
     
-    for ($i=0; $i < count($urls); $i++) { 
+    for ($i=0; $i < count($urls) - 1; $i++) { 
       if(!$uris[$i]) continue;
       if($uris[$i] == $urls[$i]) continue;
       $this->request[mb_strtolower($uris[$i], 'UTF-8')] = $urls[$i];
@@ -113,7 +113,7 @@ class BaseController {
   }
   */
 
-  private function perseKey($key, $value) {
+  protected function perseKey($key, $value) {
     // $this->debug->log("BaseController::perseKey() key(array)".$key);
     // $keys = explode('::', $key);
     // if (is_array($keys)) {
@@ -123,5 +123,10 @@ class BaseController {
     // }
     // else $this->request[$key] = $value;
     $this->request[$key] = $value;
+  }
+
+  protected function redirect($url) {
+    header("Location: {$url}");
+    exit;
   }
 }

@@ -5,14 +5,13 @@
 
     $datas = $<!----table_name---->->where('<!----class_name---->.id', '>', 0)->limit($limit)->offset($offset)->find('all');
 
-    $ref = isset($this->request['page'] ? $this->request['page'] : 0;
-    $next = isset($this->request['page'] ? $this->request['page'] + 1 : 2;
+    $ref = isset($this->request['page']) ? $this->request['page'] : 0;
+    $next = isset($this->request['page']) ? $this->request['page'] + 1 : 2;
 
     $this->set('Title', '<!----class_name----> List');
     $this->set('datas', $datas);
     $this->set('ref', $ref);
     $this->set('next', $next);
-    $thi
   }
 
   public function show() {
@@ -27,12 +26,18 @@
 
   public function create() {
     $this->debug->log("<!----class_name---->Controller::create()");
+  }
+
+  public function save(){
+    $this->debug->log("<!----class_name---->Controller::save()");
     try {
       echo "<!----class_name---->Controller::create()<br>";
       $this->dbh->beginTransaction();
       $<!----table_name----> = new <!----class_name---->Model($this->dbh);
       $<!----table_name---->->save($this->request);
-      $this->dbh->commit();
+      $<!----table_name---->->this->dbh->commit();
+      $url = BASE_URL . <!----class_name----> . '/show/' . $<!----table_name---->->primary_key_value;
+      $this->redirect($url);
     } catch (Exception $e) {
       $this->debug->log("<!----class_name---->Controller::create() error:" . $e->getMessage());
     }
@@ -40,6 +45,17 @@
 
   public function edit() {
     $this->debug->log("<!----class_name---->Controller::edit()");
+    try {
+      $datas = null;
+      $id = $this->request['id'];
+
+      $<!----table_name----> = new <!----class_name---->Model($this->dbh);
+      $datas = $<!----table_name---->->where('<!----class_name---->.id', '=', $id)->find('first');
+      $this->set('Title', '<!----class_name----> Edit');
+      $this->set('datas', $datas);
+    } catch (Exception $e) {
+      $this->debug->log("<!----class_name---->Controller::edit() error:" . $e->getMessage());
+    }
   }
 
   public function delete() {

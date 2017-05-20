@@ -70,10 +70,17 @@ class View {
            *  datas[keys[1]]  : セットする変数（多次元連想配列）
            *  file_context   :  テンプレートの内容
            */
-          foreach ($datas[$keys[1]] as $data) {
-            $ret = $this->viewIterator($i, $data, $file_context);
+          if (isset($datas[$keys[1]])) {
+            foreach ($datas[$keys[1]] as $data) {
+              $ret = $this->viewIterator($i, $data, $file_context);
+            }
+            $i = $ret;
           }
-          $i = $ret;
+          else {
+            for(; $i < count($file_context); $i++) {
+              if (strpos($value, '!----iteratior:') && strpos($value, ':end')) break;
+            }
+          }
         }
       }
       echo $value;

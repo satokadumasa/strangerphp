@@ -356,6 +356,14 @@ class Stranger {
           }
           $value = $columns_str;
         }
+        if (strpos($value, '<!----model_columns---->')){
+          $columns_str = "";
+          for ($j = 4; $j < count($this->argv); $j++) {
+            $columns_str .= $this->generateColumnsStr($this->argv[$j], 'model');
+          }
+          $value = $columns_str;
+        }
+
         if (strpos($value, '<!----up_template---->')) {
           $this->debug->log("Stranger::applyTemplate() value:".$value);
           if ($this->argv[2] == 'scaffold' || $this->argv[2] == 'model') {
@@ -421,6 +429,11 @@ class Stranger {
           echo "insert detail template.\n";
           $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/views/detail.tpl';
           $this->applyTemplate($template_fileatime, $fp, $class_name, null, null);
+          $fwrite = fwrite($fp, $value);
+          if ($fwrite === false) {
+            return false;
+          }
+          continue;
         }
         if (strpos($value, '<!----columun_name---->')) {
           echo "covert [columun_name].\n";

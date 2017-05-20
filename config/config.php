@@ -23,6 +23,8 @@ define('DEVELOPEMENT', 3);
 
 define('LOG_LEVEL', DEVELOPEMENT);
 
+define('BASE_URL', 'http://cinnamon.example.com/');
+
 $CONV_STRING_LIST = array(
     'ID' => '\d',
     'YEAR' => '\d{4}',
