@@ -11,8 +11,8 @@ class UserInfoModel extends BaseModel {
 
   public $columns = array(
     'id' => array('type' => 'int', 'length' => 8, 'null' => false, 'key' => 'PRI', 'default' => null, ), 
-  name string(255) NOT NULL,
-  address string(255) NOT NULL,
+  name varchar(255) NOT NULL,
+  address varchar(255) NOT NULL,
     'created_at' => array('type' => 'datetime', 'length' => 19, 'null' => false, 'key' => 'PRI', 'default' => null, ), 
     'modified_at' => array('type' => 'datetime', 'length' => 19, 'null' => false, 'key' => 'PRI', 'default' => null, ), 
   );

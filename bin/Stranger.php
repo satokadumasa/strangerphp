@@ -50,6 +50,9 @@ class Stranger {
     else if ($this->argv[1] == 'db:migrate') {
       $arr = explode(':', $this->argv[1]);
     }
+    else if ($this->argv[1] == 'migrate'){
+        $this->execMigration();
+    }
   }
 
   /**
@@ -122,6 +125,41 @@ class Stranger {
     $this->controllerGenerate();
     $this->modelGenerate();
     $this->maigrateGenerate();
+  }
+
+  public function execMigration(){
+    $migration_files = $this->getFileList(MIGRATION_PATH);
+    echo "string:" . print_r($migration_files,true) . "¥n";
+    foreach ($migration_files as $key => $value) {
+      if (!strpos($value, '.php')) continue;
+      require_once $value;
+      $arr = explode('/', $value);
+      $migration_file = $arr[count($arr) - 1];
+      $migration_file = str_replace('.php', '', $migration_file);
+      echo "migration_file:" . $migration_file . "\n";
+      $migration = new $migration_file($this->default_database);
+      $migration->up();
+    }
+  }
+
+  public function getFileList($dir) {
+    $files = scandir($dir);
+    $files = array_filter($files, function ($file) {
+      return !in_array($file, array('.', '..'));
+    });
+
+    $list = array();
+    foreach ($files as $file) {
+      $fullpath = rtrim($dir, '/') . '/' . $file;
+      if (is_file($fullpath)) {
+        $list[] = $fullpath;
+      }
+      if (is_dir($fullpath)) {
+        $list = array_merge($list, $this->getFileList($fullpath));
+      }
+    }
+   
+    return $list;
   }
 
   //  generate controller
@@ -240,7 +278,7 @@ class Stranger {
     } else if ($this->argv[2] == 'column') {
       $create = $this->argv[1] == '-g' ? 'AddColumn' : 'DropColumn';
     }
-    $migration_class_name = $now_date . $create . $this->class_name;
+    $migration_class_name = 'Migrate' . $now_date . $create . $this->class_name;
     $out_put_filename = MIGRATION_PATH .'/' . $migration_class_name . ".php";
     //  出力先ファイルを開く
     $fp = fopen($out_put_filename, "w");
@@ -501,7 +539,6 @@ class Stranger {
       $datas = array(
           'column_name' => $arr[0],
           'type' => $arr[1],
-          'type_str' => $this->convertTypeKeyString($arr[1], (isset($arr[2]) ? $arr[2] : 255), $value),
           'length' => isset($arr[2]) ? $arr[2] : 255,
           'null' => isset($arr[3]) ? $arr[3] : 'false',
           'null_ok' => isset($arr[3]) ? '' : 'NOT NULL',
@@ -541,9 +578,10 @@ class Stranger {
         break;
       case 'SET':
       case 'ENUM':
-        # code...
-        break;
         return $type . "(" . $length . ")";
+        break;
+      case 'string':
+        return  "varchar(" . $length . ")";
         break;
       default:
         return $type . "(" . $length . ")";

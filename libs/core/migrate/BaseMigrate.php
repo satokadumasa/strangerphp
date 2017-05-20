@@ -12,7 +12,8 @@ class BaseMigrate {
   }
 
   public function up($sql) {
-    $this->dbh->beginTransaction();    
+    $this->dbh->beginTransaction();
+    $this->debug->log("BaseMigrate::up() sql:".$sql);
     $this->dbh->query($sql);
     $this->dbh->commit();
   }

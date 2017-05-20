@@ -1,5 +1,5 @@
 CREATE TABLE <!----table_name----> (
-  id mediumint(9) NOT NULL AUTO_INCREMENT,
+  id int(9) NOT NULL AUTO_INCREMENT,
   <!----columns---->
   created_at datetime NOT NULL,
   modified_at datetime NOT NULL,

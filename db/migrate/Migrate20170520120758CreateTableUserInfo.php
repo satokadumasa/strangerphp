@@ -1,5 +1,5 @@
 <?php
-class 20170518235834CreateTableUserInfo extends BaseMigrate{
+class Migrate20170520120758CreateTableUserInfo extends BaseMigrate{
   private $dbh = null;
   public function __construct($default_database) {
     parent::__construct($default_database);
@@ -8,9 +8,9 @@ class 20170518235834CreateTableUserInfo extends BaseMigrate{
   public function up() {
     $sql = <<<EOM
 CREATE TABLE user_infos (
-  id mediumint(9) NOT NULL AUTO_INCREMENT,
-  name string(255) NOT NULL,
-  address string(255) NOT NULL,
+  id int(9) NOT NULL AUTO_INCREMENT,
+  name varchar(255) NOT NULL,
+  address varchar(255) NOT NULL,
   created_at datetime NOT NULL,
   modified_at datetime NOT NULL,
   PRIMARY KEY (`id`),
