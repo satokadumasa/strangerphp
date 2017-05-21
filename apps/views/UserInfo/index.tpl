@@ -31,6 +31,6 @@
   <!----details---->
   <!----iteratior:UserInfo:end---->
 </div>
-<A HREF="UserInfo/index">INDEX</A>
-<A HREF="UserInfo/edit/<!----value:UserInfo:id---->">EDIT</A>
-<A HREF="UserInfo/delete/<!----value:UserInfo:id---->">DELETE</A>
+<A HREF="UserInfo/index/?page=<!----ref---->/">Ref</A>
+<A HREF="UserInfo/index/">INDEX</A>
+<A HREF="UserInfo/index/?page=<!----next---->/">Next</A>

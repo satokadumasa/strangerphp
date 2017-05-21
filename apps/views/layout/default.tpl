@@ -25,10 +25,11 @@ DIV.t {
 </style>
 </head>
 <body>
-デフォルトレイアウト<br>
+<div class="root">
     <!----renderpartial:common/top_menu:top_menu---->
     <!----renderpartial:common/side_menu:side_menu---->
     <!----renderpartial:CONTROLLER/ACTION:datas---->
     <!----renderpartial:common/footer:footer---->
+</div>
 </body>
 </html>

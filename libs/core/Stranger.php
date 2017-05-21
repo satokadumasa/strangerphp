@@ -237,13 +237,13 @@ class Stranger {
     //  create
     echo "create create template.\n";
     $create = $view_template_folder . 'create.tpl';
-    $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/views/form_exterior.tpl';
+    $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/views/create_form.tpl';
     $method = 'create';
     $this->createViewTemplate($template_fileatime, $create, $method);
     //  edit
     echo "create edit template.\n";
     $edit = $view_template_folder . 'edit.tpl';
-    $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/views/form_exterior.tpl';
+    $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/views/edit_form.tpl';
     $method = 'edit';
     $this->createViewTemplate($template_fileatime, $edit, $method);
   }
