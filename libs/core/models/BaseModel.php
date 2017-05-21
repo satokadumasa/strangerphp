@@ -74,7 +74,7 @@ class BaseModel {
 
     if ($type === 'first') {
       $id = $primary_keys[0];
-      $this->debug->log("datas:".print_r($datas, true));
+      $this->debug->log("BaseModel::find() datas:".print_r($datas, true));
       $datas = $datas[$id];
     }
     return $datas;
@@ -236,15 +236,26 @@ class BaseModel {
   }
 
   //  新規登録・更新
+  /**
+   *
+   *  @param array $form  フォーム入力値
+   */
   public function save($form) {
     try {
       $hssModels = [];
+      $hasManyAndBelongsToModels = [];
 
       $this->validation($form);
 
-      if (isset($form[$this->model_name][$this->primary_key])) $sql = $this->createModifySql($form[$this->model_name]);  // CASE MODIFY
-      else $sql = $this->createInsertSql();  // CASE INSERT
-
+      if (isset($form[$this->model_name][$this->primary_key])) {
+        $sql = $this->createModifySql($form[$this->model_name]);  // CASE MODIFY
+        $this->debug->log("BaseModel::save() update pk[".$this->primary_key."][".$form[$this->model_name][$this->primary_key]."] sql:".$sql);
+      }
+      else {
+        $sql = $this->createInsertSql();  // CASE INSERT
+        $this->debug->log("BaseModel::save() insert sql:".$sql);
+      }
+      
       if($this->has){
         $hssModels = array_keys($this->has);
       }

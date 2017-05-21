@@ -95,8 +95,11 @@ class View {
    *  
    */
   protected function convertKeyToValue($context, $matchs, $datas){
+    // echo "datas:".print_r($datas, true)."<br>";
     foreach ($matchs as $v) {
       $keys = explode(':', $v);
+      // echo "keys:".print_r($keys, true)."<br>";
+      // echo "key:".$keys[1]."<br>";
       $arr_value = $datas[$keys[1]];
       for($i = 2; $i < count($keys) ; $i++) {
         $arr_value = $arr_value[$keys[$i]];
@@ -150,6 +153,7 @@ class View {
         break;
       }
       else if (strpos($value, '<!----value:')){
+        echo "----value:<br>";
         $value = $this->convertKeyToValue($value, $matchs[1], $datas);        
       }
       echo $value;

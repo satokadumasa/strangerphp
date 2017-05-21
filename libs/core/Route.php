@@ -1,7 +1,7 @@
 <?php
 class Route {
   public $route = [];
-  private $default_actions = array('index', 'new', 'edit', 'create', 'confirm', 'show', 'delete');
+  private $default_actions = array('index', 'new', 'edit', 'create', 'save', 'confirm', 'show', 'delete');
   private $default_need_id_actions = array('new', 'edit', 'show', 'delete');
   private $url_not_found = array('controller' => 'DefaultController', 'action' => 'index');
 
@@ -74,6 +74,7 @@ class Route {
       if (preg_match('/css/', $url)) {
         return;
       }
+      $this->debug->log("Route::findRoute() pattern:".$pattern);
       if (preg_match($pattern, $url)) {
         $value['uri'] = $uri;
         $this->debug->log("Route::findRoute() value:".$key.">>>>value:".print_r($value, true));

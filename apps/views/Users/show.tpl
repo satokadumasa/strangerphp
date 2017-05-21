@@ -4,13 +4,11 @@
       UserName:    
     </div>
     <div>
-      <stg>iteratior:User:begin</stg>
       <div>
-        <div><stg>User:id</stg>></div>
-        <div><stg>User:name</stg>></div>
-        <div><stg>User:created_at</stg>></div>
+        <div><!----value:User:id----></div>
+        <div><!----value:User:name----></div>
+        <div><!----value:User:created_at---->></div>
       </div>
-      <!----iteratior:User:end---->
     </div>
   </div>
 </div>

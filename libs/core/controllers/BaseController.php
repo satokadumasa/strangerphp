@@ -27,9 +27,11 @@ class BaseController {
   }
 
   public function setRequest($uri, $url) {
+    $this->debug->log("BaseController::getRequestValues() _POST".print_r($_POST, true));
+    $this->debug->log("BaseController::getRequestValues() _GET".print_r($_GET, true));
+
     if (isset($_POST)) {
       foreach ($_POST as $key => $value) {
-        // $this->perseKey($key, $this->h($value));
         $this->perseKey($key, $value);
       }
     }

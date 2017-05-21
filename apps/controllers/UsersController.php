@@ -24,12 +24,13 @@ class UsersController extends BaseController{
     $user = new UserModel($this->dbh);
     $datas = $user->where('User.id', '=', $id)->find('first');
     $this->set('Title', 'ユーザー情報詳細');
-    $this->set('datas', $datas);
+    $this->set('User', $datas['User']);
   }
 
   public function create() {
     try {
       echo "UsersController::create()<br>";
+      $this->debug->log("UsersController::create() request:" . print_r($this->request, true));
       $this->dbh->beginTransaction();
       $user = new UserModel($this->dbh);
       $user->save($this->request);
