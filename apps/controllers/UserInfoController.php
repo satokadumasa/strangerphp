@@ -61,6 +61,7 @@ class UserInfoController extends BaseController{
       $user_infos = new UserInfoModel($this->dbh);
       $datas = $user_infos->where('UserInfo.id', '=', $id)->find('first');
       $this->set('Title', 'UserInfo Edit');
+      $this->set('UserInfo', $datas['UserInfo']);
       $this->set('datas', $datas);
     } catch (Exception $e) {
       $this->debug->log("UserInfoController::edit() error:" . $e->getMessage());

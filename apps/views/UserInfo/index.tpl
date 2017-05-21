@@ -20,13 +20,13 @@
   </div>
 </div>
 <div>
-  <A HREF="UserInfo/index">INDEX</A>
+  <A HREF="/UserInfo/index/">INDEX</A>
 </div>
 <div>
-  <A HREF="UserInfo/edit/<!----value:UserInfo:id---->">EDIT</A>
+  <A HREF="/UserInfo/edit/<!----value:UserInfo:id---->/">EDIT</A>
 </div>
 <div>
-  <A HREF="UserInfo/delete/<!----value:UserInfo:id---->">DELETE</A>
+  <A HREF="/UserInfo/delete/<!----value:UserInfo:id---->/">DELETE</A>
 </div>
   <!----details---->
   <!----iteratior:UserInfo:end---->

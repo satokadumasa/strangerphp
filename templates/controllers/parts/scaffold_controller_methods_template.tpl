@@ -54,6 +54,7 @@
       $<!----table_name----> = new <!----class_name---->Model($this->dbh);
       $datas = $<!----table_name---->->where('<!----class_name---->.id', '=', $id)->find('first');
       $this->set('Title', '<!----class_name----> Edit');
+      $this->set('<!----class_name---->', $datas['<!----class_name---->']);
       $this->set('datas', $datas);
     } catch (Exception $e) {
       $this->debug->log("<!----class_name---->Controller::edit() error:" . $e->getMessage());
