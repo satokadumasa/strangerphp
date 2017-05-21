@@ -29,7 +29,7 @@ class UserInfoController extends BaseController{
     $user_infos = new UserInfoModel($this->dbh);
     $datas = $user_infos->where('UserInfo.id', '=', $id)->find('first');
     $this->set('Title', 'UserInfo Ditail');
-    $this->set('UserInfo', $datas);
+    $this->set('UserInfo', $datas['UserInfo']);
     $this->set('datas', $datas);
   }
 
@@ -44,8 +44,8 @@ class UserInfoController extends BaseController{
       $this->dbh->beginTransaction();
       $user_infos = new UserInfoModel($this->dbh);
       $user_infos->save($this->request);
-      $user_infos->this->dbh->commit();
-      $url = BASE_URL . UserInfo . '/show/' . $user_infos->primary_key_value;
+      $this->dbh->commit();
+      $url = BASE_URL . UserInfo . '/show/' . $user_infos->primary_key_value .'/';
       $this->redirect($url);
     } catch (Exception $e) {
       $this->debug->log("UserInfoController::create() error:" . $e->getMessage());
@@ -75,6 +75,7 @@ class UserInfoController extends BaseController{
       $this->dbh->commit();
       $this->dbh->commit();
       $url = BASE_URL . UserInfo . '/index/';
+      exit();
     } catch (Exception $e) {
       $this->debug->log("UsersController::delete() error:" . $e->getMessage());
     }

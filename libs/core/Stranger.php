@@ -421,6 +421,7 @@ class Stranger {
           if ($fwrite === false) {
             return false;
           }
+          continue;
         }
         if (strpos($value, '<!----details---->')) {
           //  詳細画面テンプレート挿入
@@ -537,9 +538,13 @@ class Stranger {
    * @param $argv 
    */
   protected function geterateColumnString($argv) {
+    $this->debug->log("Stranger::geterateColumnString() start:");
+    $this->debug->log("Stranger::geterateColumnString() argv:".print_r($argv, true));
+    $column_string = null;
     for ($i = 4; $i < count($argv); $i++) {
       $arr = explode(':', $argv[$i]);
-      $value = null;
+      $this->debug->log("Stranger::geterateColumnString() argv[$i]:".print_r($argv[$i], true));
+      $this->debug->log("Stranger::geterateColumnString() arr:".print_r($arr, true));
 
       $datas = array(
           'column_name' => $arr[0],
@@ -550,18 +555,19 @@ class Stranger {
           'key' => isset($arr[4]) ? $arr[4] : '',
           'default' => isset($arr[5]) ? $arr[4] : 'null',
         );
-      $column_string = null;
+      $this->debug->log("Stranger::geterateColumnString() datas:".print_r($datas, true));
       $column_string .= "  <div>\n";
       $column_string .= "    <div>\n";
-      $column_string .= "      <!----" . $datas['column_name'] . "---->\n";
+      $column_string .= "      " . $this->class_name . " " . $datas['column_name'] . "\n";
       $column_string .= "    </div>\n";
       $column_string .= "    <div>\n";
       $column_string .= "      <!----value:" . $this->class_name . ":" . $datas['column_name'] . "---->\n";
       $column_string .= "    </div>\n";
       $column_string .= "  </div>\n";
 
-      return $column_string;
     }
+    $this->debug->log("Stranger::geterateColumnString() end:");
+    return $column_string;
   }
 
   protected function convertTypeKeyString($type, $length, $value) {

@@ -22,7 +22,7 @@
     $<!----table_name----> = new <!----class_name---->Model($this->dbh);
     $datas = $<!----table_name---->->where('<!----class_name---->.id', '=', $id)->find('first');
     $this->set('Title', '<!----class_name----> Ditail');
-    $this->set('<!----class_name---->', $datas);
+    $this->set('<!----class_name---->', $datas['<!----class_name---->']);
     $this->set('datas', $datas);
   }
 
@@ -37,7 +37,7 @@
       $this->dbh->beginTransaction();
       $<!----table_name----> = new <!----class_name---->Model($this->dbh);
       $<!----table_name---->->save($this->request);
-      $<!----table_name---->->this->dbh->commit();
+      $this->dbh->commit();
       $url = BASE_URL . <!----class_name----> . '/show/' . $<!----table_name---->->primary_key_value;
       $this->redirect($url);
     } catch (Exception $e) {
@@ -65,7 +65,6 @@
       $this->dbh->beginTransaction();
       $<!----table_name----> = new <!----class_name---->Model($this->dbh);
       $<!----table_name---->->delete($this->request['id']);
-      $this->dbh->commit();
       $this->dbh->commit();
       $url = BASE_URL . <!----class_name----> . '/index/';
     } catch (Exception $e) {

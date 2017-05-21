@@ -22,9 +22,9 @@ class Dispatcher {
     $this->debug->log("Dispatcher::__construct() route:".print_r($route, true).":");
     $controller = new $controller_name($this->default_database, $route['uri'], $_SERVER['REQUEST_URI']);
     $controller->setAction($route['action']);
-    $controller->before();
+    $controller->beforeAction();
     $controller->$route['action']();
-    $controller->after();
+    $controller->afterAction();
     $controller->render();
     exit();
   }

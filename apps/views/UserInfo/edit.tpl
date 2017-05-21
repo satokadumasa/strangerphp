@@ -1,5 +1,5 @@
 <h1>UserInfo edit<br /></h1>
-<form action="/UserInfo/edit/" method="post">
+<form action="/UserInfo/save/" method="post">
   UserInfo id<input type="text" name="UserInfo[id]" length="255"><br>
 
   UserInfo name<input type="text" name="UserInfo[name]" length="255"><br>

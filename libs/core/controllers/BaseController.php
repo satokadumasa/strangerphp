@@ -63,14 +63,14 @@ class BaseController {
   /**
    *
    */
-  public function before() {
+  public function beforeAction() {
     $this->debug->log("BaseController::befor()");
   }
 
   /**
    *
    */
-  public function after() {
+  public function afterAction() {
     $this->debug->log("BaseController::after()");
   }
 
@@ -88,32 +88,6 @@ class BaseController {
     $this->view->render($this->controller_class_name, $this->action, $this->datas);
   }
 
-  /**
-   * 指定された階層にある値を設定します。
-   *
-   * @param   array   $array  配列
-   * @param   mixed   $keys   階層
-   * @return  array   設定後の配列
-   */
-  /*
-  private function set_lowest($array, $keys, $value) {
-      $keys = (array) $keys;
-      if (empty($array)) {
-          $tmp =& $array;
-      } else {
-          $tmp =& $array[array_shift($keys)];
-      }
-
-      foreach ($keys as $key) {
-          if (!isset($tmp[$key])) {
-              $tmp[$key] = null;
-          }
-          $tmp =& $tmp[$key];
-      }
-      $tmp = $value;
-      return $array;
-  }
-  */
 
   protected function perseKey($key, $value) {
     // $this->debug->log("BaseController::perseKey() key(array)".$key);

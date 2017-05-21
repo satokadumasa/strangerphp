@@ -1,7 +1,7 @@
 <div>
   <div>
     <div>
-      <!----name---->
+      UserInfo name
     </div>
     <div>
       <!----value:UserInfo:name---->
@@ -9,10 +9,10 @@
   </div>
   <div>
     <div>
-      <!----name---->
+      UserInfo address
     </div>
     <div>
-      <!----value:UserInfo:name---->
+      <!----value:UserInfo:address---->
     </div>
   </div>
 </div>

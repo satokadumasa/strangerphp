@@ -246,12 +246,18 @@ class BaseModel {
       $hasManyAndBelongsToModels = [];
 
       $this->validation($form);
-
-      if (isset($form[$this->model_name][$this->primary_key]) && ($form[$this->model_name][$this->primary_key] != '')) {
+      if (
+        isset($form[$this->model_name][$this->primary_key]) && 
+        (
+          $form[$this->model_name][$this->primary_key] != '' || 
+          $form[$this->model_name][$this->primary_key] != null
+        )
+      ) {
         $sql = $this->createModifySql($form[$this->model_name]);  // CASE MODIFY
         $this->debug->log("BaseModel::save() update pk[".$this->primary_key."][".$form[$this->model_name][$this->primary_key]."] sql:".$sql);
       }
       else {
+        unset($form[$this->model_name][$this->primary_key]);
         $sql = $this->createInsertSql();  // CASE INSERT
         $this->debug->log("BaseModel::save() insert sql:".$sql);
       }
@@ -263,6 +269,9 @@ class BaseModel {
         $hasManyAndBelongsToModels = array_keys($this->has_many_and_belongs_to);
       }
       $stmt = $this->dbh->prepare($sql);
+      $this->debug->log("BaseModel::save() form:".print_r($form, true));
+      $this->debug->log("BaseModel::save() model_name:".$this->model_name);
+      $this->debug->log("BaseModel::save() sql:".$sql);
       foreach ($form[$this->model_name] as $col_name => $value) {
         if ($hssModels && in_array($col_name, $hssModels)) {
           continue;
@@ -271,6 +280,7 @@ class BaseModel {
           continue;
         }
         $colum_name = ":".$col_name;
+        $this->debug->log("BaseModel::save() colum_name[".$colum_name."]value[".$value."]");
         switch ($col_name) {
           case 'created_at':
           case 'modified_at':
@@ -391,20 +401,20 @@ class BaseModel {
   public function getColumnType($col_name) {
     $type = $this->columns[$col_name]['type'];
     switch ($type) {
-      case 'INT':
-      case 'TINYINT':
-      case 'SMALLINT':
-      case 'BIGINT':
+      case 'int':
+      case 'tinyint':
+      case 'smallint':
+      case 'bigint':
         return PDO::PARAM_INT;
         break;
-      case 'FLOAT':
-      case 'DOUBLE':
+      case 'float':
+      case 'double':
         return PDO::PARAM_INT;
         break;
-      case 'BOOL':
+      case 'bool':
         return PDO::PARAM_BOOL;
         break;
-      case 'SET':
+      case 'set':
       default:
         return PDO::PARAM_STR;
         break;

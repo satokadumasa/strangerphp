@@ -17,11 +17,14 @@ class View {
   }
 
   public function render($controller_class_name, $action, $datas){
-    $this->layout = VIEW_TEMPLATE_PATH . "/Layout/" . $this->layout . ".tpl";
+    $this->layout = VIEW_TEMPLATE_PATH . "/layout/" . $this->layout . ".tpl";
     $this->framingView($datas , $this->layout, $controller_class_name, $action);
   }
 
   protected function framingView($datas, $fileatime, $controller_class_name = null, $action = null) {
+    $this->debug->log("View::framingView() fileatime:".$fileatime);
+    
+    if (file_exists(VIEW_TEMPLATE_PATH . $controller_class_name . '/' . $action . 'tpl')) return false;
     $file_context = file($fileatime);
     for($i = 0; $i < count($file_context); $i++) {
       $value = $file_context[$i];
@@ -97,12 +100,13 @@ class View {
   protected function convertKeyToValue($context, $matchs, $datas){
     // echo "datas:".print_r($datas, true)."<br>";
     $this->debug->log("View::convertKeyToValue() datas:" . print_r($datas, true));
-    if (!$datas) return null;
     foreach ($matchs as $v) {
       $keys = explode(':', $v);
       // echo "keys:".print_r($keys, true)."<br>";
       // echo "key:".$keys[1]."<br>";
       $arr_value = $datas[$keys[1]];
+      if (!$arr_value) return null;
+
       for($i = 2; $i < count($keys) ; $i++) {
         $arr_value = $arr_value[$keys[$i]];
       }
