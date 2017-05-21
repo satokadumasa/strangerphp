@@ -133,14 +133,12 @@ class Stranger {
 
   public function execMigration(){
     $migration_files = $this->getFileList(MIGRATION_PATH);
-    echo "string:" . print_r($migration_files,true) . "¥n";
     foreach ($migration_files as $key => $value) {
       if (!strpos($value, '.php')) continue;
       require_once $value;
       $arr = explode('/', $value);
       $migration_file = $arr[count($arr) - 1];
       $migration_file = str_replace('.php', '', $migration_file);
-      echo "migration_file:" . $migration_file . "\n";
       $migration = new $migration_file($this->default_database);
       $migration->up();
     }
@@ -352,6 +350,7 @@ class Stranger {
         if (strpos($value, '<!----columns---->')) {
           $columns_str = "";
           for ($j = 4; $j < count($this->argv); $j++) {
+            $this->debug->log("Stranger::applyTemplate() argv:".print_r($this->argv[$j], true));
             $columns_str .= $this->generateColumnsStr($this->argv[$j], 'sql');
           }
           $value = $columns_str;
@@ -402,7 +401,6 @@ class Stranger {
           continue;
         }
         if (strpos($value, '<!----controller_method---->')) {
-          echo "create scaffold controller.\n mode:".print_r($this->argv[2], true)."\n";
           if ($this->argv[2] == 'scaffold') {
             echo "create scaffold controller.\n";
             $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/controllers/parts/scaffold_controller_methods_template.tpl';
@@ -482,6 +480,7 @@ class Stranger {
   protected function generateColumnsStr($column_define, $type){
     $columns_str = "";
     $arr = explode(':', $column_define);
+    $this->debug->log("Stranger::generateColumnsStr() column_define:$column_define");
     $value = null;
     $datas = array(
         'column_name' => $arr[0],
@@ -494,6 +493,7 @@ class Stranger {
         'default' => isset($arr[5]) ? $arr[4] : 'null',
         'model_name' => $this->class_name,
       );
+    $this->debug->log("Stranger::generateColumnsStr() datas:".print_r($datas, true));
     if ($type == 'model') {
       $template_fileatime = SCAFFOLD_TEMPLATE_PATH."/models/parts/column.tpl";
     }
@@ -520,7 +520,6 @@ class Stranger {
         $value,
         $matchs
       );
-      echo "matchs:".print_r($matchs, true)."\n";
       if (count($matchs[1]) > 0){
         $columns_str .= $this->convertKeyToValue($value, $matchs[1], $datas);
       }

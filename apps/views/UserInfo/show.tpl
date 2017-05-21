@@ -12,7 +12,7 @@
       <!----name---->
     </div>
     <div>
-      <!----value:UserInfo:address---->
+      <!----value:UserInfo:name---->
     </div>
   </div>
 </div>

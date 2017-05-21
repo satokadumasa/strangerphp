@@ -74,7 +74,7 @@ class View {
             foreach ($datas[$keys[1]] as $data) {
               $ret = $this->viewIterator($i, $data, $file_context);
             }
-            $i = $ret;
+            $i = isset($ret) ? $ret : $i;
           }
           else {
             for(; $i < count($file_context); $i++) {
@@ -96,6 +96,8 @@ class View {
    */
   protected function convertKeyToValue($context, $matchs, $datas){
     // echo "datas:".print_r($datas, true)."<br>";
+    $this->debug->log("View::convertKeyToValue() datas:" . print_r($datas, true));
+    if (!$datas) return null;
     foreach ($matchs as $v) {
       $keys = explode(':', $v);
       // echo "keys:".print_r($keys, true)."<br>";

@@ -10,6 +10,7 @@
 
     $this->set('Title', '<!----class_name----> List');
     $this->set('datas', $datas);
+    $this->set('<!----class_name---->', $datas);
     $this->set('ref', $ref);
     $this->set('next', $next);
   }
@@ -21,6 +22,7 @@
     $<!----table_name----> = new <!----class_name---->Model($this->dbh);
     $datas = $<!----table_name---->->where('<!----class_name---->.id', '=', $id)->find('first');
     $this->set('Title', '<!----class_name----> Ditail');
+    $this->set('<!----class_name---->', $datas);
     $this->set('datas', $datas);
   }
 
@@ -61,10 +63,14 @@
   public function delete() {
     try {
       $this->dbh->beginTransaction();
-      $<!----table_name----> = new <!----class_name---->.Model($this->dbh);
+      $<!----table_name----> = new <!----class_name---->Model($this->dbh);
       $<!----table_name---->->delete($this->request['id']);
       $this->dbh->commit();
+      $this->dbh->commit();
+      $url = BASE_URL . <!----class_name----> . '/index/';
     } catch (Exception $e) {
       $this->debug->log("UsersController::delete() error:" . $e->getMessage());
     }
   }
+
+

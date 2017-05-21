@@ -247,7 +247,7 @@ class BaseModel {
 
       $this->validation($form);
 
-      if (isset($form[$this->model_name][$this->primary_key])) {
+      if (isset($form[$this->model_name][$this->primary_key]) && ($form[$this->model_name][$this->primary_key] != '')) {
         $sql = $this->createModifySql($form[$this->model_name]);  // CASE MODIFY
         $this->debug->log("BaseModel::save() update pk[".$this->primary_key."][".$form[$this->model_name][$this->primary_key]."] sql:".$sql);
       }
