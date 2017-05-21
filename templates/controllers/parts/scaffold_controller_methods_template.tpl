@@ -38,7 +38,7 @@
       $<!----table_name----> = new <!----class_name---->Model($this->dbh);
       $<!----table_name---->->save($this->request);
       $this->dbh->commit();
-      $url = BASE_URL . <!----class_name----> . '/show/' . $<!----table_name---->->primary_key_value;
+      $url = BASE_URL . <!----class_name----> . '/show/' . $<!----table_name---->->primary_key_value . '/';
       $this->redirect($url);
     } catch (Exception $e) {
       $this->debug->log("<!----class_name---->Controller::create() error:" . $e->getMessage());
