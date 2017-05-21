@@ -1,7 +1,5 @@
-<div>
-  <div>
-    <div>
-      Powered by Strangers.Inc
-    </div>
+<div class="fotter">
+  <div class="announcement">
+    Powered by Strangers.Inc
   </div>
 </div>

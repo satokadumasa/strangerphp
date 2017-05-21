@@ -556,11 +556,11 @@ class Stranger {
           'default' => isset($arr[5]) ? $arr[4] : 'null',
         );
       $this->debug->log("Stranger::geterateColumnString() datas:".print_r($datas, true));
-      $column_string .= "  <div>\n";
-      $column_string .= "    <div>\n";
+      $column_string .= "  <div class='detail_rows'>\n";
+      $column_string .= "    <div class='label_clumn'>\n";
       $column_string .= "      " . $this->class_name . " " . $datas['column_name'] . "\n";
       $column_string .= "    </div>\n";
-      $column_string .= "    <div>\n";
+      $column_string .= "    <div class='input_clumn'>\n";
       $column_string .= "      <!----value:" . $this->class_name . ":" . $datas['column_name'] . "---->\n";
       $column_string .= "    </div>\n";
       $column_string .= "  </div>\n";

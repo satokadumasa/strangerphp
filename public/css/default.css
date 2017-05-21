@@ -1,0 +1,94 @@
+.root{
+  width: 800px;
+  float: left;
+  border: 1px solid gray;  
+}
+
+.top_menu {
+  width: 800px;
+  float: left;
+  border: 1px solid gray;  
+}
+
+.site_title {
+  width: 798px;
+  float: left;
+  border: 1px solid gray;  
+}
+
+.side_menu {
+  width: 198px;
+  min-height: 500px;
+  float: left;
+  border: 1px solid gray;
+}
+
+.side_menu_title {
+  width: 196px;
+  float: left;
+  border: 1px solid gray;
+}
+
+.side_menu_item {
+  width: 196px;
+  float: left;
+  border: 1px solid gray;
+}
+
+.contents {
+  width: 598px;
+  min-height: 500px;
+  float: left;
+  border: 1px solid gray;  
+}
+.details {
+  width: 596px;
+  float: left;
+  border: 1px solid gray;
+}
+
+.detail {
+  width: 596px;
+  float: left;
+  border: 1px solid gray;
+}
+.detail_rows {
+  width: 594px;
+  border: 1px solid gray;
+}
+
+.label_clumn {
+  width: 150px;
+  float: left;
+  border: 1px solid gray;
+}
+
+.input_clumn {
+  width: 440px;
+  float: left;
+  border: 1px solid gray;
+}
+
+.detail_menu {
+  width: 596px;
+  border: 1px solid gray;
+}
+.detail_menu_column {
+  width: 190px;
+  float: left;
+  border: 1px solid gray;
+}
+
+.fotter {
+  width: 800px;
+  float: left;
+  border: 1px solid gray;  
+}
+
+.announcement {
+  width: 798px;
+  float: left;
+  border: 1px solid gray;  
+}
+
+

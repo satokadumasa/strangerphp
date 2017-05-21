@@ -1,10 +1,5 @@
-<div>
-  <div>
-    <div>
-      TITEL
-    </div>
-    <div>
-      <stg>Title</stg>>
-    </div>
+<div class="top_menu">
+  <div class="site_title">
+    <!----value:Title---->
   </div>
 </div>

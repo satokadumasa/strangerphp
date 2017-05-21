@@ -23,7 +23,7 @@ class View {
 
   protected function framingView($datas, $fileatime, $controller_class_name = null, $action = null) {
     $this->debug->log("View::framingView() fileatime:".$fileatime);
-    
+
     if (file_exists(VIEW_TEMPLATE_PATH . $controller_class_name . '/' . $action . 'tpl')) return false;
     $file_context = file($fileatime);
     for($i = 0; $i < count($file_context); $i++) {
@@ -159,7 +159,6 @@ class View {
         break;
       }
       else if (strpos($value, '<!----value:')){
-        echo "----value:<br>";
         $value = $this->convertKeyToValue($value, $matchs[1], $datas);        
       }
       echo $value;
