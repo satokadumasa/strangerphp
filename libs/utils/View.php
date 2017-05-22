@@ -104,6 +104,7 @@ class View {
       $keys = explode(':', $v);
       // echo "keys:".print_r($keys, true)."<br>";
       // echo "key:".$keys[1]."<br>";
+      $this->debug->log("View::convertKeyToValue() keys:" . print_r($keys, true));
       $arr_value = $datas[$keys[1]];
       if (!$arr_value) return null;
 

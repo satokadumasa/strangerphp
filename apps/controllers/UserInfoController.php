@@ -35,6 +35,10 @@ class UserInfoController extends BaseController{
 
   public function create() {
     $this->debug->log("UserInfoController::create()");
+    $user_infos = new UserInfoModel($this->dbh);
+    $form = $user_infos->createForm();
+    $this->set('Title', 'UserInfo Create');
+    $this->set('UserInfo', $form['UserInfo']);
   }
 
   public function save(){

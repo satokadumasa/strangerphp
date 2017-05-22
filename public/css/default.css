@@ -58,6 +58,7 @@
   width: 600px;
   float: left;
   border: 0px solid gray;
+  overflow: scroll;
 }
 
 .detail {

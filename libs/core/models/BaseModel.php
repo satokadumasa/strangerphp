@@ -460,4 +460,13 @@ class BaseModel {
     }
     return false;
   }
+
+  public function createForm() {
+    $keys = array_keys($this->columns);
+    $form = [];
+    foreach ($keys as $key => $value) {
+      $form[$this->model_name][$value] = '';
+    }
+    return $form;
+  }
 }

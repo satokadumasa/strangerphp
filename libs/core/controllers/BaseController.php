@@ -91,14 +91,6 @@ class BaseController {
 
 
   protected function perseKey($key, $value) {
-    // $this->debug->log("BaseController::perseKey() key(array)".$key);
-    // $keys = explode('::', $key);
-    // if (is_array($keys)) {
-    //   $this->debug->log("BaseController::perseKey() keys(array)".print_r($keys, true));
-    //   $this->request = $this->set_lowest([], $keys, $value);
-    //   $this->debug->log("BaseController::perseKey() request(array)".print_r($this->request, true));
-    // }
-    // else $this->request[$key] = $value;
     $this->request[$key] = $value;
   }
 

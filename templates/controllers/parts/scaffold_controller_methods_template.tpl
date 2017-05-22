@@ -28,6 +28,10 @@
 
   public function create() {
     $this->debug->log("<!----class_name---->Controller::create()");
+    $<!----table_name----> = new <!----class_name---->Model($this->dbh);
+    $form = $<!----table_name---->->createForm();
+    $this->set('Title', '<!----class_name----> Create');
+    $this->set('<!----class_name---->', $form['<!----class_name---->']);
   }
 
   public function save(){
