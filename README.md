@@ -19,18 +19,18 @@ A simple example of use is described below.
 By using the Scaffold function, you can create a controller, model, and view template with CRUD function at once.
 
 ex)
-$> php ./stranger -g scaffold books name:string outline:text detail:text 
+$> php ./stranger.php -g scaffold books name:string outline:text detail:text 
 
 # generate controller
 If you create only the controller, execute the stranger command as shown.
 The controller and the view template file are created.
 
 ex)
-$> php .stranger -g controller books index show create delete
+$> php ./stranger.php -g controller books index show create delete
 
 #　generate model
 If you create only the model class file, execute the stranger command as shown below.
 
 ex)
-$> php ./stranger -g model books name:string outline:text detail:text
+$> php ./stranger.php -g model books name:string outline:text detail:text
 
