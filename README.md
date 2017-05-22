@@ -12,8 +12,8 @@ You can create a controller, model, View template file.
 You can create controller & method, View template file.
 3. Generate model class
 You can create model classes.
-
 A simple example of use is described below.
+4. Run migration
 
 # scaffold
 By using the Scaffold function, you can create a controller, model, and view template with CRUD function at once.
@@ -28,9 +28,16 @@ The controller and the view template file are created.
 ex)
 $> php ./stranger.php -g controller books index show create delete
 
-#　generate model
+# generate model
 If you create only the model class file, execute the stranger command as shown below.
 
 ex)
 $> php ./stranger.php -g model books name:string outline:text detail:text
+
+# Migration
+A migration file is created by Scaffold or model creation.
+You can create tables on the database using this migration file.
+
+ex)
+$> php ./stranger.php migrate
 
