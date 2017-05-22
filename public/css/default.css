@@ -66,30 +66,30 @@
   border: 1px solid gray;
 }
 .detail_rows {
-  width: 594px;
-  border: 1px solid gray;
+  width: 600px;
+  border: 0px solid gray;
 }
 
 .label_clumn {
   width: 150px;
   float: left;
-  border: 1px solid gray;
+  border: 0px solid gray;
 }
 
 .input_clumn {
-  width: 440px;
+  width: 450px;
   float: left;
-  border: 1px solid gray;
+  border: 0px solid gray;
 }
 
 .detail_menu {
-  width: 596px;
-  border: 1px solid gray;
+  width: 600px;
+  border: 0px solid gray;
 }
 .detail_menu_column {
-  width: 190px;
+  width: 200px;
   float: left;
-  border: 1px solid gray;
+  border: 0px solid gray;
 }
 
 .fotter {

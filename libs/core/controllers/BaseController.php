@@ -46,7 +46,7 @@ class BaseController {
     $uris = explode('/', $uri);
     
     for ($i=0; $i < count($urls) - 1; $i++) { 
-      if(!$uris[$i]) continue;
+      if(!isset($uris[$i])) continue;
       if($uris[$i] == $urls[$i]) continue;
       $this->request[mb_strtolower($uris[$i], 'UTF-8')] = $urls[$i];
     }
