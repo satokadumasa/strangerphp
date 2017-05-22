@@ -85,6 +85,7 @@ class BaseController {
    *
    */
   public function render(){
+    $this->set('SiteTitle', SITE_NAME);
     $this->view->render($this->controller_class_name, $this->action, $this->datas);
   }
 

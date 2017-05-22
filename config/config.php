@@ -1,4 +1,5 @@
 <?php
+define('SITE_NAME', '書庫セラエノ');
 define('PROJECT_ROOT', dirname(dirname(__FILE__)));
 define('APP_PATH', PROJECT_ROOT.'/apps/');
 define('BIN_PATH', PROJECT_ROOT.'/bin/');
