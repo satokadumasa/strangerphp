@@ -15,6 +15,7 @@ class Dispatcher {
     $this->debug->log("routes:" . print_r($this->route, true));
 
     $route = $this->route->findRoute($_SERVER['REQUEST_URI']);
+    $this->debug->log("route:" . print_r($route, true));
     $controller_name = $route['controller'];
     $this->debug->log("Dispatcher::__construct() controller:".$controller_name.":");
     $this->debug->log("Dispatcher::__construct() POST:".print_r($_POST, true).":");

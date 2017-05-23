@@ -3,7 +3,7 @@ class Route {
   public $route = [];
   private $default_actions = array('index', 'new', 'edit', 'create', 'save', 'confirm', 'show', 'delete');
   private $default_need_id_actions = array('new', 'edit', 'show', 'delete');
-  private $url_not_found = array('controller' => 'DefaultController', 'action' => 'index');
+  private $url_not_found = array('controller' => 'DefaultController', 'action' => 'index', 'uri' => '/Default/index/');
 
   public $error_log;
   public $info_log;
