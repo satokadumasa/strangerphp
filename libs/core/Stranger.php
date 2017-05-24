@@ -39,14 +39,17 @@ class Stranger {
     )
     */
     $this->debug->log("Stranger::exec argv:".print_r($this->argv, true));
-    $this->table_name = $this->argv[3];
+    $this->table_name = isset($this->argv[3]) ? $this->argv[3] : null;
     $this->class_name = StringUtil::convertTableNameToClassName($this->table_name);
+    echo "run stranger\n";
+
     if ($this->argv[1] == '-g') {
       $this->executeGenerates();
     }
     if ($this->argv[1] == 'migrate'){
-        $this->execMigration();
-        exit();
+      echo "run Migrate\n";
+      $this->execMigration();
+      exit();
     }
     else if ($this->argv[1] == '-d') {
       $this->executeDestroies();
@@ -133,14 +136,32 @@ class Stranger {
 
   public function execMigration(){
     $migration_files = $this->getFileList(MIGRATION_PATH);
-    foreach ($migration_files as $key => $value) {
-      if (!strpos($value, '.php')) continue;
-      require_once $value;
-      $arr = explode('/', $value);
-      $migration_file = $arr[count($arr) - 1];
-      $migration_file = str_replace('.php', '', $migration_file);
-      $migration = new $migration_file($this->default_database);
-      $migration->up();
+    if (isset($this->argv[2]) && $this->argv[2] == 'version') {
+      echo "Migrate drop table and add column.\n";
+      if(!isset($this->argv[3])) return false;
+      $migrate = new MigrationModel($this->dbh);
+      $migrate_classes = $migrate->where('version', '>', $this->argv[3])->desc('version')->find('all');
+      foreach ($migrate_classes as $key => $migrate_classe) {
+        $obj = new $migrate_classe($dbh);
+        $obj->down();
+      }
+    }
+    else {
+      echo "Migrate create table and add column.\n";
+      $migrate = new MigrationModel($this->dbh);
+
+      foreach ($migration_files as $key => $value) {
+        if (!strpos($value, '.php')) continue;
+        require_once $value;
+        $arr = explode('/', $value);
+        $migration_file = $arr[count($arr) - 1];
+        $migration_file = str_replace('.php', '', $migration_file);
+        $migration = new $migration_file($this->default_database);
+        $migration->up();
+        $varsion = preg_replace('/[^0-9]/', '', $migration_file);
+        echo "varsion:".$varsion."\n";
+        $migrate->insert(['Migration' => ['version' => $varsion, 'name' => $migration_file]]);
+      }
     }
   }
 
