@@ -149,16 +149,28 @@ class Stranger {
     else {
       echo "Migrate create table and add column.\n";
       $migrate = new MigrationModel($this->dbh);
+      $migrate = new MigrationModel($this->dbh);
+      $max_version = $migrate->getMaxVersion();
+
 
       foreach ($migration_files as $key => $value) {
         if (!strpos($value, '.php')) continue;
-        require_once $value;
+
         $arr = explode('/', $value);
         $migration_file = $arr[count($arr) - 1];
         $migration_file = str_replace('.php', '', $migration_file);
+
+        //  バージョン取得
+        $this->debug->log("Stranger::execMigration() migration_file:$migration_file");
+        $varsion = preg_replace('/[^0-9]/', '', $migration_file);
+        
+        $this->debug->log("Stranger::execMigration() varsion:$varsion");
+        $this->debug->log("Stranger::execMigration() max_version:$max_version");
+        if ($varsion <= $max_version) continue;
+
+        require_once $value;
         $migration = new $migration_file($this->default_database);
         $migration->up();
-        $varsion = preg_replace('/[^0-9]/', '', $migration_file);
         echo "varsion:".$varsion."\n";
         $migrate->insert(['Migration' => ['version' => $varsion, 'name' => $migration_file]]);
       }

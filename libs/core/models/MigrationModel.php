@@ -39,4 +39,16 @@ EOM;
     $stmt->bindValue('name', $data[$this->model_name]['name'], PDO::PARAM_STR);
     $stmt->execute();
   }
+
+  public function getMaxVersion(){
+    $sql = <<<EOM
+SELECT MAX(version) as version FROM $this->table_name;
+EOM;
+    $stmt = $this->dbh->prepare($sql);
+    $datas = null;
+    foreach ($this->dbh->query($sql) as $row) {
+      $version = $row[0];
+    }
+    return $version;
+  }
 }
