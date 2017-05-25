@@ -138,17 +138,23 @@ class Stranger {
     $migration_files = $this->getFileList(MIGRATION_PATH);
     if (isset($this->argv[2]) && $this->argv[2] == 'version') {
       echo "Migrate drop table and add column.\n";
-      if(!isset($this->argv[3])) return false;
+      if(!isset($this->argv[3])) {
+        return false;
+      }
       $migrate = new MigrationModel($this->dbh);
       $migrate_classes = $migrate->where('version', '>', $this->argv[3])->desc('version')->find('all');
+      echo "Migrate drop table and add column.(2)\n";
+      echo "Migrate :".print_r($migrate_classes, true)." .\n";
+
       foreach ($migrate_classes as $key => $migrate_classe) {
-        $obj = new $migrate_classe($dbh);
+        echo "==================== Migrate ".$migration_file." down =====================\n";
+        $obj = new $migrate_classe['name']($dbh);
         $obj->down();
+        $obj->delete($migrate_classe['version']);
       }
     }
     else {
       echo "Migrate create table and add column.\n";
-      $migrate = new MigrationModel($this->dbh);
       $migrate = new MigrationModel($this->dbh);
       $max_version = $migrate->getMaxVersion();
 
@@ -167,7 +173,7 @@ class Stranger {
         $this->debug->log("Stranger::execMigration() varsion:$varsion");
         $this->debug->log("Stranger::execMigration() max_version:$max_version");
         if ($varsion <= $max_version) continue;
-
+        echo "====================== Migrate ".$migration_file." up ======================\n";
         require_once $value;
         $migration = new $migration_file($this->default_database);
         $migration->up();

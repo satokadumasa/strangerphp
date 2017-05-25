@@ -28,6 +28,7 @@ class BaseModel {
     $this->error_log = new Logger('ERROR');
     $this->info_log = new Logger('INFO');
     $this->debug = new Logger('DEBUG');
+    $this->debug->log("BaseModel::__construct() Start.");
   }
 
   public function setTableName($table_name) {
@@ -41,6 +42,7 @@ class BaseModel {
 
   // 検索関連
   public function find($type = 'all') {
+    $this->debug->log("BaseModel::find() Start.");
     $datas = [];
     $primary_keys = [];
 
