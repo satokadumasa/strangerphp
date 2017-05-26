@@ -2,6 +2,7 @@
 class Migrate20170524230827CreateTableBook extends BaseMigrate{
   private $dbh = null;
   public function __construct($default_database) {
+    echo "Migrate20170524230827CreateTableBook\n";
     parent::__construct($default_database);
   }
 

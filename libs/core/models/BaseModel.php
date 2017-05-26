@@ -179,7 +179,6 @@ class BaseModel {
     }
 
     if($cond) $cond = " WHERE " . $cond;
-
     return $cond;
   }
 
@@ -221,10 +220,12 @@ class BaseModel {
 
   public function asc($asc){
     $this->ascs[] = $this->ascs ? ", ASC " . $this->model_name . "." . $asc :  " DESC " . $this->model_name . "." . $asc;
+    return $this;
   }
 
   public function desc($asc){
     $this->descs[] = $this->descs ? ", DESC " . $this->model_name . "." . $asc :  " DESC " . $this->model_name . "." . $asc;
+    return $this;
   }
 
   public function setHasModelDatas($model_name, $foreign_key_name,&$datas, $setDatas, $primary_keys) {

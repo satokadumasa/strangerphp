@@ -136,26 +136,26 @@ class Stranger {
 
   public function execMigration(){
     $migration_files = $this->getFileList(MIGRATION_PATH);
+    $migrate = new MigrationModel($this->dbh);
     if (isset($this->argv[2]) && $this->argv[2] == 'version') {
       echo "Migrate drop table and add column.\n";
       if(!isset($this->argv[3])) {
         return false;
       }
-      $migrate = new MigrationModel($this->dbh);
       $migrate_classes = $migrate->where('version', '>', $this->argv[3])->desc('version')->find('all');
-      echo "Migrate drop table and add column.(2)\n";
-      echo "Migrate :".print_r($migrate_classes, true)." .\n";
 
-      foreach ($migrate_classes as $key => $migrate_classe) {
-        echo "==================== Migrate ".$migration_file." down =====================\n";
-        $obj = new $migrate_classe['name']($dbh);
-        $obj->down();
-        $obj->delete($migrate_classe['version']);
+      foreach ($migrate_classes as $key => $migrate_class) {
+        $migration_file = $migrate_class['Migration']['name'];
+        echo "========== Migrate ".$migration_file." down start ==========\n";
+        require_once MIGRATION_PATH . $migration_file . ".php";
+        $migration = new $migration_file($this->default_database);
+        $migration->down();
+        $migrate->delete($migrate_class['Migration']['version']);
+        echo "========== Migrate ".$migration_file." down end   ==========\n";
       }
     }
     else {
       echo "Migrate create table and add column.\n";
-      $migrate = new MigrationModel($this->dbh);
       $max_version = $migrate->getMaxVersion();
 
 
@@ -167,18 +167,15 @@ class Stranger {
         $migration_file = str_replace('.php', '', $migration_file);
 
         //  バージョン取得
-        $this->debug->log("Stranger::execMigration() migration_file:$migration_file");
         $varsion = preg_replace('/[^0-9]/', '', $migration_file);
         
-        $this->debug->log("Stranger::execMigration() varsion:$varsion");
-        $this->debug->log("Stranger::execMigration() max_version:$max_version");
         if ($varsion <= $max_version) continue;
-        echo "====================== Migrate ".$migration_file." up ======================\n";
+        echo "========== Migrate ".$migration_file." up start ==========\n";
         require_once $value;
         $migration = new $migration_file($this->default_database);
         $migration->up();
-        echo "varsion:".$varsion."\n";
         $migrate->insert(['Migration' => ['version' => $varsion, 'name' => $migration_file]]);
+        echo "========== Migrate ".$migration_file." up end   ==========\n";
       }
     }
   }

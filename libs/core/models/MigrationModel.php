@@ -17,6 +17,7 @@ class MigrationModel extends BaseModel {
   );
 
   public function __construct(&$dbh = null) {
+    echo "MigrationModel::__construct() \n";
     parent::__construct($dbh);
   }
 
