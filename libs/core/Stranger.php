@@ -41,24 +41,23 @@ class Stranger {
     $this->debug->log("Stranger::exec argv:".print_r($this->argv, true));
     $this->table_name = isset($this->argv[3]) ? $this->argv[3] : null;
     $this->class_name = StringUtil::convertTableNameToClassName($this->table_name);
+    $this->debug->log("table_name[".$this->table_name."] class_name[".$this->class_name."]");
     echo "run stranger\n";
 
     if ($this->argv[1] == '-g') {
+      echo "run generate\n";
       $this->executeGenerates();
     }
     if ($this->argv[1] == 'migrate'){
-      echo "run Migrate\n";
       $this->execMigration();
       exit();
     }
     else if ($this->argv[1] == '-d') {
+      echo "run destroy\n";
       $this->executeDestroies();
     }
     else if ($this->argv[1] == 'db:migrate') {
       $arr = explode(':', $this->argv[1]);
-    }
-    else if ($this->argv[1] == 'migrate'){
-        $this->execMigration();
     }
   }
 
@@ -68,15 +67,18 @@ class Stranger {
   public function executeGenerates(){
     if ($this->argv[1] == '-g') {
       if ($this->argv[2] == 'scaffold') {
+        echo "run create scaffold\n";
         $this->scaffoldGenerate();
       }
       else if ($this->argv[2] == 'controller'){
         $this->controllerGenerate();
       }
       else if ($this->argv[2] == 'model'){
+        echo "run create model\n";
         $this->modelGenerate();
       }
       else if ($this->argv[2] == 'model' || $this->argv[2] == 'column'){
+        echo "run create model/column\n";
         $this->maigrateGenerate();
       }
       else {
@@ -91,15 +93,19 @@ class Stranger {
   public function executeDestroies(){
     if ($this->argv[1] == '-d') {
       if ($this->argv[2] == 'scaffold') {
-        scaffoldDestroy();
+        echo "run destroy scaffold\n";
+        $this->scaffoldDestroy();
       }
       else if ($this->argv[2] == 'controller'){
+        echo "run destroy controller\n";
         $this->controllerDestroy();
       }
       else if ($this->argv[2] == 'model'){
+        echo "run destroy model\n";
         $this->modelDestroy();
       }
       else if ($this->argv[2] == 'model' || $this->argv[2] == 'column'){
+        echo "run destroy model/column\n";
         $this->maigrateGenerate();
       }
       else {
@@ -129,9 +135,10 @@ class Stranger {
    */
   public function scaffoldDestroy(){
     $this->debug->log("Stranger::scaffoldDestroy()");
-    $this->controllerGenerate();
-    $this->modelGenerate();
-    $this->maigrateGenerate();
+    $this->controllerDestroy();
+    $this->modelDestroy();
+    $this->maigrateDestroy();
+    $this->templateDestroy();
   }
 
   public function execMigration(){
@@ -208,6 +215,7 @@ class Stranger {
     $template_fileatime = SCAFFOLD_TEMPLATE_PATH . 'controllers/controller_template.tpl';
     //  出力先ファイルを開く  
     $out_put_filename =  CONTROLLER_PATH ."/" . $this->class_name . "Controller.php";
+    echo "  create ".$out_put_filename."\n";
     $fp = fopen($out_put_filename, "w");
     $return = $this->applyTemplate($template_fileatime, $fp, $this->class_name, null, null);
   }
@@ -218,6 +226,9 @@ class Stranger {
    */
   public function controllerDestroy(){
     $this->debug->log("Stranger::controllerDestroy()");
+    $out_put_filename =  CONTROLLER_PATH ."/" . $this->class_name . "Controller.php";
+    echo "  rm ".$out_put_filename."\n";
+    unlink($out_put_filename);
   }
 
   //  generate model
@@ -230,7 +241,9 @@ class Stranger {
     $template_fileatime = SCAFFOLD_TEMPLATE_PATH . 'models/model_template.tpl';
     //  出力先ファイルを開く  
     $out_put_filename =  MODEL_PATH ."/" . $this->class_name . "Model.php";
+    echo "  create ".$template_fileatime."\n";
     $fp = fopen($out_put_filename, "w");
+    echo "  create ".$out_put_filename."\n";
     $return = $this->applyTemplate($template_fileatime, $fp, $this->class_name, null);
     fclose($fp);
     if ($return === false) {
@@ -244,6 +257,9 @@ class Stranger {
    */
   public function modelDestroy(){
     $this->debug->log("Stranger::modelDestroy()");
+    $out_put_filename =  MODEL_PATH ."/" . $this->class_name . "Model.php";
+    echo "  rm ".$out_put_filename."\n";
+    unlink($out_put_filename);
   }
 
   //  generate template
@@ -254,6 +270,7 @@ class Stranger {
     echo "create view templates.\n";
     $this->debug->log("Stranger::templateGenerate()");
     $view_template_folder = VIEW_TEMPLATE_PATH . $this->class_name . '/';
+    echo "  mkdir ".$view_template_folder."\n";
     if (!file_exists($view_template_folder)) {
       if(!mkdir($view_template_folder)) return false;
     }
@@ -286,6 +303,7 @@ class Stranger {
 
   public function createViewTemplate($template_fileatime, $view_template, $method) {
     $fp = fopen($view_template, "w");
+    echo "  create ".$view_template."\n";
     $return = $this->applyTemplate($template_fileatime, $fp, $this->class_name, null, $method);
     fclose($fp);
     if ($return === false) {
@@ -299,6 +317,12 @@ class Stranger {
    */
   public function templateDestroy(){
     $this->debug->log("Stranger::templateDestroy()");
+    $file_list = $this->getFileList(VIEW_TEMPLATE_PATH . $this->class_name . "/");
+    foreach ($file_list as $key => $value) {
+      echo "  rm ".$value."\n";
+      unlink($value);
+    }
+    rmdir(VIEW_TEMPLATE_PATH . $this->class_name);
   }
 
   //  generate maigrate_file  
@@ -320,6 +344,7 @@ class Stranger {
     $out_put_filename = MIGRATION_PATH .'/' . $migration_class_name . ".php";
     //  出力先ファイルを開く
     $fp = fopen($out_put_filename, "w");
+    echo "  create ".$out_put_filename."\n";
     $return = $this->applyTemplate($template_fileatime, $fp, $this->class_name, $migration_class_name);
     fclose($fp);
     if ($return === false) {
@@ -333,6 +358,13 @@ class Stranger {
    */ 
   public function maigrateDestroy(){
     $this->debug->log("Stranger::maigrateDestroy()");
+    $file_list = $this->getFileList(MIGRATION_PATH);
+    foreach ($file_list as $key => $value) {
+      if (strpos($value, $this->class_name)) {
+        unlink($value);
+        break;
+      }
+    }
   }
 
   /**

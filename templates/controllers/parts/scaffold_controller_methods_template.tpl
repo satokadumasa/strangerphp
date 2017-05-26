@@ -37,7 +37,6 @@
   public function save(){
     $this->debug->log("<!----class_name---->Controller::save()");
     try {
-      echo "<!----class_name---->Controller::create()<br>";
       $this->dbh->beginTransaction();
       $<!----table_name----> = new <!----class_name---->Model($this->dbh);
       $<!----table_name---->->save($this->request);

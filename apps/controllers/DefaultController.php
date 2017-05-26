@@ -6,7 +6,7 @@ class DefaultController extends BaseController {
   }
 
   public function index() {
-    $this->set('Title', 'Default');
+    $this->set('Title', 'Home');
     $this->set('datas', null);
   }
 }
