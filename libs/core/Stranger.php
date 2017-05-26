@@ -557,7 +557,7 @@ class Stranger {
         'type_str' => $this->convertTypeKeyString($arr[1], (isset($arr[2]) ? $arr[2] : 255), $value),
         'length' => isset($arr[2]) ? $arr[2] : 255,
         'null' => isset($arr[3]) ? $arr[3] : 'false',
-        'null_ok' => isset($arr[3]) ? '' : 'NOT NULL',
+        'null_ok' => isset($arr[3]) ? 'NOT NULL' : '',
         'key' => isset($arr[4]) ? $arr[4] : '',
         'default' => isset($arr[5]) ? $arr[4] : 'null',
         'model_name' => $this->class_name,
