@@ -22,6 +22,11 @@ class BaseModel {
 
   public $primary_key_value = null;
 
+  /**
+   *  コンストラクタ  
+   *
+   *  @param PDOObject &$dbh データベース接続ハンドラ
+   */
   public function __construct(&$dbh) {
     if($dbh) $this->setDbh($dbh);
 
@@ -31,16 +36,37 @@ class BaseModel {
     $this->debug->log("BaseModel::__construct() Start.");
   }
 
+  /**
+   *  テーブル名設定
+   *
+   *  @param string $table_name テーブル名
+   *  @return BaseModel $this
+   */
   public function setTableName($table_name) {
     $this->table_name = $table_name;
+    return $this;
   }
 
+  /**
+   *  テーブル名設定
+   *
+   *  @param PDOObject &$dbh データベース接続ハンドラ
+   *  @return BaseModel $this
+   */
   public function setDbh (&$dbh) {
     if ($dbh == null || $dbh == '') throw new Exception("DataBase handle is null.", 1);
     $this->dbh = $dbh;
+    return $this;
   }
 
   // 検索関連
+
+  /**
+   *  モデルの検索
+   * 
+   *  @param string $type 'all':全件 'first':先頭一件
+   *  @retrun array $datas 検索結果データ格納配列
+   */
   public function find($type = 'all') {
     $this->debug->log("BaseModel::find() Start.");
     $datas = [];
@@ -82,6 +108,14 @@ class BaseModel {
     return $datas;
   }
 
+  /**
+   *  HasOne/HasManyなモデルの検索
+   * 
+   *  @param array &$data 検索結果データ格納配列
+   *  @param array $has 子モデル
+   *  @param array $primary_keys 検索親IDs
+   *  @retrun none
+   */
   public function findHasModelesData(&$datas, $has = null, $primary_keys = null) {
     foreach ($has as $model_name => $options) {
       $model_class_name = $model_name."Model";
@@ -91,6 +125,13 @@ class BaseModel {
     }
   }
 
+  /**
+   *  HasManyAndBelongsToなモデルの検索
+   *
+   *  @param array &datas 検索結果格データ納配列
+   *  @param array $primary_keys 検索親IDs
+   *  @retrun none
+   */
   public function findHasManyAndBelongsTo(&$datas, $primary_keys = null) 
   {
     foreach ($this->has_many_and_belongs_to as $hasModeName => $options) 
@@ -116,6 +157,11 @@ class BaseModel {
     }
   }
 
+  /**
+   *  検索SQL生成処理
+   *
+   *  @retrun string $sql
+   */
   private function creteFindSql(){
     $sql = null;
     $relationship_conds = [];
@@ -163,6 +209,11 @@ class BaseModel {
     return $sql;
   }
 
+  /**
+   *  検索条件生成処理
+   *
+   *  @retrun BaseModel $this
+   */
   private function createCondition(){
     $cond = null;
     foreach ($this->conditions as $condition) {
@@ -182,6 +233,11 @@ class BaseModel {
     return $cond;
   }
 
+  /**
+   *  検索条件設定処理
+   *
+   *  @retrun BaseModel $this
+   */
   public function where($column_name, $operator, $value) {
     $this->conditions[] = array(
       'column_name' => $column_name, 
@@ -191,24 +247,44 @@ class BaseModel {
     return $this;
   }
 
+  /**
+   *  検索件数設定処理
+   *
+   *  @retrun BaseModel $this
+   */
   public function limit($limit_num) {
     if (!is_int($limit_num)) throw new Exception("Error Processing Request", 1);
     $this->limit_num = $limit_num;
     return $this;
   }
 
+  /**
+   *  検索件数上限設定処理
+   *
+   *  @retrun BaseModel $this
+   */
   public function setMaxRows($max_rows) {
     if (!is_int($max_rows)) throw new Exception("Error Processing Request", 1);
     if ($max_rows > 0) $this->max_rows = $max_rows;
     return $this;
   }
 
+  /**
+   *  検索開始位置設定処理
+   *
+   *  @retrun BaseModel $this
+   */
   public function offset($offset_num) {
     if (!is_int($offset_num)) throw new Exception("Error Processing Request", 1);
     $this->offset_num = $offset_num;
     return $this;
   }
 
+  /**
+   *  検索対象頁設定処理
+   *
+   *  @retrun BaseModel $this
+   */
   public function pagenate($page){
     if (!is_int($page)) throw new Exception("Error Processing Request", 1);
     if ($page > 0 && $this->max_rows > 0) {
@@ -218,13 +294,25 @@ class BaseModel {
     return $this;
   }
 
+  /**
+   *  検索並び順（昇順）設定処理
+   *
+   *  @param string $asc 対象カラム名
+   *  @retrun BaseModel $this
+   */
   public function asc($asc){
-    $this->ascs[] = $this->ascs ? ", ASC " . $this->model_name . "." . $asc :  " DESC " . $this->model_name . "." . $asc;
+    $this->ascs[] = $this->ascs ? "," . $this->model_name . "." . $asc . " ASC ":  " " . $this->model_name . "." . $asc . " ASC ";
     return $this;
   }
 
+  /**
+   *  検索並び順（降順）設定処理
+   *
+   *  @param string $asc 対象カラム名
+   *  @retrun BaseModel $this
+   */
   public function desc($asc){
-    $this->descs[] = $this->descs ? ", DESC " . $this->model_name . "." . $asc :  " DESC " . $this->model_name . "." . $asc;
+    $this->descs[] = $this->descs ? "," . $this->model_name . "." . $asc . " DESC ":  " " . $this->model_name . "." . $asc . " DESC ";
     return $this;
   }
 
@@ -238,9 +326,10 @@ class BaseModel {
     }
   }
 
-  //  新規登録・更新
+  //  新規登録・更新処理
   /**
-   *
+   *  新規登録・更新処理 
+   * 
    *  @param array $form  フォーム入力値
    */
   public function save($form) {
@@ -272,7 +361,6 @@ class BaseModel {
         $hasManyAndBelongsToModels = array_keys($this->has_many_and_belongs_to);
       }
       $stmt = $this->dbh->prepare($sql);
-      $this->debug->log("BaseModel::save() form:".print_r($form, true));
       $this->debug->log("BaseModel::save() model_name:".$this->model_name);
       $this->debug->log("BaseModel::save() sql:".$sql);
       foreach ($form[$this->model_name] as $col_name => $value) {
@@ -453,6 +541,12 @@ class BaseModel {
     // $this->form
   }
 
+  /**
+   *  Array/Hash判定メソッド 
+   *
+   *  @param Object $data 判定対象オブジェクト
+   *  @return boolean
+   */
   public function is_hash($data) {
     if (is_array($data)){
       foreach ($data as $key => $value) {

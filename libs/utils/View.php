@@ -108,9 +108,104 @@ class View {
             }
           }
         }
+        else if(strpos($value, '!----select_options:')) {
+          /**
+           *  <!----select_options:UserInfo:pref_id:Prefecture:name---->
+           */
+          $arr = explode(':', $value);
+          preg_match_all(
+            "<!----select_options:(.*)---->",
+            $value,
+            $matchs
+          );
+          $arr = explode(':', $matchs[1]);
+          $this->selectOptionHelper($selects, $option_data, $value_name);
+          $i++;
+        }
+        else if(strpos($value, '!----radiobutton_options:')) {
+          /**
+           *  <!----radiobutton_options:UserInfo:pref_id:Prefecture:name---->
+           */
+          $arr = explode(':', $value);
+          preg_match_all(
+            "<!----radiobutton_options:(.*)---->",
+            $value,
+            $matchs
+          );
+          $arr = explode(':', $matchs[1]);
+          $this->selectOptionHelper($selects, $option_data, $value_name);
+          $i++;
+        }
+        else if(strpos($value, '!----checkbox_options:')) {
+          /**
+           *  <!----checkbox_options:UserInfo:pref_id:Prefecture:name---->
+           */
+          $arr = explode(':', $value);
+          preg_match_all(
+            "<!----checkbox_options:(.*)---->",
+            $value,
+            $matchs
+          );
+          $arr = explode(':', $matchs[1]);
+          $this->selectOptionHelper($selects, $option_data, $value_name);
+          $i++;
+        }
       }
       echo $value;
     }
+  }
+
+  /**
+   *  SELECT OPTIONタグ生成メソッド
+   *  
+   *  @param array $selects    : 選択済みID
+   *  @param array $option_data : 選択枝データ
+   *  @param array $value_name : 選択名
+   *  @return none
+   */
+  protected function selectOption($selects, $option_data, $value_name){
+    $options_str = "";
+    foreach ($option_data as $key => $value) {
+      $selected = (in_array($value['id'], $selects)) ? 'selected' : '';
+      $options_str .= "<option value='" . $value['id'] . "' " . $selected . ">" . $value[$value_name] . "</option>\n";
+    }
+    echo $options_str;
+  }
+
+  /**
+   *  SELECT OPTIONタグ生成メソッド
+   *  
+   *  @param array $select    : 選択済みID
+   *  @param array $option_data : 選択枝データ
+   *  @param array $value_name : 選択名
+   *  @param string $column_name : カラム名 
+   *  @return none
+   */
+  protected function radiobutton($select, $option_data, $value_name, $column_name){
+    $options_str = "";
+    foreach ($option_data as $key => $value) {
+      $selected = ($value['id'] = $selects) ? 'checked' : '';
+      $options_str .= "<input type='radio' name='".$this->class_name."[".$column_name."]' value='" . $value['id'] . "' " . $selected . ">" . $value[$value_name] . "\n";
+    }
+    echo $options_str;
+  }
+
+  /**
+   *  SELECT OPTIONタグ生成メソッド
+   *  
+   *  @param array $selects    : 選択済みID
+   *  @param array $option_data : 選択枝データ
+   *  @param array $value_name : 選択名
+   *  @param string $column_name : カラム名 
+   *  @return none
+   */
+  protected function checkbox($selects, $option_data, $value_name, $column_name){
+    $options_str = "";
+    foreach ($option_data as $key => $value) {
+      $selected = (in_array($value['id'], $selects)) ? 'checked' : '';
+      $options_str .= "<input type='radio' name='".$this->class_name."[".$column_name."]' value='" . $value['id'] . "' " . $selected . ">" . $value[$value_name] . "\n";
+    }
+    echo $options_str;
   }
 
   /**
