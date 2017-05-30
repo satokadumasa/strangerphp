@@ -112,14 +112,19 @@ class View {
           /**
            *  <!----select_options:UserInfo:pref_id:Prefecture:name---->
            */
+          echo "datas:".print_r($datas, true)."<br>";
           $arr = explode(':', $value);
           preg_match_all(
             "<!----select_options:(.*)---->",
             $value,
             $matchs
           );
-          $arr = explode(':', $matchs[1]);
-          $this->selectOptionHelper($selects, $option_data, $value_name);
+          foreach ($matchs[1] as $key => $match) {
+            $arr = explode(':', $match);
+            $selects = $datas[$arr[1]];
+            echo "arr:" . print_r($arr, true)."<br>";
+            $this->selectOption($selects, $datas[$arr[2]], $arr[3]);
+          }
           $i++;
         }
         else if(strpos($value, '!----radiobutton_options:')) {
@@ -166,6 +171,7 @@ class View {
   protected function selectOption($selects, $option_data, $value_name){
     $options_str = "";
     foreach ($option_data as $key => $value) {
+      echo "value:" . print_r($value, true) . "<br>";
       $selected = (in_array($value['id'], $selects)) ? 'selected' : '';
       $options_str .= "<option value='" . $value['id'] . "' " . $selected . ">" . $value[$value_name] . "</option>\n";
     }
