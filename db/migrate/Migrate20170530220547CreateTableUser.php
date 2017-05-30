@@ -1,5 +1,5 @@
 <?php
-class Migrate20170529233025CreateTableUser extends BaseMigrate{
+class Migrate20170530220547CreateTableUser extends BaseMigrate{
   private $dbh = null;
   public function __construct($default_database) {
     parent::__construct($default_database);

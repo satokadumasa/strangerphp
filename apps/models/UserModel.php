@@ -14,7 +14,7 @@ class UserModel extends BaseModel {
     'user_name' => array('type' => 'string', 'length' => 64, 'null' => false, 'key' => '', 'default' => null, ), 
     'password' => array('type' => 'string', 'length' => 64, 'null' => false, 'key' => '', 'default' => null, ), 
     'role_id' => array('type' => 'int', 'length' => 8, 'null' => false, 'key' => '', 'default' => null, ), 
-    'delete_flag' => array('type' => 'tinyint', 'length' => 1, 'null' => false, 'key' => '', 'default' => null , ), 
+    'delete_flag' => array('type' => 'tinyint', 'length' => 1, 'null' => false, 'key' => '', 'default' => null, ), 
     'created_at' => array('type' => 'datetime', 'length' => 19, 'null' => false, 'key' => 'PRI', 'default' => null, ), 
     'modified_at' => array('type' => 'datetime', 'length' => 19, 'null' => false, 'key' => 'PRI', 'default' => null, ), 
   );

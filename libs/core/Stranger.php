@@ -559,7 +559,7 @@ class Stranger {
         'null' => isset($arr[3]) ? $arr[3] : 'false',
         'null_ok' => isset($arr[3]) ? 'NOT NULL' : '',
         'key' => isset($arr[4]) ? $arr[4] : '',
-        'default' => isset($arr[5]) ? $arr[4] : 'null',
+        'default' => (isset($arr[5]) && ($arr[5] != ''  || $arr[5] != null))? $arr[5] : 'null',
         'model_name' => $this->class_name,
       );
     $this->debug->log("Stranger::generateColumnsStr() datas:".print_r($datas, true));
@@ -621,7 +621,7 @@ class Stranger {
           'null' => isset($arr[3]) ? $arr[3] : 'false',
           'null_ok' => isset($arr[3]) ? '' : 'NOT NULL',
           'key' => isset($arr[4]) ? $arr[4] : '',
-          'default' => isset($arr[5]) ? $arr[4] : 'null',
+          'default' => isset($arr[5]) ? $arr[5] : 'null',
         );
       $this->debug->log("Stranger::geterateColumnString() datas:".print_r($datas, true));
       $column_string .= "  <div class='detail_rows'>\n";

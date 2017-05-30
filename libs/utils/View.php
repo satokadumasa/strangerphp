@@ -112,7 +112,6 @@ class View {
           /**
            *  <!----select_options:UserInfo:pref_id:Prefecture:name---->
            */
-          echo "datas:".print_r($datas, true)."<br>";
           $arr = explode(':', $value);
           preg_match_all(
             "<!----select_options:(.*)---->",
@@ -121,15 +120,14 @@ class View {
           );
           foreach ($matchs[1] as $key => $match) {
             $arr = explode(':', $match);
-            $selects = $datas[$arr[1]];
-            echo "arr:" . print_r($arr, true)."<br>";
+            $selects = isset($datas[$arr[1]]) ? $datas[$arr[1]] : [];
             $this->selectOption($selects, $datas[$arr[2]], $arr[3]);
           }
-          $i++;
+          continue;
         }
         else if(strpos($value, '!----radiobutton_options:')) {
           /**
-           *  <!----radiobutton_options:UserInfo:pref_id:Prefecture:name---->
+           *  <!----radiobutton_options:UserInfo:pref_id:Prefecture:id:name---->
            */
           $arr = explode(':', $value);
           preg_match_all(
@@ -137,13 +135,17 @@ class View {
             $value,
             $matchs
           );
-          $arr = explode(':', $matchs[1]);
-          $this->selectOptionHelper($selects, $option_data, $value_name);
-          $i++;
+          foreach ($matchs[1] as $key => $match) {
+            $arr = explode(':', $match);
+            $select = isset($datas[$arr[1]]) ? $datas[$arr[1]] : null;
+            $this->radiobutton($select, $arr[0], $datas[$arr[2]], $arr[4], $arr[3], $arr[4]);
+          }
+
+          continue;
         }
         else if(strpos($value, '!----checkbox_options:')) {
           /**
-           *  <!----checkbox_options:UserInfo:pref_id:Prefecture:name---->
+           *    <!----checkbox_options:UserInfo:pref_id:Prefecture:id:name---->
            */
           $arr = explode(':', $value);
           preg_match_all(
@@ -151,9 +153,12 @@ class View {
             $value,
             $matchs
           );
-          $arr = explode(':', $matchs[1]);
-          $this->selectOptionHelper($selects, $option_data, $value_name);
-          $i++;
+          foreach ($matchs[1] as $key => $match) {
+            $arr = explode(':', $match);
+            $selects = isset($datas[$arr[1]]) ? $datas[$arr[1]] : null;
+            $this->checkbox($selects, $arr[0], $datas[$arr[2]], $arr[4], $arr[3]);
+          }
+          continue;
         }
       }
       echo $value;
@@ -171,7 +176,6 @@ class View {
   protected function selectOption($selects, $option_data, $value_name){
     $options_str = "";
     foreach ($option_data as $key => $value) {
-      echo "value:" . print_r($value, true) . "<br>";
       $selected = (in_array($value['id'], $selects)) ? 'selected' : '';
       $options_str .= "<option value='" . $value['id'] . "' " . $selected . ">" . $value[$value_name] . "</option>\n";
     }
@@ -187,11 +191,11 @@ class View {
    *  @param string $column_name : カラム名 
    *  @return none
    */
-  protected function radiobutton($select, $option_data, $value_name, $column_name){
+  protected function radiobutton($select, $class_name, $option_data, $column_name, $index_name){
     $options_str = "";
     foreach ($option_data as $key => $value) {
-      $selected = ($value['id'] = $selects) ? 'checked' : '';
-      $options_str .= "<input type='radio' name='".$this->class_name."[".$column_name."]' value='" . $value['id'] . "' " . $selected . ">" . $value[$value_name] . "\n";
+      $selected = ($value[$index_name] == $select) ? 'checked' : '';
+      $options_str .= "<input type='radio' name='" . $class_name . "[" . $column_name . "]' value='" . $value[$index_name] . "' " . $selected . ">" . $value[$column_name] . "\n";
     }
     echo $options_str;
   }
@@ -205,11 +209,12 @@ class View {
    *  @param string $column_name : カラム名 
    *  @return none
    */
-  protected function checkbox($selects, $option_data, $value_name, $column_name){
+  protected function checkbox($selects, $class_name, $option_data, $column_name, $index_name){
     $options_str = "";
     foreach ($option_data as $key => $value) {
-      $selected = (in_array($value['id'], $selects)) ? 'checked' : '';
-      $options_str .= "<input type='radio' name='".$this->class_name."[".$column_name."]' value='" . $value['id'] . "' " . $selected . ">" . $value[$value_name] . "\n";
+
+      $selected = ($selects && in_array($value[$index_name], $selects)) ? 'checked' : '';
+      $options_str .= "<input type='checkbox' name='" . $class_name . "[" . $column_name . "]' value='" . $value[$index_name] . "' " . $selected . ">" . $value[$column_name] . "\n";
     }
     echo $options_str;
   }
