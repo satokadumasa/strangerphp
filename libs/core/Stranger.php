@@ -48,6 +48,14 @@ class Stranger {
       echo "run generate\n";
       $this->executeGenerates();
     }
+    if ($this->argv[1] == 'migrate:create:schena'){
+      $this->createSchema($this->argv[2]);
+      exit();
+    }
+    if ($this->argv[1] == 'migrate:init'){
+      $this->initSchema();
+      exit();
+    }
     if ($this->argv[1] == 'migrate'){
       $this->execMigration();
       exit();
@@ -59,6 +67,65 @@ class Stranger {
     else if ($this->argv[1] == 'db:migrate') {
       $arr = explode(':', $this->argv[1]);
     }
+  }
+
+  /**
+   *  データベース作成 
+   *
+   *  @param string $connection_param 接続情報
+   *  @return none
+   */
+  public function createSchema($connection_param)
+  {
+    // migrate:create:schena host:charset:username:password:schema
+    $arr = explode(':', $connection_param);
+    $database = [
+      'rdb'      => 'mysql',
+      'host'     => $arr[0],
+      'dbname'   => 'mysql',
+      'charset'  => $arr[1],
+      'username' => $arr[2],
+      'password' => $arr[3],
+    ];
+    $dbConnect = new DbConnect();
+    $dbConnect->setConnectionInfo($database);
+    $dbh = $this->dbConnect->createConnection();
+    $schena = $arr[4];
+    $sql = <<<EOM
+CREATE DATABASE $schena;
+EOM;
+    $stmt = $dbh->prepare($sql);
+    $stmt->execute();
+  }
+
+  /**
+   *  migrationテーブル作成 
+   *
+   *  @param none
+   *  @return none
+   */
+  public function initSchema()
+  {
+    echo "create migrations\n";
+    $sql = <<<EOM
+DROP TABLE migrations;
+EOM;
+    $stmt = $this->dbh->prepare($sql);
+    $stmt->execute();
+
+    $sql = <<<EOM
+CREATE TABLE migrations (
+  version BIGINT,
+  name varchar(255) NOT NULL,
+  created_at datetime NOT NULL,
+  modified_at datetime NOT NULL,
+  PRIMARY KEY (`version`),
+  KEY index_users_id (`version`,`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+EOM;
+    $stmt = $this->dbh->prepare($sql);
+    $stmt->execute();
+    echo "create migrations success\n";
   }
 
   /**
