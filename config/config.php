@@ -34,5 +34,5 @@ $CONV_STRING_LIST = array(
     'MONTH' => '\d{2}',
     'MDAY', '\d{2}',
   );
-require_once CONFIG_PATH . 'database.config.php';
+// require_once CONFIG_PATH . 'database.config.php';
 // AutoLoad

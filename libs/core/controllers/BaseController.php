@@ -13,13 +13,13 @@ class BaseController {
   public $action = null;
   public $controller_class_name = null;
 
-  public function __construct($default_database, $uri, $url) {
+  public function __construct($database, $uri, $url) {
     $this->error_log = new Logger('ERROR');
     $this->info_log = new Logger('INFO');
     $this->debug = new Logger('DEBUG');
-
+    
     $this->dbConnect = new DbConnect();
-    $this->dbConnect->setConnectionInfo($default_database);
+    $this->dbConnect->setConnectionInfo($database);
     $this->dbh = $this->dbConnect->createConnection();
     
     $this->setRequest($uri, $url);

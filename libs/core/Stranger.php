@@ -9,12 +9,15 @@ class Stranger {
   protected $default_database = null;
   protected $dbh = null;
 
-  public function __construct($argv, $default_database) {
+  public function __construct($argv) {
     $this->argv = $argv;
     $this->default_database = $default_database;
 
+    $conf = Config::get('database.config');
+    $database = $conf['default_database'];
+
     $this->dbConnect = new DbConnect();
-    $this->dbConnect->setConnectionInfo($default_database);
+    $this->dbConnect->setConnectionInfo($database);
     $this->dbh = $this->dbConnect->createConnection();
 
     $this->error_log = new Logger('ERROR');
@@ -28,7 +31,7 @@ class Stranger {
    *
    */
   public function execute() {
-    /***
+    /**
     argv = array(
         [0] => ./stranger.php
         [1] => -g

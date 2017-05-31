@@ -6,5 +6,5 @@ spl_autoload_register(array('ClassLoader', 'loadClass'));
 
 require_once CONFIG_PATH . "/routes.php";
 
-$dispatcher = new Dispatcher($route, $default_database);
+$dispatcher = new Dispatcher($route);
 $dispatcher->dispatcheController();
