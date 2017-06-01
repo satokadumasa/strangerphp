@@ -18,7 +18,10 @@ StrangerPHPはデータベースとしてMySQLを使用します。
 ディレクトリに  いるものとします。
 
 $> cd stranger
-$> cp config/database.config.sample.php config/
+$> cp config/database.config.sample.php config/development/
+$> cp config/database.config.sample.php config/staging/
+$> cp config/database.config.sample.php config/production/
+$> cp config/database.config.sample.php config/test/
 
 次にスキーマの生成です。以下の条件でスキーマを生成するものとします。
 
@@ -29,7 +32,7 @@ password:password
 スキーマ名:stranger
 
 まず、先ほどコピーして作成したdatabase.config.phpを以下のように編集します。
-$> vi config/database.config.php
+$> vi config/[ENVIRONMENT]/database.config.php
 
 $default_database = array(
   'rdb'      => 'mysql',
@@ -57,7 +60,7 @@ $> php ./stranger.php migrate:init
 これで、スキーマ、migration管理テーブルが作成されてました。次に、再度database.config.php
 を編集してスキーマ名を変更します。
 
-$> vi config/database.config.php
+$> vi config/[ENVIRONMENT]/database.config.php
 
 $default_database = array(
   'rdb'      => 'mysql',
