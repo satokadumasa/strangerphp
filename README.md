@@ -127,6 +127,13 @@ $> php ./stranger.php migrate
 
 以上で、プロジェクト作成とScaffold、migration機能についての説明は終了です。
 
+なお、StrangerPHPについてのサポートは随時受け付けております。
+商用利用、業務プロジェクトでの利用についてはサポートは有料とさせていただいております。
+それ以外、個人での非営利プロジェクトでの利用でのサポートをいたします。
+お気軽に下記のメールアドレスまでお問い合わせください。
+
+email: sato.kadumasa＠gmail.com
+
 
 # StrangerPHP
 Currently, only the following functions can be used.
