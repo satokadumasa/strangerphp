@@ -1,3 +1,7 @@
+config/development/database.config.php
+config/staging/database.config.php
+config/test/database.config.php
+config/production/database.config.php
 config/database.config.php
 temp/*
 logs/*
