@@ -23,6 +23,7 @@ define('PRODUCTION', 1);
 define('DEVELOPEMENT', 3);
 
 define('LOG_LEVEL', DEVELOPEMENT);
+// define('ENV', value)
 
 define('BASE_URL', 'http://cinnamon.example.com/');
 
