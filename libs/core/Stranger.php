@@ -11,18 +11,26 @@ class Stranger {
 
   public function __construct($argv) {
     $this->argv = $argv;
-    $this->default_database = $default_database;
 
-    $conf = Config::get('database.config');
-    $database = $conf['default_database'];
-
-    $this->dbConnect = new DbConnect();
-    $this->dbConnect->setConnectionInfo($database);
-    $this->dbh = $this->dbConnect->createConnection();
-
+    echo "try connect\n";
+    $this->con();
+    echo "connected\n";
     $this->error_log = new Logger('ERROR');
     $this->info_log = new Logger('INFO');
     $this->debug = new Logger('DEBUG');
+  }
+
+  public function con() {
+    try {
+      $conf = Config::get('database.config');
+      $database = $conf['default_database'];
+      $this->default_database = $database;
+      $this->dbConnect = new DbConnect();
+      $this->dbConnect->setConnectionInfo($database);
+      $this->dbh = $this->dbConnect->createConnection();
+    } catch (PDOException $e) {
+      echo ">>>>".$e->getMessage()."\n";
+    }
   }
 
   //  
@@ -51,7 +59,7 @@ class Stranger {
       echo "run generate\n";
       $this->executeGenerates();
     }
-    if ($this->argv[1] == 'migrate:create:schena'){
+    if ($this->argv[1] == 'migrate:create:schema'){
       $this->createSchema($this->argv[2]);
       exit();
     }
@@ -81,6 +89,7 @@ class Stranger {
   public function createSchema($connection_param)
   {
     // migrate:create:schena host:charset:username:password:schema
+    echo "  createSchema\n";
     $arr = explode(':', $connection_param);
     $database = [
       'rdb'      => 'mysql',
@@ -99,6 +108,7 @@ CREATE DATABASE $schena;
 EOM;
     $stmt = $dbh->prepare($sql);
     $stmt->execute();
+    echo "  createSchema end\n";
   }
 
   /**
