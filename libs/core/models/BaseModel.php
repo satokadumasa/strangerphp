@@ -102,7 +102,6 @@ class BaseModel {
 
     if ($type === 'first') {
       $id = $primary_keys[0];
-      $this->debug->log("BaseModel::find() datas:".print_r($datas, true));
       $datas = $datas[$id];
     }
     return $datas;
@@ -219,9 +218,19 @@ class BaseModel {
     foreach ($this->conditions as $condition) {
       $cond_tmp = null;
       if (is_array($condition['value'])) {
-        $value = implode(",", $condition['value']);
+        $arr = implode(",", $condition['value']);
+        $value = "";
+        foreach ($arr as $k => $v) {
+          $val = $this->setValue($condition['column_name'], $v);
+          $value .= $value ? "," . $val : $val;
+        }
         $condition['value'] = null;
         $condition['value'] = " (" . $value .") ";
+      } else {
+        $value = null;
+        $value = $condition['value'];
+        $condition['value'] = null;
+        $condition['value'] = $this->setValue($condition['column_name'], $value);
       }
       $cond_tmp =  " " . $condition['column_name'];
       $cond_tmp .= " " . $condition['operator'];
@@ -230,6 +239,7 @@ class BaseModel {
     }
 
     if($cond) $cond = " WHERE " . $cond;
+    $this->debug->log("BaseModel::createCondition() cond:".$cond);
     return $cond;
   }
 
@@ -468,7 +478,7 @@ class BaseModel {
       }
     } else {
       $value = mysql_escape_string($value);
-      $value .= htmlspecialchars($value, ENT_QUOTES);
+      // $value .= htmlspecialchars($value, ENT_QUOTES);
     }
 
     switch ($type) {
