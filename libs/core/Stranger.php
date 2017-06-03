@@ -29,6 +29,7 @@ class Stranger {
       $this->dbConnect->setConnectionInfo($database);
       $this->dbh = $this->dbConnect->createConnection();
     } catch (PDOException $e) {
+      echo "can not connect to database\n";
       echo ">>>>".$e->getMessage()."\n";
     }
   }
@@ -49,10 +50,10 @@ class Stranger {
         [5] => address:string
     )
     */
-    $this->debug->log("Stranger::exec argv:".print_r($this->argv, true));
+    $this->debug->log('Stranger::exec argv:'.print_r($this->argv, true));
     $this->table_name = isset($this->argv[3]) ? $this->argv[3] : null;
     $this->class_name = StringUtil::convertTableNameToClassName($this->table_name);
-    $this->debug->log("table_name[".$this->table_name."] class_name[".$this->class_name."]");
+    $this->debug->log('table_name['.$this->table_name.'] class_name['.$this->class_name.']');
     echo "run stranger\n";
 
     if ($this->argv[1] == '-g') {
@@ -120,11 +121,16 @@ EOM;
   public function initSchema()
   {
     echo "create migrations\n";
-    $sql = <<<EOM
+    try {
+      $sql = <<<EOM
 DROP TABLE migrations;
 EOM;
-    $stmt = $this->dbh->prepare($sql);
-    $stmt->execute();
+      $stmt = $this->dbh->prepare($sql);
+      $stmt->execute();
+
+    } catch (PDOException $e) {
+      echo "can not drop maigrations table.\n";
+    }
 
     $sql = <<<EOM
 CREATE TABLE migrations (
@@ -305,7 +311,7 @@ EOM;
    *  コントローラー削除メソッド 
    */
   public function controllerDestroy(){
-    $this->debug->log("Stranger::controllerDestroy()");
+    $this->debug->log('Stranger::controllerDestroy()');
     $out_put_filename =  CONTROLLER_PATH ."/" . $this->class_name . "Controller.php";
     echo "  rm ".$out_put_filename."\n";
     unlink($out_put_filename);
@@ -316,13 +322,13 @@ EOM;
    *  モデル生成メソッド 
    */
   public function modelGenerate(){
-    $this->debug->log("Stranger::modelGenerate()");
+    $this->debug->log('Stranger::modelGenerate()');
     //  テンプレートファイル名作成 
     $template_fileatime = SCAFFOLD_TEMPLATE_PATH . 'models/model_template.tpl';
     //  出力先ファイルを開く  
-    $out_put_filename =  MODEL_PATH ."/" . $this->class_name . "Model.php";
+    $out_put_filename =  MODEL_PATH .'/' . $this->class_name . 'Model.php';
     echo "  create ".$template_fileatime."\n";
-    $fp = fopen($out_put_filename, "w");
+    $fp = fopen($out_put_filename, 'w');
     echo "  create ".$out_put_filename."\n";
     $return = $this->applyTemplate($template_fileatime, $fp, $this->class_name, null);
     fclose($fp);
@@ -337,7 +343,7 @@ EOM;
    */
   public function modelDestroy(){
     $this->debug->log("Stranger::modelDestroy()");
-    $out_put_filename =  MODEL_PATH ."/" . $this->class_name . "Model.php";
+    $out_put_filename =  MODEL_PATH .'/' . $this->class_name . 'Model.php';
     echo "  rm ".$out_put_filename."\n";
     unlink($out_put_filename);
   }
@@ -348,7 +354,7 @@ EOM;
    */
   public function templateGenerate(){
     echo "create view templates.\n";
-    $this->debug->log("Stranger::templateGenerate()");
+    $this->debug->log('Stranger::templateGenerate()');
     $view_template_folder = VIEW_TEMPLATE_PATH . $this->class_name . '/';
     echo "  mkdir ".$view_template_folder."\n";
     if (!file_exists($view_template_folder)) {
@@ -396,8 +402,8 @@ EOM;
    *  Viewテンプレート削除メソッド 
    */
   public function templateDestroy(){
-    $this->debug->log("Stranger::templateDestroy()");
-    $file_list = $this->getFileList(VIEW_TEMPLATE_PATH . $this->class_name . "/");
+    $this->debug->log('Stranger::templateDestroy()');
+    $file_list = $this->getFileList(VIEW_TEMPLATE_PATH . $this->class_name . '/');
     foreach ($file_list as $key => $value) {
       echo "  rm ".$value."\n";
       unlink($value);
@@ -421,9 +427,9 @@ EOM;
       $create = $this->argv[1] == '-g' ? 'AddColumn' : 'DropColumn';
     }
     $migration_class_name = 'Migrate' . $now_date . $create . $this->class_name;
-    $out_put_filename = MIGRATION_PATH .'/' . $migration_class_name . ".php";
+    $out_put_filename = MIGRATION_PATH .'/' . $migration_class_name . '.php';
     //  出力先ファイルを開く
-    $fp = fopen($out_put_filename, "w");
+    $fp = fopen($out_put_filename, 'w');
     echo "  create ".$out_put_filename."\n";
     $return = $this->applyTemplate($template_fileatime, $fp, $this->class_name, $migration_class_name);
     fclose($fp);
@@ -437,7 +443,7 @@ EOM;
    *  マイグレーションファイル削除メソッド
    */ 
   public function maigrateDestroy(){
-    $this->debug->log("Stranger::maigrateDestroy()");
+    $this->debug->log('Stranger::maigrateDestroy()');
     $file_list = $this->getFileList(MIGRATION_PATH);
     foreach ($file_list as $key => $value) {
       if (strpos($value, $this->class_name)) {
@@ -463,7 +469,7 @@ EOM;
       $value = $file_context[$i];
       //  展開先の取得
       preg_match_all(
-        "<!----(.*)---->",
+        '<!----(.*)---->',
         $value,
         $matchs
       );
@@ -493,12 +499,12 @@ EOM;
             $columns_str .= $this->generateColumnsStr($this->argv[$j], 'form');
           }
           $value = $columns_str;
-          $this->debug->log("Stranger::applyTemplate() form_columns:".$value);
+          $this->debug->log('Stranger::applyTemplate() form_columns:'.$value);
         }
         if (strpos($value, '<!----columns---->')) {
           $columns_str = "";
           for ($j = 4; $j < count($this->argv); $j++) {
-            $this->debug->log("Stranger::applyTemplate() argv:".print_r($this->argv[$j], true));
+            $this->debug->log('Stranger::applyTemplate() argv:'.print_r($this->argv[$j], true));
             $columns_str .= $this->generateColumnsStr($this->argv[$j], 'sql');
           }
           $value = $columns_str;
@@ -512,7 +518,7 @@ EOM;
         }
 
         if (strpos($value, '<!----up_template---->')) {
-          $this->debug->log("Stranger::applyTemplate() value:".$value);
+          $this->debug->log('Stranger::applyTemplate() value:'.$value);
           if ($this->argv[2] == 'scaffold' || $this->argv[2] == 'model') {
             $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/migrate/parts/create_table.tpl';
             $this->applyTemplate($template_fileatime, $fp, $this->class_name);
@@ -642,7 +648,7 @@ EOM;
         'default' => (isset($arr[5]) && ($arr[5] != ''  || $arr[5] != null))? $arr[5] : 'null',
         'model_name' => $this->class_name,
       );
-    $this->debug->log("Stranger::generateColumnsStr() datas:".print_r($datas, true));
+    $this->debug->log('Stranger::generateColumnsStr() datas:'.print_r($datas, true));
     if ($type == 'model') {
       $template_fileatime = SCAFFOLD_TEMPLATE_PATH."/models/parts/column.tpl";
     }
@@ -665,7 +671,7 @@ EOM;
     for($i = 0; $i < count($file_context); $i++) {
       $value = $file_context[$i];
       preg_match_all(
-        "|<!----(.*)---->|U",
+        '|<!----(.*)---->|U',
         $value,
         $matchs
       );
@@ -686,13 +692,13 @@ EOM;
    * @param $argv 
    */
   protected function geterateColumnString($argv) {
-    $this->debug->log("Stranger::geterateColumnString() start:");
-    $this->debug->log("Stranger::geterateColumnString() argv:".print_r($argv, true));
+    $this->debug->log('Stranger::geterateColumnString() start:');
+    $this->debug->log('Stranger::geterateColumnString() argv:'.print_r($argv, true));
     $column_string = null;
     for ($i = 4; $i < count($argv); $i++) {
       $arr = explode(':', $argv[$i]);
-      $this->debug->log("Stranger::geterateColumnString() argv[$i]:".print_r($argv[$i], true));
-      $this->debug->log("Stranger::geterateColumnString() arr:".print_r($arr, true));
+      $this->debug->log('Stranger::geterateColumnString() argv[$i]:'.print_r($argv[$i], true));
+      $this->debug->log('Stranger::geterateColumnString() arr:'.print_r($arr, true));
 
       $datas = array(
           'column_name' => $arr[0],
@@ -703,7 +709,7 @@ EOM;
           'key' => isset($arr[4]) ? $arr[4] : '',
           'default' => isset($arr[5]) ? $arr[5] : 'null',
         );
-      $this->debug->log("Stranger::geterateColumnString() datas:".print_r($datas, true));
+      $this->debug->log('Stranger::geterateColumnString() datas:'.print_r($datas, true));
       $column_string .= "  <div class='detail_rows'>\n";
       $column_string .= "    <div class='label_clumn'>\n";
       $column_string .= "      " . $this->class_name . " " . $datas['column_name'] . "\n";
@@ -714,7 +720,7 @@ EOM;
       $column_string .= "  </div>\n";
 
     }
-    $this->debug->log("Stranger::geterateColumnString() end:");
+    $this->debug->log('Stranger::geterateColumnString() end:');
     return $column_string;
   }
 
@@ -722,13 +728,10 @@ EOM;
     switch ($type) {
       case 'int':
         return $type."(8)";
-        break;
       case 'tinyint':
         return $type."(1)";
-        break;
       case 'smallint':
         return $type."(3)";
-        break;
       case 'bigint':
       case 'float':
       case 'double':
@@ -740,19 +743,15 @@ EOM;
       case 'time':
       case 'year':
         return $type;
-        break;
       case 'set':
       case 'enum':
         return $type . "(" . $length . ")";
-        break;
       case 'string':
         return  "varchar(" . $length . ")";
-        break;
       case 'text':
         return $type;
       default:
         return $type . "(" . $length . ")";
-        break;
     }
   }
 }

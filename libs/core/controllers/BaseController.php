@@ -98,4 +98,8 @@ class BaseController {
     header("Location: {$url}");
     exit;
   }
+
+  protected function setToken() {
+    
+  }
 }
