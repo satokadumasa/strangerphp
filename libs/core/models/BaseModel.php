@@ -77,7 +77,35 @@ class BaseModel {
     $column_names = null;
 
     $this->debug->log("BaseModel::find() sql:" . $sql);
-    foreach ($this->dbh->query($sql) as $row) {
+
+    $stmt = $this->dbh->prepare($sql);
+    foreach ($this->conditions as $k => $v) {
+      $arr = explode('.', $v['column_name']);
+      $value = $v['value'];
+      $col_name = $arr[count($arr) - 1];
+
+      $column_name = str_replace('.', '_', $v['column_name']);
+      $column_name = StringUtil::convertTableNameToClassName($column_name);
+
+      switch ($col_name) {
+        case 'created_at':
+        case 'modified_at':
+          // $this->debug->log("BaseModel::find() column_name(1):".$column_name);
+          // $this->debug->log("BaseModel::find() col_name(1):".$col_name);
+          // $this->debug->log("BaseModel::find() value(1):".$value);
+          $stmt->bindParam($column_name, 'NOW()', PDO::PARAM_STR);
+          break;
+        default:
+          // $this->debug->log("BaseModel::find() column_name(2):".$column_name);
+          // $this->debug->log("BaseModel::find() col_name(2):".$col_name);
+          // $this->debug->log("BaseModel::find() value(2):".$value);
+          $stmt->bindValue($column_name, $value, $this->getColumnType($col_name));
+          break;
+      }
+    }
+    $stmt->execute();
+    // foreach ($this->dbh->query($sql) as $row) {
+    foreach ($stmt->fetchAll() as $row) {
       $data = [];
       if(!$column_names) $column_names = array_keys($row);
       foreach ($column_names as  $column_name) {
@@ -102,7 +130,6 @@ class BaseModel {
 
     if ($type === 'first') {
       $id = $primary_keys[0];
-      $this->debug->log("BaseModel::find() datas:".print_r($datas, true));
       $datas = $datas[$id];
     }
     return $datas;
@@ -216,20 +243,41 @@ class BaseModel {
    */
   private function createCondition(){
     $cond = null;
-    foreach ($this->conditions as $condition) {
+    //foreach ($this->conditions as $condition) {
+    for($i = 0; $i < count($this->conditions); $i++) {
       $cond_tmp = null;
+      $condition = $this->conditions[$i];
+      $column_name = str_replace('.', '_', $condition['column_name']);
+      $column_name = StringUtil::convertTableNameToClassName($column_name);
+      $this->debug->log("BaseModel::createCondition() column_name:".$column_name);
+
       if (is_array($condition['value'])) {
-        $value = implode(",", $condition['value']);
+        $arr = implode(",", $condition['value']);
+        $value = "";
+        
+        foreach ($arr as $k => $v) {
+          $col_arr = explode('.', $condition['column_name']);
+          $val = $this->setValue($col_arr[count($col_arr) - 1], $v);
+          $value .= $value ? "," . $val : $val;
+        }
         $condition['value'] = null;
         $condition['value'] = " (" . $value .") ";
       }
+      // else {
+      //   $value = null;
+      //   $value = $condition['value'];
+      //   $condition['value'] = null;
+      //   $col_arr = explode('.', $condition['column_name']);
+      //   $condition['value'] = $this->setValue($col_arr[count($col_arr) - 1], $value);
+      // }
       $cond_tmp =  " " . $condition['column_name'];
       $cond_tmp .= " " . $condition['operator'];
-      $cond_tmp .= " " . $condition['value'] . " ";
+      $cond_tmp .= " :" . $column_name . " ";
       $cond .= $cond ? " and " . $cond_tmp : $cond_tmp;
     }
 
     if($cond) $cond = " WHERE " . $cond;
+    $this->debug->log("BaseModel::createCondition() cond:".$cond);
     return $cond;
   }
 
@@ -455,32 +503,33 @@ class BaseModel {
 
   //  共通
   protected function setValue($key, $value){
+    $this->debug->log("BaseModel::setValue() columns:".print_r($this->columns));
     $type = $this->columns[$key]['type'];
     if (is_array($value)) {
       if ($type == 'SET') {
         $val_tmp = '';
         foreach ($value as $key => $val) {
-          $val = mysql_escape_string($val);
+          $val = mysqli_escape_string($val);
           $val .= htmlspecialchars($val, ENT_QUOTES);
           $val_tmp .= $val_tmp ? $val_tmp : ", " . $val_tmp;
         }
         $value = $val_tmp;
       }
     } else {
-      $value = mysql_escape_string($value);
-      $value .= htmlspecialchars($value, ENT_QUOTES);
+      $value = mysqli_escape_string($value);
+      // $value .= htmlspecialchars($value, ENT_QUOTES);
     }
 
     switch ($type) {
-      case 'INT':
-      case 'TINYINT':
-      case 'SMALLINT':
-      case 'BIGINT':
-      case 'FLOAT':
-      case 'DOUBLE':
+      case 'int':
+      case 'tinyint':
+      case 'smallint':
+      case 'bigint':
+      case 'float':
+      case 'double':
         return $value;
         break;
-      case 'SET':
+      case 'set':
         return "'" . $value . "'";
         break;
       default:

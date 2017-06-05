@@ -1,8 +1,8 @@
 <?php
-class <!----class_name---->Model extends BaseModel {
-  public $table_name  = '<!----table_name---->';
-  public $model_name  = '<!----class_name---->';
-  public $model_class_name  = '<!----class_name---->Model';
+class RoleModel extends BaseModel {
+  public $table_name  = 'roles';
+  public $model_name  = 'Role';
+  public $model_class_name  = 'RoleModel';
 
   //  Relation
   public $belongthTo = null;
@@ -11,7 +11,7 @@ class <!----class_name---->Model extends BaseModel {
 
   public $columns = [
     'id' => array('type' => 'int', 'length' => 8, 'null' => false, 'key' => 'PRI', 'default' => null, ), 
-    <!----model_columns---->
+    'name' => array('type' => 'string', 'length' => 64, 'null' => false, 'key' => '', 'default' => null, ), 
     'created_at' => array('type' => 'datetime', 'length' => 19, 'null' => false, 'key' => 'PRI', 'default' => null, ), 
     'modified_at' => array('type' => 'datetime', 'length' => 19, 'null' => false, 'key' => 'PRI', 'default' => null, ), 
   ];

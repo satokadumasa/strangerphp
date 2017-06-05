@@ -86,6 +86,7 @@ class StringUtil
     return $singular;
   }
 
+  
   public static function underscore($str)
   {
     return ltrim(strtolower(preg_replace('/[A-Z]/', '_\0', $str)), '_');
@@ -102,5 +103,18 @@ class StringUtil
     $arr[count($arr) - 1] = self::singularByPlural($arr[count($arr) - 1]);
     $str = implode('_', $arr);
     return strtr(ucwords(strtr($str, ['_' => ' '])), [' ' => '']);
+  }
+
+  /**
+   * ランダム文字列生成 (英数字)
+   * $length: 生成する文字数
+   */
+  public static function makeRandStr($length) {
+      $str = array_merge(range('a', 'z'), range('0', '9'), range('A', 'Z'));
+      $r_str = null;
+      for ($i = 0; $i < $length; $i++) {
+          $r_str .= $str[rand(0, count($str) - 1)];
+      }
+      return $r_str;
   }
 }
