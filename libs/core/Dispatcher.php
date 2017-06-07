@@ -28,6 +28,4 @@ class Dispatcher {
     $controller->render();
     exit();
   }
-
-  // private function 
 }

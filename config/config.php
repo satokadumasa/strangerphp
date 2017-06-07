@@ -23,10 +23,15 @@ define('PRODUCTION', 1);
 define('DEVELOPEMENT', 3);
 
 define('LOG_LEVEL', DEVELOPEMENT);
-
-define('BASE_URL', 'http://cinnamon.example.com/');
+define('DOMAIN_NAME', 'cinnamon.example.com');
+define('BASE_URL', 'http://'.DOMAIN_NAME.'/');
 
 define('SALT', 'lC0SlmdaMK');
+
+define('COOKIE_LIFETIME', 86400);
+define('COOKIE_NAME', 'AVALON');
+define('USER_COOKIE_NAME_LENGTH', 64);
+define('DEFAULT_FLAG_OF_AUTHENTICATION', true);
 
 $CONV_STRING_LIST = array(
     'ID' => '\d',
@@ -34,5 +39,4 @@ $CONV_STRING_LIST = array(
     'MONTH' => '\d{2}',
     'MDAY', '\d{2}',
   );
-// require_once CONFIG_PATH . 'database.config.php';
-// AutoLoad
+

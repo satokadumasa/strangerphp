@@ -12,6 +12,7 @@ class BaseController {
 
   public $action = null;
   public $controller_class_name = null;
+  protected $auth_check = [];
 
   public function __construct($database, $uri, $url) {
     $this->error_log = new Logger('ERROR');
@@ -27,9 +28,6 @@ class BaseController {
   }
 
   public function setRequest($uri, $url) {
-    $this->debug->log("BaseController::getRequestValues() _POST".print_r($_POST, true));
-    $this->debug->log("BaseController::getRequestValues() _GET".print_r($_GET, true));
-
     if (isset($_POST)) {
       foreach ($_POST as $key => $value) {
         $this->perseKey($key, $value);
@@ -64,13 +62,24 @@ class BaseController {
    *
    */
   public function beforeAction() {
-    $this->debug->log("BaseController::befor()");
+    Session::sessionStart();
+    $this->debug->log("BaseController::beforeAction() CH-01:".print_r($this->auth_check, true));
+    $this->debug->log("BaseController::beforeAction() action:".$this->action);
+    if ($this->auth_check && in_array($this->action, $this->auth_check)) {
+      $this->debug->log("BaseController::beforeAction() CH-02");
+      if(!Authentication::isAuth()){
+        $this->debug->log("BaseController::beforeAction() CH-03");
+        $this->redirect('/');
+        exit();
+      }
+    }
   }
 
   /**
    *
    */
   public function afterAction() {
+    // setcookie(COOKIE_NAME, $user_cookie_name, COOKIE_LIFETIME, '/', DOMAIN_NAME);
     $this->debug->log("BaseController::after()");
   }
 
@@ -99,7 +108,7 @@ class BaseController {
     exit;
   }
 
-  protected function setToken() {
-    
+  public function setAuthCheck($actions) {
+    $this->auth_check = $actions;
   }
 }
