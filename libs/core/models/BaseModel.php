@@ -254,6 +254,7 @@ class BaseModel {
       if (is_array($condition['value'])) {
         $arr = implode(",", $condition['value']);
         $value = "";
+        
         foreach ($arr as $k => $v) {
           $col_arr = explode('.', $condition['column_name']);
           $val = $this->setValue($col_arr[count($col_arr) - 1], $v);
@@ -261,11 +262,6 @@ class BaseModel {
         }
         $condition['value'] = null;
         $condition['value'] = " (" . $value .") ";
-      } else {
-        $value = null;
-        $value = $condition['value'];
-        $condition['value'] = null;
-        $condition['value'] = $this->setValue($condition['column_name'], $value);
       }
       // else {
       //   $value = null;
@@ -520,11 +516,7 @@ class BaseModel {
         $value = $val_tmp;
       }
     } else {
-<<<<<<< HEAD
       $value = mysqli_escape_string($value);
-=======
-      $value = mysql_escape_string($value);
->>>>>>> 06f201899f15411bc263f2cb7ad771b8be27c78d
       // $value .= htmlspecialchars($value, ENT_QUOTES);
     }
 
