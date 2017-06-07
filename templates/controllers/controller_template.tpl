@@ -5,6 +5,7 @@ class <!----class_name---->Controller extends BaseController{
     $database = $conf['default_database'];
     parent::__construct($database, $uri, $url);
     $this->controller_class_name = str_replace('Controller', '', get_class($this));;
+    //$this->role_ids = Config::get('acc/<!----table_name---->');
   }
 
   <!----controller_method---->

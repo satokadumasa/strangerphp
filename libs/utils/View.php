@@ -4,7 +4,7 @@ require_once dirname(dirname(dirname(__FILE__))) . "/config/config.php";
  * 
  */
 class View {
-  protected $layout = "default";
+  protected $layout = 'default';
   protected $iterate_viwes = [];
   protected $converte_values = [];
 
@@ -31,7 +31,7 @@ class View {
    * @param array $datas set data
    */
   public function render($controller_class_name, $action, $datas){
-    $this->layout = VIEW_TEMPLATE_PATH . "/layout/" . $this->layout . ".tpl";
+    $this->layout = VIEW_TEMPLATE_PATH . '/layout/' . $this->layout . '.tpl';
     $this->framingView($datas , $this->layout, $controller_class_name, $action);
   }
 
@@ -44,7 +44,7 @@ class View {
    * @param string $action action name
    */
   protected function framingView($datas, $fileatime, $controller_class_name = null, $action = null) {
-    $this->debug->log("View::framingView() fileatime:".$fileatime);
+    $this->debug->log('View::framingView() fileatime:'.$fileatime);
 
     if (file_exists(VIEW_TEMPLATE_PATH . $controller_class_name . '/' . $action . 'tpl')) return false;
     $file_context = file($fileatime);
@@ -72,7 +72,7 @@ class View {
 
           $arr = explode(':', $renderpartial);
           
-          $partial_tpl_filename = VIEW_TEMPLATE_PATH . $arr[1] . ".tpl";
+          $partial_tpl_filename = VIEW_TEMPLATE_PATH . $arr[1] . '.tpl';
           $this->framingView($datas , $partial_tpl_filename);
         }
         else if(strpos($value, '<!----value:')) {
@@ -114,7 +114,7 @@ class View {
            */
           $arr = explode(':', $value);
           preg_match_all(
-            "<!----select_options:(.*)---->",
+            '<!----select_options:(.*)---->',
             $value,
             $matchs
           );
@@ -131,7 +131,7 @@ class View {
            */
           $arr = explode(':', $value);
           preg_match_all(
-            "<!----radiobutton_options:(.*)---->",
+            '<!----radiobutton_options:(.*)---->',
             $value,
             $matchs
           );
@@ -149,7 +149,7 @@ class View {
            */
           $arr = explode(':', $value);
           preg_match_all(
-            "<!----checkbox_options:(.*)---->",
+            '<!----checkbox_options:(.*)---->',
             $value,
             $matchs
           );
@@ -174,7 +174,7 @@ class View {
    *  @return none
    */
   protected function selectOption($selects, $option_data, $value_name){
-    $options_str = "";
+    $options_str = '';
     foreach ($option_data as $key => $value) {
       $selected = (in_array($value['id'], $selects)) ? 'selected' : '';
       $options_str .= "<option value='" . $value['id'] . "' " . $selected . ">" . $value[$value_name] . "</option>\n";
@@ -257,7 +257,7 @@ class View {
       $value = $file_context[$j];
       $value = str_replace('¥n', '', $value);
       preg_match_all(
-        "<!----(.*)---->",
+        '<!----(.*)---->',
         $value,
         $matchs
       );

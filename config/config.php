@@ -39,4 +39,3 @@ $CONV_STRING_LIST = array(
     'MONTH' => '\d{2}',
     'MDAY', '\d{2}',
   );
-

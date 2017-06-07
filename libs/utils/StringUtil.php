@@ -86,6 +86,7 @@ class StringUtil
     return $singular;
   }
 
+  
   public static function underscore($str)
   {
     return ltrim(strtolower(preg_replace('/[A-Z]/', '_\0', $str)), '_');
@@ -108,7 +109,7 @@ class StringUtil
    * ランダム文字列生成 (英数字)
    * $length: 生成する文字数
    */
-  function static　makeRandStr($length) {
+  public static function makeRandStr($length) {
       $str = array_merge(range('a', 'z'), range('0', '9'), range('A', 'Z'));
       $r_str = null;
       for ($i = 0; $i < $length; $i++) {

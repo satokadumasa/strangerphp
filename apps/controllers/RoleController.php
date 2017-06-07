@@ -5,6 +5,8 @@ class RoleController extends BaseController{
     $database = $conf['default_database'];
     parent::__construct($database, $uri, $url);
     $this->controller_class_name = str_replace('Controller', '', get_class($this));;
+    $this->setAuthCheck(['index', 'create', 'edit', 'show', 'save', 'delete']);
+    $this->role_ids = Config::get('acc/roles');
   }
 
   public function index() {

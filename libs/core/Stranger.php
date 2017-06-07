@@ -276,10 +276,10 @@ EOM;
   public function getFileList($dir) {
     $files = scandir($dir);
     $files = array_filter($files, function ($file) {
-      return !in_array($file, array('.', '..'));
+      return !in_array($file, ['.', '..']);
     });
 
-    $list = array();
+    $list = [];
     foreach ($files as $file) {
       $fullpath = rtrim($dir, '/') . '/' . $file;
       if (is_file($fullpath)) {
@@ -637,7 +637,7 @@ EOM;
     $arr = explode(':', $column_define);
     $this->debug->log("Stranger::generateColumnsStr() column_define:$column_define");
     $value = null;
-    $datas = array(
+    $datas = [
         'column_name' => $arr[0],
         'type' => $arr[1],
         'type_str' => $this->convertTypeKeyString($arr[1], (isset($arr[2]) ? $arr[2] : 255), $value),
@@ -647,7 +647,7 @@ EOM;
         'key' => isset($arr[4]) ? $arr[4] : '',
         'default' => (isset($arr[5]) && ($arr[5] != ''  || $arr[5] != null))? $arr[5] : 'null',
         'model_name' => $this->class_name,
-      );
+      ];
     $this->debug->log('Stranger::generateColumnsStr() datas:'.print_r($datas, true));
     if ($type == 'model') {
       $template_fileatime = SCAFFOLD_TEMPLATE_PATH."/models/parts/column.tpl";
@@ -700,7 +700,7 @@ EOM;
       $this->debug->log('Stranger::geterateColumnString() argv[$i]:'.print_r($argv[$i], true));
       $this->debug->log('Stranger::geterateColumnString() arr:'.print_r($arr, true));
 
-      $datas = array(
+      $datas = [
           'column_name' => $arr[0],
           'type' => $arr[1],
           'length' => isset($arr[2]) ? $arr[2] : 255,
@@ -708,7 +708,7 @@ EOM;
           'null_ok' => isset($arr[3]) ? '' : 'NOT NULL',
           'key' => isset($arr[4]) ? $arr[4] : '',
           'default' => isset($arr[5]) ? $arr[5] : 'null',
-        );
+        ];
       $this->debug->log('Stranger::geterateColumnString() datas:'.print_r($datas, true));
       $column_string .= "  <div class='detail_rows'>\n";
       $column_string .= "    <div class='label_clumn'>\n";
