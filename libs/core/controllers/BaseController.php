@@ -1,9 +1,11 @@
 <?php
 class BaseController {
+  //  ログ関連
   public $error_log;
   public $info_log;
   public $debug;
 
+  //  データベースハンドラー  
   protected $dbh = null;
   protected $dbConnect = null;
   protected $request = [];
@@ -12,7 +14,10 @@ class BaseController {
 
   public $action = null;
   public $controller_class_name = null;
+  //  認証関連
   protected $auth_check = [];
+  public $roles = [];
+  public $role_ids = [];
 
   public function __construct($database, $uri, $url) {
     $this->error_log = new Logger('ERROR');
@@ -65,13 +70,19 @@ class BaseController {
     Session::sessionStart();
     $this->debug->log("BaseController::beforeAction() CH-01:".print_r($this->auth_check, true));
     $this->debug->log("BaseController::beforeAction() action:".$this->action);
+    
     if ($this->auth_check && in_array($this->action, $this->auth_check)) {
       $this->debug->log("BaseController::beforeAction() CH-02");
-      if(!Authentication::isAuth()){
-        $this->debug->log("BaseController::beforeAction() CH-03");
-        $this->redirect('/');
-        exit();
-      }
+      $auth = Authentication::isAuth();
+      if($auth){
+        $this->debug->log("BaseController::beforeAction() role_ids:".print_r($this->role_ids, true));
+        if ($this->role_ids && !Authentication::roleCheck($this->role_ids, $this->action)){
+          $this->debug->log("BaseController::beforeAction() CH-04");
+          $this->redirect('/');
+          exit();
+        }
+        $this->debug->log("BaseController::beforeAction() CH-05");
+      } 
     }
   }
 

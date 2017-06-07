@@ -39,8 +39,3 @@ $CONV_STRING_LIST = array(
     'MONTH' => '\d{2}',
     'MDAY', '\d{2}',
   );
-// session_save_path(TEMP_PATH);
-// ini_set('session.gc_probability', 1);
-
-// require_once CONFIG_PATH . 'database.config.php';
-// AutoLoad

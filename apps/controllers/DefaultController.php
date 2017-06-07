@@ -8,10 +8,6 @@ class DefaultController extends BaseController {
   }
 
   public function index() {
-    // echo "SESSION:".print_r($_SESSION, true)."<br>";
-    // $this->set('session', $_SESSION);
-    $this->debug->log("DefaultController::index() SESSION:".print_r($_SESSION, true));
-    $this->debug->log("DefaultController::index() COOKIE:".print_r($_COOKIE, true));
     $this->set('action_name', 'Home');
     $this->set('Title', 'Home');
     $this->set('datas', null);

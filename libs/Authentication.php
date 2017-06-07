@@ -24,6 +24,10 @@ class Authentication{
     return true;
   }
 
+  public static function roleCheck($role_ids, $action) {
+    $session = Session::get();
+    return in_array($session['Auth']['User']['role_id'], $role_ids['acc'][$action]);
+  }
 }
 
 
