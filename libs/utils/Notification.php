@@ -39,7 +39,7 @@ class Notification {
     }
   }
 
-  public function geterateRegistNotifyMessage(&$body, $form, $class_name, $teplate_name) {
+  public function geterateRegistNotifyMessage($form, $class_name, $teplate_name) {
     $this->debug->log("Notification::geterateRegistNotifyMessage() form:".print_r($form, true));
     $url = BASE_URL . '/confirm/' . $form['User']['authentication_key'];
 
@@ -62,5 +62,6 @@ class Notification {
     $body = [];
     $file_name = VIEW_TEMPLATE_PATH.$class_name.'/'.$teplate_name.'.tpl';
     $view->framingView($body, $mailer_data, $file_name, 'Mailer');
+    return implode('', $body);
   }
 }

@@ -91,9 +91,9 @@ class AuthController extends BaseController{
       $this->debug->log("AuthController::save() form:".print_r($form));
       $this->dbh->commit();
 
-      $body = [];
+      $body = null;
       $notification = new Notification();
-      $notification->geterateRegistNotifyMessage($body, $form, 'Mailer', 'regist_notify');
+      $body = $notification->geterateRegistNotifyMessage($form, 'Mailer', 'regist_notify');
       $notification->sendRegistNotify($this->request, $body, '登録確認メール');
 
       $url = BASE_URL . 'Auth' . '/show/' . $auths->primary_key_value . '/';
