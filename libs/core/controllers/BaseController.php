@@ -29,6 +29,7 @@ class BaseController {
     $this->dbh = $this->dbConnect->createConnection();
     
     $this->setRequest($uri, $url);
+    $this->set('document_root',DOCUMENT_ROOT);
     $this->view = new View();
   }
 
