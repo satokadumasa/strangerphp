@@ -52,11 +52,11 @@
   
 </div>
 <div class="detail_menu_column">
-  <A HREF="/Auth/index/">INDEX</A>
+  <A HREF="<!----value:document_root---->Auth/index/">INDEX</A>
 </div>
 <div class="detail_menu_column">
-  <A HREF="/Auth/edit/<!----value:Auth:id---->/">EDIT</A>
+  <A HREF="<!----value:document_root---->Auth/edit/<!----value:Auth:id---->/">EDIT</A>
 </div>
 <div class="detail_menu_column">
-  <A HREF="/Auth/delete/<!----value:Auth:id---->/">DELETE</A>
+  <A HREF="<!----value:document_root---->Auth/delete/<!----value:Auth:id---->/">DELETE</A>
 </div>

@@ -1,5 +1,5 @@
 <h1>Auth edit<br /></h1>
-<form action="/Auth/save/" method="post">
+<form action="<!----value:document_root---->Auth/save/" method="post">
   Auth id<input type="text" name="Auth[id]" length="255" value="<!----value:Auth:id---->"><br>
 
   Auth username<input type="text" name="Auth[username]" length="64" value="<!----value:Auth:username---->"><br>
