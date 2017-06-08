@@ -17,8 +17,6 @@ class Notification {
   }
 
   public function sendRegistNotify($data, $body, $subject){
-    $this->debug->log("Notification::sendRegistNotify() body:".print_r($body, true));
-
     $transport = \Swift_SmtpTransport::newInstance()
         ->setHost($this->conf['host'])
         ->setPort($this->conf['port'])
@@ -40,12 +38,10 @@ class Notification {
   }
 
   public function geterateRegistNotifyMessage($form, $class_name, $teplate_name) {
-    $this->debug->log("Notification::geterateRegistNotifyMessage() form:".print_r($form, true));
     $url = BASE_URL . '/confirm/' . $form['User']['authentication_key'];
 
     $site_info = Config::get('site_info');
 
-    $this->debug->log("Notification::geterateRegistNotifyMessage() site_info:".print_r($site_info, true));
     $mailer_data = [
       'Mailer' => [
         'username' => $form['User']['username'],
@@ -57,7 +53,6 @@ class Notification {
         'admin_mail' => $this->conf['from'],
       ],
     ];
-    $this->debug->log("Notification::geterateRegistNotifyMessage() mailer_data:".print_r($mailer_data, true));
     $view = new View($teplate_name);
     $body = [];
     $file_name = VIEW_TEMPLATE_PATH.$class_name.'/'.$teplate_name.'.tpl';
