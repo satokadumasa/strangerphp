@@ -67,7 +67,7 @@ class AuthController extends BaseController{
     $id = $this->request['id'];
 
     $auths = new UserModel($this->dbh);
-    $datas = $auths->where('Auth.id', '=', $id)->find('first');
+    $datas = $auths->where('User.id', '=', $id)->find('first');
     $this->set('Title', 'Auth Ditail');
     $this->set('Auth', $datas['Auth']);
     $this->set('datas', $datas);
@@ -77,8 +77,9 @@ class AuthController extends BaseController{
     $this->debug->log("AuthController::create()");
     $auths = new UserModel($this->dbh);
     $form = $auths->createForm();
+    $this->debug->log("AuthController::create() form:" .print_r($form, true));
     $this->set('Title', 'Auth Create');
-    $this->set('Auth', $form['Auth']);
+    $this->set('User', $form['User']);
   }
 
   public function save(){
@@ -86,8 +87,15 @@ class AuthController extends BaseController{
     try {
       $this->dbh->beginTransaction();
       $auths = new UserModel($this->dbh);
-      $auths->save($this->request);
+      $form = $auths->save($this->request);
+      $this->debug->log("AuthController::save() form:".print_r($form));
       $this->dbh->commit();
+
+      $body = [];
+      $notification = new Notification();
+      $notification->geterateRegistNotifyMessage($body, $form, 'Mailer', 'regist_notify');
+      $notification->sendRegistNotify($this->request, $body, '登録確認メール');
+
       $url = BASE_URL . 'Auth' . '/show/' . $auths->primary_key_value . '/';
       $this->redirect($url);
     } catch (Exception $e) {

@@ -7,8 +7,10 @@ class View {
   protected $layout = 'default';
   protected $iterate_viwes = [];
   protected $converte_values = [];
+  protected $view_template_path = null;
 
-  public function __construct() {
+  public function __construct($view_template_path = null) {
+    $this->view_template_path = $view_template_path ? $view_template_path : VIEW_TEMPLATE_PATH;
     $this->error_log = new Logger('ERROR');
     $this->info_log = new Logger('INFO');
     $this->debug = new Logger('DEBUG');
@@ -31,8 +33,9 @@ class View {
    * @param array $datas set data
    */
   public function render($controller_class_name, $action, $datas){
-    $this->layout = VIEW_TEMPLATE_PATH . '/layout/' . $this->layout . '.tpl';
-    $this->framingView($datas , $this->layout, $controller_class_name, $action);
+    $this->layout = $this->view_template_path . '/layout/' . $this->layout . '.tpl';
+    $document = [];
+    $this->framingView($document, $datas , $this->layout, $controller_class_name, $action);
   }
 
   /**
@@ -43,10 +46,10 @@ class View {
    * @param string $controller_class_name Controller class name
    * @param string $action action name
    */
-  protected function framingView($datas, $fileatime, $controller_class_name = null, $action = null) {
+  public function framingView(&$document, $datas, $fileatime, $controller_class_name = null, $action = null) {
     $this->debug->log('View::framingView() fileatime:'.$fileatime);
 
-    if (file_exists(VIEW_TEMPLATE_PATH . $controller_class_name . '/' . $action . 'tpl')) return false;
+    if (file_exists($this->view_template_path . $controller_class_name . '/' . $action . 'tpl')) return false;
     $file_context = file($fileatime);
     for($i = 0; $i < count($file_context); $i++) {
       $value = $file_context[$i];
@@ -72,8 +75,8 @@ class View {
 
           $arr = explode(':', $renderpartial);
           
-          $partial_tpl_filename = VIEW_TEMPLATE_PATH . $arr[1] . '.tpl';
-          $this->framingView($datas , $partial_tpl_filename);
+          $partial_tpl_filename = $this->view_template_path . $arr[1] . '.tpl';
+          $this->framingView($document, $datas , $partial_tpl_filename);
         }
         else if(strpos($value, '<!----value:')) {
           //  変数展開
@@ -162,7 +165,9 @@ class View {
         }
       }
       echo $value;
+      $document[] = $value;
     }
+    // return $document;
   }
 
   /**

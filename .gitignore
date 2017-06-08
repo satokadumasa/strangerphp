@@ -1,7 +1,17 @@
 config/development/database.config.php
+config/development/mailer.php
+config/development/site_info.php
 config/staging/database.config.php
+config/staging/mailer.php
+config/staging/site_info.php
 config/test/database.config.php
+config/test/mailer.php
+config/test/site_info.php
 config/production/database.config.php
+config/production/mailer.php
+config/production/site_info.php
 config/database.config.php
 temp/*
 logs/*
+
+/vendor/

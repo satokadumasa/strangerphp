@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/../vendor/autoload.php';
+
 class Authentication{
   public static function auth(&$dbh, $request){
     $auths = new UserModel($dbh);
@@ -16,6 +18,7 @@ class Authentication{
       return false;
     }
   }
+
   public static function isAuth(){
     if (DEFAULT_FLAG_OF_AUTHENTICATION ) {
       $session = Session::get();

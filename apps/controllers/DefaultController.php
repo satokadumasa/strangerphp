@@ -12,4 +12,10 @@ class DefaultController extends BaseController {
     $this->set('Title', 'Home');
     $this->set('datas', null);
   }
+
+  public function error() {
+    $this->set('action_name', 'Error');
+    $this->set('Title', 'Home');
+    $this->set('datas', null);
+  }
 }

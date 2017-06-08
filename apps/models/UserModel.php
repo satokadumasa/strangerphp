@@ -26,10 +26,12 @@ class UserModel extends BaseModel {
   }
 
   public function save($form) {
+    $this->debug->log("UserModel::save() form:".print_r($form, true));
     $form[$this->model_name]['password'] = md5($form[$this->model_name]['password'].SALT);
     $form[$this->model_name]['notified_at'] = null;
     $form[$this->model_name]['authentication_key'] = StringUtil::makeRandStr(16);
     parent::save($form);
+    return $form;
   }
 
   public function auth($form) {
