@@ -88,7 +88,7 @@ class AuthController extends BaseController{
       $this->dbh->beginTransaction();
       $auths = new UserModel($this->dbh);
       $form = $auths->save($this->request);
-      $this->debug->log("AuthController::save() form:".print_r($form));
+      $this->debug->log("AuthController::save() form:".print_r($form, true));
       $this->dbh->commit();
 
       $body = null;
@@ -96,8 +96,8 @@ class AuthController extends BaseController{
       $body = $notification->geterateRegistNotifyMessage($form, 'Mailer', 'regist_notify');
       $notification->sendRegistNotify($this->request, $body, '登録確認メール');
 
-      $url = BASE_URL . 'Auth' . '/show/' . $auths->primary_key_value . '/';
-      $this->redirect($url);
+      // $url = BASE_URL . 'Auth' . '/show/' . $auths->primary_key_value . '/';
+      // $this->redirect($url);
     } catch (Exception $e) {
       $this->debug->log("AuthController::create() error:" . $e->getMessage());
     }

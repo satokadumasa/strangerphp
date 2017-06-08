@@ -1,9 +1,10 @@
 <?php
+// ex Sakura Internet
 $mailer = [
-  'host' => 'smtp.googlemail.com',
-  'port' => '465',
-  'encrypt' => 'ssl',
-  'username' => 'username',
+  'host' => 'example.sakura.ne.jp',
+  'port' => '587',
+  'encrypt' => 'tls',
+  'username' => 'postmaster@example.sakura.ne.jp',
   'password' => 'password',
-  'from' => 'username@gmail.com'
+  'from' => 'postmaster@example.sakura.ne.jp',
 ];
