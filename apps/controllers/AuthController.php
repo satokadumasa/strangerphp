@@ -95,9 +95,9 @@ class AuthController extends BaseController{
       $notification = new Notification();
       $body = $notification->geterateRegistNotifyMessage($form, 'Mailer', 'regist_notify');
       $notification->sendRegistNotify($this->request, $body, '登録確認メール');
-      return new RedirectResponse('/avalon/', 303);
+      // return new RedirectResponse('/avalon/', 303);
       // $url = BASE_URL . 'Auth' . '/show/' . $auths->primary_key_value . '/';
-      // $this->redirect($url);
+      $this->redirect($url);
       $this->set('Title', 'Auth Create');
     } catch (Exception $e) {
       $this->debug->log("AuthController::create() error:" . $e->getMessage());
