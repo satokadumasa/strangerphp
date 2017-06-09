@@ -18,7 +18,7 @@ CREATE TABLE users (
   created_at datetime NOT NULL,
   modified_at datetime NOT NULL,
   PRIMARY KEY (`id`),
-  KEY index_users_id (id)
+  KEY index_email (email)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 EOM;
     parent::up($sql);
