@@ -91,9 +91,6 @@ class AuthController extends BaseController{
       $this->debug->log("AuthController::save() form:".print_r($form, true));
       $this->dbh->commit();
 
-      $request_str = serialize($form);
-      $this->debug->log("AuthController::save() request_str:".print_r($request_str, true));
-
       $cmd = 'php ' . BIN_PATH . 'send_notify.php';
       $this->debug->log("AuthController::save() exec_cmd:".$cmd);
       $result = exec($cmd);
