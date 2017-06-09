@@ -234,7 +234,7 @@ class View {
   protected function convertKeyToValue($context, $matchs, $datas){
     foreach ($matchs as $v) {
       $keys = explode(':', $v);
-      $arr_value = $datas[$keys[1]];
+      $arr_value = isset($datas[$keys[1]]) ? $datas[$keys[1]] : '';
 
       if (!$arr_value) return null;
 
