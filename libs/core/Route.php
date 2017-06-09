@@ -47,15 +47,15 @@ class Route {
       foreach ($this->default_actions as $action) {
         $uri = null;
         if($namespace)
-          $uri = '/'.$namespace;
+          $uri = DOCUMENT_ROOT.$namespace;
         if(in_array($action, $this->default_need_id_actions)) {
-          $uri .= '/'.$controller.'/'.$action.'/ID';
+          $uri .= DOCUMENT_ROOT.$controller.'/'.$action.'/ID';
         }
         else if (in_array($action, $this->default_need_id_confirm_str)){
-          $uri = '/'.$controller.'/'.$action.'/CONFIRM_STRING';
+          $uri = DOCUMENT_ROOT.$controller.'/'.$action.'/CONFIRM_STRING';
         }
         else {
-          $uri .= '/'.$controller.'/'.$action.'/';
+          $uri .= DOCUMENT_ROOT.$controller.'/'.$action.'/';
         }
 
         // $this->debug->log("Route::setDefaultRoutes() uri:".$uri);
