@@ -131,7 +131,7 @@ class BaseModel {
         $this->findHasManyAndBelongsTo($datas, $primary_keys);
       }
     }
-
+    if (!isset($primary_keys)) return false;
     if ($type === 'first') {
       $id = $primary_keys[0];
       $datas = $datas[$id];
