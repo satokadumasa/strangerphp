@@ -65,7 +65,7 @@ class BaseModel {
    *  モデルの検索
    * 
    *  @param string $type 'all':全件 'first':先頭一件
-   *  @retrun array $datas 検索結果データ格納配列
+   *  @return array $datas 検索結果データ格納配列
    */
   public function find($type = 'all') {
     $this->debug->log("BaseModel::find() Start.");
@@ -93,13 +93,17 @@ class BaseModel {
           // $this->debug->log("BaseModel::find() column_name(1):".$column_name);
           // $this->debug->log("BaseModel::find() col_name(1):".$col_name);
           // $this->debug->log("BaseModel::find() value(1):".$value);
-          $stmt->bindParam($column_name, 'NOW()', PDO::PARAM_STR);
+          if ($v['operator'] != 'IS NULL') {
+            $stmt->bindParam($column_name, 'NOW()', PDO::PARAM_STR);
+          }
           break;
         default:
           // $this->debug->log("BaseModel::find() column_name(2):".$column_name);
           // $this->debug->log("BaseModel::find() col_name(2):".$col_name);
           // $this->debug->log("BaseModel::find() value(2):".$value);
-          $stmt->bindValue($column_name, $value, $this->getColumnType($col_name));
+          if ($v['operator'] != 'IS NULL') {
+            $stmt->bindValue($column_name, $value, $this->getColumnType($col_name));
+          }
           break;
       }
     }
@@ -243,7 +247,6 @@ class BaseModel {
    */
   private function createCondition(){
     $cond = null;
-    //foreach ($this->conditions as $condition) {
     for($i = 0; $i < count($this->conditions); $i++) {
       $cond_tmp = null;
       $condition = $this->conditions[$i];
@@ -263,16 +266,14 @@ class BaseModel {
         $condition['value'] = null;
         $condition['value'] = " (" . $value .") ";
       }
-      // else {
-      //   $value = null;
-      //   $value = $condition['value'];
-      //   $condition['value'] = null;
-      //   $col_arr = explode('.', $condition['column_name']);
-      //   $condition['value'] = $this->setValue($col_arr[count($col_arr) - 1], $value);
-      // }
       $cond_tmp =  " " . $condition['column_name'];
-      $cond_tmp .= " " . $condition['operator'];
-      $cond_tmp .= " :" . $column_name . " ";
+      if ($condition['operator'] == 'IS NULL') {
+        $cond_tmp .= " " . $condition['operator'] . " ";
+      }
+      else {
+        $cond_tmp .= " " . $condition['operator'];
+        $cond_tmp .= " :" . $column_name . " ";
+      }
       $cond .= $cond ? " and " . $cond_tmp : $cond_tmp;
     }
 

@@ -91,13 +91,17 @@ class AuthController extends BaseController{
       $this->debug->log("AuthController::save() form:".print_r($form, true));
       $this->dbh->commit();
 
-      $body = null;
-      $notification = new Notification();
-      $body = $notification->geterateRegistNotifyMessage($form, 'Mailer', 'regist_notify');
-      $notification->sendRegistNotify($this->request, $body, '登録確認メール');
+      $request_str = serialize($form);
+      $this->debug->log("AuthController::save() request_str:".print_r($request_str, true));
+
+      // $body = null;
+      // $notification = new Notification();
+      // $body = $notification->geterateRegistNotifyMessage($form, 'Mailer', 'regist_notify');
+      // $notification->sendRegistNotify($this->request, $body, '登録確認メール');
+
       // return new RedirectResponse('/avalon/', 303);
       // $url = BASE_URL . 'Auth' . '/show/' . $auths->primary_key_value . '/';
-      $this->redirect($url);
+      // $this->redirect($url);
       $this->set('Title', 'Auth Create');
     } catch (Exception $e) {
       $this->debug->log("AuthController::create() error:" . $e->getMessage());

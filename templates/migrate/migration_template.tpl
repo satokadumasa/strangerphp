@@ -13,9 +13,7 @@ EOM;
   }
 
   public function down(){
-    $sql = <<<EOM
     <!----down_template---->
-EOM;
     parent::down($sql);
   } 
 }
