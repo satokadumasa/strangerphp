@@ -45,6 +45,8 @@
       $this->redirect($url);
     } catch (Exception $e) {
       $this->debug->log("<!----class_name---->Controller::create() error:" . $e->getMessage());
+      $this->set('Title', '<!----class_name----> Save Error');
+      $this->set('error_message', '保存ができませんでした。');
     }
   }
 

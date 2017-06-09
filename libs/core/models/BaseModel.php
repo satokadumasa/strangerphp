@@ -385,6 +385,7 @@ class BaseModel {
     try {
       $hssModels = [];
       $hasManyAndBelongsToModels = [];
+      $now_date = date('Y-m-d H:i:s');
 
       $this->validation($form);
       if (
@@ -412,6 +413,7 @@ class BaseModel {
       $stmt = $this->dbh->prepare($sql);
       $this->debug->log("BaseModel::save() model_name:".$this->model_name);
       $this->debug->log("BaseModel::save() sql:".$sql);
+      $this->debug->log("BaseModel::save() form:" . var_dump($form[$this->model_name], true));
       foreach ($form[$this->model_name] as $col_name => $value) {
         if ($hssModels && in_array($col_name, $hssModels)) {
           continue;
@@ -424,15 +426,22 @@ class BaseModel {
         switch ($col_name) {
           case 'created_at':
           case 'modified_at':
-            $stmt->bindParam($col_name, 'NOW()', PDO::PARAM_STR);
+            $this->debug->log("BaseModel::save() set(1)");
+            // $stmt->bindParam($col_name, 'NOW()', PDO::PARAM_STR);
+            $now_date = $value ? $value : $now_date;
+            $stmt->bindValue($col_name, $now_date, $this->getColumnType($col_name));
             break;
           default:
+            $this->debug->log("BaseModel::save() [".$col_name."] [".$value."] [".$this->getColumnType($col_name)."]");
             $stmt->bindValue($col_name, $value, $this->getColumnType($col_name));
+            $this->debug->log("BaseModel::save() set(2)");
             break;
         }
       }
 
+      $this->debug->log("BaseModel::save() CH-10");
       $stmt->execute();
+      $this->debug->log("BaseModel::save() CH-11");
       //  従属モデルへのセーブ処理
       $this->primary_key_value = $this->dbh->lastInsertId($this->primary_key);
       if (isset($form[$this->model_name])) {
@@ -480,10 +489,12 @@ class BaseModel {
   }
 
   public function createModifySql($form) {
-    $col_names = array_keys($this->columns);
+    // $col_names = array_keys($this->columns);
+    $col_names = array_keys($form);
     $colums_str = null;
     $values_str = null;
     foreach ($col_names as $col_name) {
+      if ($col_name == $this->primary_key) continue;
       $colums_str_tmp = $col_name . " = :" . $col_name;
       $colums_str .= $colums_str ? ", " . $colums_str_tmp : $colums_str_tmp;
     }

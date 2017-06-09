@@ -56,6 +56,8 @@ class RoleController extends BaseController{
       $this->redirect($url);
     } catch (Exception $e) {
       $this->debug->log("RoleController::create() error:" . $e->getMessage());
+      $this->set('Title', 'Role Save Error');
+      $this->set('error_message', '保存ができませんでした。');
     }
   }
 

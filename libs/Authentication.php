@@ -28,6 +28,7 @@ class Authentication{
   }
 
   public static function roleCheck($role_ids, $action) {
+    if (!isset($role_ids['acc'][$action]) || $role_ids['acc'][$action] = '') return true;
     $session = Session::get();
     return in_array($session['Auth']['User']['role_id'], $role_ids['acc'][$action]);
   }

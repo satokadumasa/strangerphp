@@ -11,4 +11,12 @@ class Session {
   public static function set($value) {
     $_SESSION[COOKIE_NAME] = $value;
   }
+
+  public static function setMessage($message, $type){
+    $_SESSION[COOKIE_NAME][$type][] = $value;
+  }
+
+  public static function deleteMessage($type) {
+    unset($_SESSION[COOKIE_NAME][$type]);
+  }
 }

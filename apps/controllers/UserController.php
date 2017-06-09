@@ -53,10 +53,13 @@ class UserController extends BaseController{
       $users = new UserModel($this->dbh);
       $users->save($this->request);
       $this->dbh->commit();
-      $url = BASE_URL . User . '/show/' . $users->primary_key_value . '/';
+      $url = BASE_URL . 'User' . '/show/' . $users->primary_key_value . '/';
       $this->redirect($url);
+      exit();
     } catch (Exception $e) {
       $this->debug->log("UserController::create() error:" . $e->getMessage());
+      $this->set('Title', 'User Save Error');
+      $this->set('error_message', '保存ができませんでした。');
     }
   }
 

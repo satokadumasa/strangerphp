@@ -98,18 +98,10 @@ class AuthController extends BaseController{
       $this->debug->log("AuthController::save() exec_cmd:".$cmd);
       $result = exec($cmd);
       $this->debug->log("AuthController::save() exec_result:".print_r($result, true));
-
-      // $body = null;
-      // $notification = new Notification();
-      // $body = $notification->geterateRegistNotifyMessage($form, 'Mailer', 'regist_notify');
-      // $notification->sendRegistNotify($this->request, $body, '登録確認メール');
-
-      // return new RedirectResponse('/avalon/', 303);
-      // $url = BASE_URL . 'Auth' . '/show/' . $auths->primary_key_value . '/';
-      // $this->redirect($url);
-      $this->set('Title', 'User Registed');
     } catch (Exception $e) {
       $this->debug->log("AuthController::create() error:" . $e->getMessage());
+      $this->set('Title', 'User Save Error');
+      $this->set('error_message', '保存ができませんでした。');
     }
   }
 

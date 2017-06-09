@@ -20,6 +20,7 @@ class BaseController {
   public $role_ids = [];
 
   public function __construct($database, $uri, $url) {
+    Session::sessionStart();
     $this->error_log = new Logger('ERROR');
     $this->info_log = new Logger('INFO');
     $this->debug = new Logger('DEBUG');
@@ -27,10 +28,17 @@ class BaseController {
     $this->dbConnect = new DbConnect();
     $this->dbConnect->setConnectionInfo($database);
     $this->dbh = $this->dbConnect->createConnection();
-    
+    $this->defaultSet();
     $this->setRequest($uri, $url);
-    $this->set('document_root',DOCUMENT_ROOT);
     $this->view = new View();
+  }
+
+  protected function defaultSet(){
+    $this->set('document_root',DOCUMENT_ROOT);
+    if (isset($_SESSION[COOKIE_NAME]['error_message'])) {
+      $this->set('error_message', $_SESSION[COOKIE_NAME]['error_message']);
+    }
+    Session::deleteMessage('error_message');
   }
 
   public function setRequest($uri, $url) {
@@ -68,13 +76,13 @@ class BaseController {
    *
    */
   public function beforeAction() {
-    Session::sessionStart();
     $this->debug->log("BaseController::beforeAction() CH-01:".print_r($this->auth_check, true));
     $this->debug->log("BaseController::beforeAction() action:".$this->action);
     
     if ($this->auth_check && in_array($this->action, $this->auth_check)) {
       $this->debug->log("BaseController::beforeAction() CH-02");
       $auth = Authentication::isAuth();
+      $this->debug->log("BaseController::beforeAction() auth:".print_r($auth, true));
       if($auth){
         $this->debug->log("BaseController::beforeAction() role_ids:".print_r($this->role_ids, true));
         if ($this->role_ids && !Authentication::roleCheck($this->role_ids, $this->action)){
