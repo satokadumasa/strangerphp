@@ -32,9 +32,7 @@ class Notification {
         ->setBody($body, 'text/plain')
         ;
     $failedRecipients = array();
-    if ($mailer->send($message, $failedRecipients)) {
-        return true;
-    }
+    $mailer->send($message, $failedRecipients);
   }
 
   public function geterateRegistNotifyMessage($form, $class_name, $teplate_name) {
