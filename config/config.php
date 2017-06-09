@@ -22,9 +22,11 @@ define('SP_TAG', '##');
 define('PRODUCTION', 1);
 define('DEVELOPEMENT', 3);
 
+define('ENVIRONMENTS', 'development');
 define('LOG_LEVEL', DEVELOPEMENT);
 define('DOMAIN_NAME', 'cinnamon.example.com');
-define('BASE_URL', 'http://'.DOMAIN_NAME.'/');
+define('DOCUMENT_ROOT', '/');
+define('BASE_URL', 'http://'.DOMAIN_NAME.DOCUMENT_ROOT);
 
 define('SALT', 'lC0SlmdaMK');
 
@@ -33,8 +35,6 @@ define('COOKIE_NAME', 'AVALON');
 define('USER_COOKIE_NAME_LENGTH', 64);
 define('DEFAULT_FLAG_OF_AUTHENTICATION', true);
 
-define('ENVIRONMENTS', 'development');
-define('DOCUMENT_ROOT', '/');
 $CONV_STRING_LIST = array(
     'ID' => '\d',
     'YEAR' => '\d{4}',
