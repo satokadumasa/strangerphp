@@ -32,13 +32,13 @@ class AuthController extends BaseController{
   public function auth() {
     try{
       if(Authentication::auth($this->dbh, $this->request)){
-        $this->redirect('/');
+        $this->redirect(DOCUMENT_ROOT);
       }
       else {
-        $this->redirect('/login/');
+        $this->redirect(DOCUMENT_ROOT.'login/');
     }
     } catch (Exception $e) {
-      $this->redirect('/login/');
+      $this->redirect(DOCUMENT_ROOT.'login/');
     }
   }
 
