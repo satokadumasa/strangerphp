@@ -14,7 +14,7 @@ CREATE TABLE users (
   role_id int(8) NOT NULL,
   email varchar(128) NOT NULL,
   notified_at datetime ,
-  authentication_key varchar(128) NOT NULL,
+  authentication_key varchar(128),
   created_at datetime NOT NULL,
   modified_at datetime NOT NULL,
   PRIMARY KEY (`id`),

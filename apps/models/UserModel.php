@@ -33,9 +33,6 @@ class UserModel extends BaseModel {
     if (!isset($form[$this->model_name]['notified_at']) || $form[$this->model_name]['notified_at'] == '') {
       $form[$this->model_name]['authentication_key'] = StringUtil::makeRandStr(16);
     }
-    else {
-      $form[$this->model_name]['authentication_key'] = '';
-    }
     parent::save($form);
     return $form;
   }
