@@ -90,17 +90,17 @@ class BaseModel {
       switch ($col_name) {
         case 'created_at':
         case 'modified_at':
-          // $this->debug->log("BaseModel::find() column_name(1):".$column_name);
-          // $this->debug->log("BaseModel::find() col_name(1):".$col_name);
-          // $this->debug->log("BaseModel::find() value(1):".$value);
+          $this->debug->log("BaseModel::find() column_name(1):".$column_name);
+          $this->debug->log("BaseModel::find() col_name(1):".$col_name);
+          $this->debug->log("BaseModel::find() value(1):".$value);
           if ($v['operator'] != 'IS NULL') {
             $stmt->bindParam($column_name, 'NOW()', PDO::PARAM_STR);
           }
           break;
         default:
-          // $this->debug->log("BaseModel::find() column_name(2):".$column_name);
-          // $this->debug->log("BaseModel::find() col_name(2):".$col_name);
-          // $this->debug->log("BaseModel::find() value(2):".$value);
+          $this->debug->log("BaseModel::find() column_name(2):".$column_name);
+          $this->debug->log("BaseModel::find() col_name(2):".$col_name);
+          $this->debug->log("BaseModel::find() value(2):".$value);
           if ($v['operator'] != 'IS NULL') {
             $stmt->bindValue($column_name, $value, $this->getColumnType($col_name));
           }
