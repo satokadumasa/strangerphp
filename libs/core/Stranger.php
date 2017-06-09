@@ -385,6 +385,12 @@ EOM;
     $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/views/edit_form.tpl';
     $method = 'edit';
     $this->createViewTemplate($template_fileatime, $edit, $method);
+    //  save
+    echo "create save template.\n";
+    $edit = $view_template_folder . 'save.tpl';
+    $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/views/save.tpl';
+    $method = 'save';
+    $this->createViewTemplate($template_fileatime, $edit, $method);
   }
 
   public function createViewTemplate($template_fileatime, $view_template, $method) {

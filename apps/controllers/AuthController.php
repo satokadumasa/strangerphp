@@ -98,6 +98,7 @@ class AuthController extends BaseController{
       $this->debug->log("AuthController::save() exec_cmd:".$cmd);
       $result = exec($cmd);
       $this->debug->log("AuthController::save() exec_result:".print_r($result, true));
+      $this->set('Title', 'User Save Error');
     } catch (Exception $e) {
       $this->debug->log("AuthController::create() error:" . $e->getMessage());
       $this->set('Title', 'User Save Error');
