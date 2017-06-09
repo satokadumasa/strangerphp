@@ -94,8 +94,8 @@ class AuthController extends BaseController{
       $cmd = 'php ' . BIN_PATH . 'send_notify.php';
       $this->debug->log("AuthController::save() exec_cmd:".$cmd);
       $result = exec($cmd);
-      $this->redirect('/avalon/');
-      exit();
+      // $this->redirect('/avalon/');
+      // exit();
       $this->set('Title', 'User Save Error');
     } catch (Exception $e) {
       $this->debug->log("AuthController::create() error:" . $e->getMessage());
