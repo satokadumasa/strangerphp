@@ -1,8 +1,9 @@
 <?php
 class Route {
   public $route = [];
-  private $default_actions = array('index', 'new', 'edit', 'create', 'save', 'confirm', 'show', 'delete');
-  private $default_need_id_actions = array('new', 'edit', 'show', 'delete');
+  private $default_actions = ['index', 'new', 'edit', 'create', 'save', 'confirm', 'show', 'delete'];
+  private $default_need_id_actions = ['new', 'edit', 'show', 'delete'];
+  private $default_need_id_confirm_str = ['confirm'];
   private $url_not_found = array('controller' => 'DefaultController', 'action' => 'index', 'uri' => '/Default/index/');
 
   public $error_log;
@@ -39,8 +40,9 @@ class Route {
       }
 
       $this->debug->log("Route::setDefaultRoutes() controller:".$controller);
-      if($namespace)
+      if($namespace){
         $this->debug->log("Route::setDefaultRoutes() namespace:".$namespace);
+      }
 
       foreach ($this->default_actions as $action) {
         $uri = null;
@@ -48,26 +50,33 @@ class Route {
           $uri = '/'.$namespace;
         if(in_array($action, $this->default_need_id_actions)) {
           $uri .= '/'.$controller.'/'.$action.'/ID';
-        } else {
+        }
+        else if (in_array($action, $this->default_need_id_confirm_str)){
+          $uri = '/'.$controller.'/'.$action.'/CONFIRM_STRING';
+        }
+        else {
           $uri .= '/'.$controller.'/'.$action.'/';
         }
 
         // $this->debug->log("Route::setDefaultRoutes() uri:".$uri);
-        if($namespace)
+        if($namespace){
           $this->route[$uri] = array('namespace' => $namespace, 'controller' => $controller.'Controller', 'action' => $action);
-        else
+        }
+        else{
           $this->route[$uri] = array('controller' => $controller.'Controller', 'action' => $action);
+        }
       }
     }
   }
 
   public function findRoute($url) {
-    // $this->debug->log("Route::findRoute() route:".print_r($this->route, true));
+    $this->debug->log("Route::findRoute() route:".print_r($this->route, true));
     foreach ($this->route as $key => $value) {
       $uri = $key;
       $key = str_replace('/', '\/', $key);
       foreach ($this->CONV_STRING_LIST as $k => $v) {
         $key = str_replace($k, $v, $key);
+        $this->debug->log("Route::findRoute() key:".$key);
       }
       $pattern = "/".$key."/";
       if (preg_match('/css/', $url)) {
@@ -76,6 +85,7 @@ class Route {
       // $this->debug->log("Route::findRoute() url:".$url);
       // $this->debug->log("Route::findRoute() pattern:".$pattern);
       if (preg_match($pattern, $url)) {
+        $this->debug->log("Route::findRoute() url:".$url);
         $value['uri'] = $uri;
         return $value;
       }

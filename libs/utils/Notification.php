@@ -36,7 +36,7 @@ class Notification {
   }
 
   public function geterateRegistNotifyMessage($form, $class_name, $teplate_name) {
-    $url = BASE_URL . '/confirm/' . $form['User']['authentication_key'];
+    $url = BASE_URL . 'confirm/' . $form['User']['authentication_key'] .'/';
 
     $site_info = Config::get('site_info');
 

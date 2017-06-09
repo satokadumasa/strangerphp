@@ -39,5 +39,6 @@ $CONV_STRING_LIST = array(
     'ID' => '\d',
     'YEAR' => '\d{4}',
     'MONTH' => '\d{2}',
-    'MDAY', '\d{2}',
+    'MDAY' => '\d{2}',
+    'CONFIRM_STRING' => '\w{16}',
   );

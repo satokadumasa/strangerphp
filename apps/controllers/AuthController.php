@@ -43,6 +43,20 @@ class AuthController extends BaseController{
   }
 
   /**
+   *
+   */
+  public function confirm(){
+    $user = new UserModel($this->dbh);
+    $data = $user->where('User.authentication_key', '=', $this->request['confirm_string'])->find('first');
+    $data['User']['authentication_key'] = null;
+    $user->save($data);
+    $this->set('Title', 'User Confirmed');
+    $this->set('message', 'Welcom, Confirmed your redistration.');
+    $this->set('User', $data['User']);
+    $this->set('datas', $data);
+  }
+
+  /**
    *  一覧
    */
   public function index() {
@@ -88,14 +102,10 @@ class AuthController extends BaseController{
       $this->dbh->beginTransaction();
       $auths = new UserModel($this->dbh);
       $form = $auths->save($this->request);
-      $this->debug->log("AuthController::save() form:".print_r($form, true));
       $this->dbh->commit();
 
       $cmd = 'php ' . BIN_PATH . 'send_notify.php';
-      $this->debug->log("AuthController::save() exec_cmd:".$cmd);
       $result = exec($cmd);
-      // $this->redirect('/avalon/');
-      // exit();
       $this->set('Title', 'User Save Error');
     } catch (Exception $e) {
       $this->debug->log("AuthController::create() error:" . $e->getMessage());
