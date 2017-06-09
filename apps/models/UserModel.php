@@ -44,6 +44,7 @@ class UserModel extends BaseModel {
     $form[$this->model_name]['password'] = md5($form[$this->model_name]['password'].SALT);
     $data = $this->where('User.username', '=', $form[$this->model_name]['username'])
                  ->where('User.password', '=', $form[$this->model_name]['password'])
+                 ->where('User.authentication_key', 'IS NULL', null)
                  ->find('first');
     return $data;
   }
