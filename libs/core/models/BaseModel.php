@@ -413,7 +413,6 @@ class BaseModel {
       $stmt = $this->dbh->prepare($sql);
       $this->debug->log("BaseModel::save() model_name:".$this->model_name);
       $this->debug->log("BaseModel::save() sql:".$sql);
-      $this->debug->log("BaseModel::save() form:" . var_dump($form[$this->model_name], true));
       foreach ($form[$this->model_name] as $col_name => $value) {
         if ($hssModels && in_array($col_name, $hssModels)) {
           continue;
