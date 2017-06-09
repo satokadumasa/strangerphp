@@ -9,7 +9,6 @@ class SendNotify {
   protected $dbh = null;
 
   public function __construct() {
-    echo "SendNotify::__construct() CH-01\n";
     $this->error_log = new Logger('ERROR');
     $this->info_log = new Logger('INFO');
     $this->debug = new Logger('DEBUG');
