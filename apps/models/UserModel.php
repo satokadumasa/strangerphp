@@ -29,8 +29,11 @@ class UserModel extends BaseModel {
     $this->debug->log("UserModel::save() form:".print_r($form, true));
     $form[$this->model_name]['password'] = md5($form[$this->model_name]['password'].SALT);
     $form[$this->model_name]['notified_at'] = 
-      (isset($form[$this->model_name]['notified_at']) && $form[$this->model_name]['notified_at'] != '' ) ? $form[$this->model_name]['notified_at'] :  'null';
-    if (!isset($form[$this->model_name]['notified_at']) || $form[$this->model_name]['notified_at'] == '') {
+      (isset($form[$this->model_name]['notified_at']) && $form[$this->model_name]['notified_at'] != '' ) ? $form[$this->model_name]['notified_at'] :  null;
+    if (
+      !isset($form[$this->model_name]['notified_at']) || 
+      $form[$this->model_name]['notified_at'] == '' || 
+      !isset($form[$this->model_name][$this->primary_key])) {
       $form[$this->model_name]['authentication_key'] = StringUtil::makeRandStr(16);
     }
     parent::save($form);
