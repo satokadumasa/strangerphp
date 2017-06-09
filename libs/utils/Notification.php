@@ -27,8 +27,8 @@ class Notification {
     $mailer = \Swift_Mailer::newInstance($transport);
     $message = \Swift_Message::newInstance()
         ->setSubject($subject)
-        ->setFrom(array($this->conf['from'] => 'k-holy'))
-        ->setTo(array($data['User']['email'] => 'k-holy'))
+        ->setFrom(array($this->conf['from'] => $this->conf['name']))
+        ->setTo(array($data['User']['email'] => $this->conf['name']))
         ->setBody($body, 'text/plain')
         ;
     $failedRecipients = array();

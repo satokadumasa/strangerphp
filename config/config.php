@@ -2,7 +2,7 @@
 define('SITE_NAME', '書庫セラエノ');
 define('PROJECT_ROOT', dirname(dirname(__FILE__)));
 define('APP_PATH', PROJECT_ROOT.'/apps/');
-define('BIN_PATH', PROJECT_ROOT.'/bin/');
+define('BIN_PATH', APP_PATH.'bin/');
 define('CONFIG_PATH', PROJECT_ROOT.'/config/');
 define('LIB_PATH', PROJECT_ROOT.'/libs/');
 define('TEMP_PATH', PROJECT_ROOT.'/temp/');
