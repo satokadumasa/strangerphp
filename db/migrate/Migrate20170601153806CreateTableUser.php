@@ -9,7 +9,7 @@ class Migrate20170601153806CreateTableUser extends BaseMigrate{
     $sql = <<<EOM
 CREATE TABLE users (
   id int(9) NOT NULL AUTO_INCREMENT,
-  username varchar(64) NOT NULL,
+  username varchar(64) unique NOT NULL,
   password varchar(64) NOT NULL,
   role_id int(8) NOT NULL,
   email varchar(128) NOT NULL,
