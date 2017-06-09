@@ -13,7 +13,7 @@ CREATE TABLE users (
   password varchar(64) NOT NULL,
   role_id int(8) NOT NULL,
   email varchar(128) NOT NULL,
-  notified_at datetime ,
+  notified_at datetime default null,
   authentication_key varchar(128),
   created_at datetime NOT NULL,
   modified_at datetime NOT NULL,
