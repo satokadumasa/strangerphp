@@ -38,7 +38,6 @@ class UserModel extends BaseModel {
   }
 
   public function auth($form) {
-    $this->debug->log("UserModel::auth() form:".print_r($form, true));
     $form[$this->model_name]['password'] = md5($form[$this->model_name]['password'].SALT);
     $data = $this->where('User.username', '=', $form[$this->model_name]['username'])
                  ->where('User.password', '=', $form[$this->model_name]['password'])
