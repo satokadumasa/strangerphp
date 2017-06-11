@@ -36,11 +36,11 @@
   
 </div>
 <div class="detail_menu_column">
-  <A HREF="/User/index/">INDEX</A>
+  <A HREF="<!----value:document_root---->User/index/">INDEX</A>
 </div>
 <div class="detail_menu_column">
-  <A HREF="/User/edit/<!----value:User:id---->/">EDIT</A>
+  <A HREF="<!----value:document_root---->User/edit/<!----value:User:id---->/">EDIT</A>
 </div>
 <div class="detail_menu_column">
-  <A HREF="/User/delete/<!----value:User:id---->/">DELETE</A>
+  <A HREF="<!----value:document_root---->User/delete/<!----value:User:id---->/">DELETE</A>
 </div>
