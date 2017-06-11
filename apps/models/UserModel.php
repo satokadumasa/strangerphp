@@ -38,20 +38,9 @@ class UserModel extends BaseModel {
     $session = Session::get();
     unset($form[$this->model_name]['password_confirm']);
     $form[$this->model_name]['password'] = md5($form[$this->model_name]['password'].SALT);
-
-    $form[$this->model_name]['notified_at'] = 
-      (isset($form[$this->model_name]['notified_at']) && $form[$this->model_name]['notified_at'] != '' ) ? 
-        $form[$this->model_name]['notified_at'] :  null;
-
-    if (isset($session['Auth']['role_id']) && !in_array($session['Auth']['role_id'], [ADMIN_ROLE_ID, OPERATOR_ROLE_ID], true)) {
-      unset($form[$this->model_name]['role_id']);
-    }
-    if (
-      !isset($form[$this->model_name]['notified_at']) || 
-      $form[$this->model_name]['notified_at'] == '' || 
-      !isset($form[$this->model_name][$this->primary_key])) {
-      $form[$this->model_name]['authentication_key'] = StringUtil::makeRandStr(16);
-    }
+    $form[$this->model_name]['notified_at'] :  date('Y-m-d H:i:s');
+    unset($form[$this->model_name]['role_id']);
+    $form[$this->model_name]['authentication_key'] = null;
     parent::save($form);
     return $form;
   }
