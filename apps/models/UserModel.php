@@ -38,7 +38,7 @@ class UserModel extends BaseModel {
     $session = Session::get();
     unset($form[$this->model_name]['password_confirm']);
     $form[$this->model_name]['password'] = md5($form[$this->model_name]['password'].SALT);
-    $form[$this->model_name]['notified_at'] :  date('Y-m-d H:i:s');
+    $form[$this->model_name]['notified_at'] = date('Y-m-d H:i:s');
     unset($form[$this->model_name]['role_id']);
     $form[$this->model_name]['authentication_key'] = null;
     parent::save($form);
