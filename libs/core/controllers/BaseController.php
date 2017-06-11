@@ -38,6 +38,12 @@ class BaseController {
     if (isset($_SESSION[COOKIE_NAME]['error_message'])) {
       $this->set('error_message', $_SESSION[COOKIE_NAME]['error_message']);
     }
+    //    $this->set('Sitemenu',)
+    $session = Session::get();
+    if (isset($session['Auth'])) {
+      $log_out_str = "<a href='".DOCUMENT_ROOT."logout'>Logout</a>";
+      $this->set('Sitemenu',$log_out_str);
+    }
     Session::deleteMessage('error_message');
   }
 
@@ -80,7 +86,6 @@ class BaseController {
       $auth = Authentication::isAuth();
       if($auth){
         if ($this->role_ids && !Authentication::roleCheck($this->role_ids, $this->action)){
-          // $this->debug->log("BaseController::beforeAction() CH-04");
           $this->redirect(DOCUMENT_ROOT);
           exit();
         }

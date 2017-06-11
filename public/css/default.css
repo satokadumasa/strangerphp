@@ -8,14 +8,21 @@
   background: #000;
   color: #fff;
   width: 800px;
-  float: left;
   border: 0px solid gray;
 }
 
 .site_title {
   background: #000;
   color: #fff;
-  width: 800px;
+  width: 700px;
+  float: left;
+  border: 0px solid gray;  
+}
+
+.site_setup {
+  background: #000;
+  color: #fff;
+  width: 100px;
   float: left;
   border: 0px solid gray;  
 }
