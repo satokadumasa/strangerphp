@@ -41,9 +41,12 @@ class BaseController {
     //    $this->set('Sitemenu',)
     $session = Session::get();
     if (isset($session['Auth'])) {
-      $log_out_str = "<a href='".DOCUMENT_ROOT."logout'>Logout</a>";
-      $this->set('Sitemenu',$log_out_str);
+      $log_out_str = "<a href='".DOCUMENT_ROOT."logout/'>Logout</a>";
     }
+    else {
+      $log_out_str = "<a href='".DOCUMENT_ROOT."login/'>Login</a>";
+    }
+    $this->set('Sitemenu',$log_out_str);
     Session::deleteMessage('error_message');
   }
 
