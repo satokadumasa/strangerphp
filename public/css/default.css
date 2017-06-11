@@ -26,6 +26,9 @@
   float: left;
   border: 0px solid gray;  
 }
+.site_setup a {
+  color: #fff;
+}
 
 .side_menu {
   background: #000;
