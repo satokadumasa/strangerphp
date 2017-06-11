@@ -2,15 +2,15 @@
 <div class="detail">
   <div class='detail_rows'>
     <div class='label_clumn'>
-      Auth username
+      username
     </div>
     <div class='input_clumn'>
-      <!----value:User:username---->
+      <!----value:Auth:username---->
     </div>
   </div>
   <div class='detail_rows'>
     <div class='label_clumn'>
-      Auth paswword
+      paswword
     </div>
     <div class='input_clumn'>
       ********
@@ -18,18 +18,18 @@
   </div>
   <div class='detail_rows'>
     <div class='label_clumn'>
-      Auth role_id
+      role_id
     </div>
     <div class='input_clumn'>
-      <!----value:User:role_id---->
+      <!----value:Auth:role_id---->
     </div>
   </div>
   <div class='detail_rows'>
     <div class='label_clumn'>
-      Auth email
+      email
     </div>
     <div class='input_clumn'>
-      <!----value:User:email---->
+      <!----value:Auth:email---->
     </div>
   </div>
 </div>

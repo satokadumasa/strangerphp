@@ -1,6 +1,6 @@
 <h1>Auth create<br /></h1>
 <form action="<!----value:document_root---->auth/" method="post">
-  Auth username<input type="text" name="User[username]" length="64" value=""><br>
-  Auth password<input type="text" name="User[password]" length="64" value=""><br>
+  username<input type="text" name="Auth[username]" length="64" value=""><br>
+  password<input type="text" name="Auth[password]" length="64" value=""><br>
   <input type="submit" name="bottom">
 </form>

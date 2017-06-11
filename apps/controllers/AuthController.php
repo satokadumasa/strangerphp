@@ -30,6 +30,7 @@ class AuthController extends BaseController{
    *  ログイン処理
    */
   public function auth() {
+    $this->debug->log("AuthController::auth() request:".print_r($this->request, true));
     try{
       if(Authentication::auth($this->dbh, $this->request)){
         $this->redirect(DOCUMENT_ROOT);
@@ -46,13 +47,13 @@ class AuthController extends BaseController{
    *
    */
   public function confirm(){
-    $user = new UserModel($this->dbh);
+    $user = new AuthModel($this->dbh);
     $data = $user->where('User.authentication_key', '=', $this->request['confirm_string'])->find('first');
     $data['User']['authentication_key'] = null;
     $user->save($data);
-    $this->set('Title', 'User Confirmed');
+    $this->set('Title', 'Auth Confirmed');
     $this->set('message', 'Welcom, Confirmed your redistration.');
-    $this->set('User', $data['User']);
+    $this->set('Auth', $data['Auth']);
     $this->set('datas', $data);
   }
 
@@ -60,7 +61,7 @@ class AuthController extends BaseController{
    *  一覧
    */
   public function index() {
-    $auths = new UserModel($this->dbh);
+    $auths = new AuthModel($this->dbh);
     $limit = 10 * (isset($this->request['page']) ? $this->request['page'] : 1);
     $offset = 10 * (isset($this->request['page']) ? $this->request['page'] - 1 : 0);
 
@@ -70,7 +71,6 @@ class AuthController extends BaseController{
     $next = isset($this->request['page']) ? $this->request['page'] + 1 : 2;
 
     $this->set('Title', 'Auth List');
-    $this->set('datas', $datas);
     $this->set('Auth', $datas);
     $this->set('ref', $ref);
     $this->set('next', $next);
@@ -80,33 +80,39 @@ class AuthController extends BaseController{
     $datas = null;
     $id = $this->request['id'];
 
-    $auths = new UserModel($this->dbh);
-    $datas = $auths->where('User.id', '=', $id)->find('first');
+    $auths = new AuthModel($this->dbh);
+    $datas = $auths->where('Auth.id', '=', $id)->find('first');
     $this->set('Title', 'Auth Ditail');
     $this->set('Auth', $datas['Auth']);
-    $this->set('datas', $datas);
   }
 
   public function create() {
-    $this->debug->log("AuthController::create()");
-    $auths = new UserModel($this->dbh);
+    $auths = new AuthModel($this->dbh);
     $form = $auths->createForm();
-    $this->debug->log("AuthController::create() form:" .print_r($form, true));
     $this->set('Title', 'Auth Create');
-    $this->set('User', $form['User']);
+    $this->set('Auth', $form['Auth']);
   }
 
   public function save(){
-    $this->debug->log("AuthController::save()");
     try {
+
+      $session = Session::get();
+      if (!isset($session['Auth'])) {
+        // 認証情報が無い場合に例外を投げる
+        throw new Exception("権限がありません。", 1);
+      }
+      if (!in_array($session['Auth']['role_id'], [ADMIN_ROLE_ID, OPERATOR_ROLE_ID], true)) {
+        // 権限がない場合に例外を投げる
+        throw new Exception("権限がありません。", 1);
+      }
+
       $this->dbh->beginTransaction();
-      $auths = new UserModel($this->dbh);
+      $auths = new AuthModel($this->dbh);
       $form = $auths->save($this->request);
       $this->dbh->commit();
 
-      $cmd = 'php ' . BIN_PATH . 'send_notify.php';
-      $result = exec($cmd);
-      $this->set('Title', 'User Save Error');
+      $this->redirect(BASE_URL . 'Auth' . '/show/' . $auths->primary_key_value . '/');
+      exit();
     } catch (Exception $e) {
       $this->debug->log("AuthController::create() error:" . $e->getMessage());
       $this->set('Title', 'User Save Error');
@@ -115,7 +121,6 @@ class AuthController extends BaseController{
   }
 
   public function edit() {
-    $this->debug->log("AuthController::edit()");
     try {
       $datas = null;
       $id = $this->request['id'];
@@ -123,8 +128,7 @@ class AuthController extends BaseController{
       $auths = new UserModel($this->dbh);
       $datas = $auths->where('Auth.id', '=', $id)->find('first');
       $this->set('Title', 'Auth Edit');
-      $this->set('Auth', $datas['Auth']);
-      $this->set('datas', $datas);
+      $this->set('User', $datas['User']);
     } catch (Exception $e) {
       $this->debug->log("AuthController::edit() error:" . $e->getMessage());
     }

@@ -1,7 +1,7 @@
 <div class="detail">
   <div class='detail_rows'>
     <div class='label_clumn'>
-      User username
+      username
     </div>
     <div class='input_clumn'>
       <!----value:User:username---->
@@ -9,7 +9,7 @@
   </div>
   <div class='detail_rows'>
     <div class='label_clumn'>
-      User paswword
+      paswword
     </div>
     <div class='input_clumn'>
       <!----value:User:password---->
@@ -17,7 +17,7 @@
   </div>
   <div class='detail_rows'>
     <div class='label_clumn'>
-      User role_id
+      role_id
     </div>
     <div class='input_clumn'>
       <!----value:User:role_id---->
@@ -25,26 +25,10 @@
   </div>
   <div class='detail_rows'>
     <div class='label_clumn'>
-      User email
+      email
     </div>
     <div class='input_clumn'>
       <!----value:User:email---->
-    </div>
-  </div>
-  <div class='detail_rows'>
-    <div class='label_clumn'>
-      User notified_at
-    </div>
-    <div class='input_clumn'>
-      <!----value:User:notified_at---->
-    </div>
-  </div>
-  <div class='detail_rows'>
-    <div class='label_clumn'>
-      User authentication_key
-    </div>
-    <div class='input_clumn'>
-      <!----value:User:authentication_key---->
     </div>
   </div>
 </div>

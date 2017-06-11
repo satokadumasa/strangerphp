@@ -76,21 +76,14 @@ class BaseController {
    *
    */
   public function beforeAction() {
-    $this->debug->log("BaseController::beforeAction() CH-01:".print_r($this->auth_check, true));
-    $this->debug->log("BaseController::beforeAction() action:".$this->action);
-    
     if ($this->auth_check && in_array($this->action, $this->auth_check)) {
-      $this->debug->log("BaseController::beforeAction() CH-02");
       $auth = Authentication::isAuth();
-      $this->debug->log("BaseController::beforeAction() auth:".print_r($auth, true));
       if($auth){
-        $this->debug->log("BaseController::beforeAction() role_ids:".print_r($this->role_ids, true));
         if ($this->role_ids && !Authentication::roleCheck($this->role_ids, $this->action)){
-          $this->debug->log("BaseController::beforeAction() CH-04");
-          $this->redirect('/');
+          // $this->debug->log("BaseController::beforeAction() CH-04");
+          $this->redirect(DOCUMENT_ROOT);
           exit();
         }
-        $this->debug->log("BaseController::beforeAction() CH-05");
       } 
     }
   }
@@ -99,7 +92,6 @@ class BaseController {
    *
    */
   public function afterAction() {
-    // setcookie(COOKIE_NAME, $user_cookie_name, COOKIE_LIFETIME, '/', DOMAIN_NAME);
     $this->debug->log("BaseController::after()");
   }
 

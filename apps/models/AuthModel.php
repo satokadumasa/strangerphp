@@ -1,8 +1,8 @@
-<?php
-class UserModel extends BaseModel {
+﻿<?php
+class AuthModel extends BaseModel {
   public $table_name  = 'users';
-  public $model_name  = 'User';
-  public $model_class_name  = 'UserModel';
+  public $model_name  = 'Auth';
+  public $model_class_name  = 'AuthModel';
 
   //  Relation
   public $belongthTo = null;
@@ -26,36 +26,17 @@ class UserModel extends BaseModel {
   }
 
   public function save($form) {
-    $form[$this->model_name]['password'] = md5($form[$this->model_name]['password'].SALT);
-    $form[$this->model_name]['notified_at'] = null;
-    $form[$this->model_name]['role_id'] = USER_ROLE_ID;
+    $form[$this->model_name]['password'] = isset($form[$this->model_name][$this->primary_key]) ? 
+                                            $form[$this->model_name]['password'] : 
+                                            md5($form[$this->model_name]['password'].SALT);
+    $form[$this->model_name]['notified_at'] = date('Y-m-d H:i:s');
     $form[$this->model_name]['authentication_key'] = StringUtil::makeRandStr(16);
     parent::save($form);
     return $form;
   }
 
-  public function update($form) {
-    $session = Session::get();
-    unset($form[$this->model_name]['password_confirm']);
-
-    $form[$this->model_name]['notified_at'] = 
-      (isset($form[$this->model_name]['notified_at']) && $form[$this->model_name]['notified_at'] != '' ) ? 
-        $form[$this->model_name]['notified_at'] :  null;
-
-    if (isset($session['Auth']['role_id']) && !in_array($session['Auth']['role_id'], [ADMIN_ROLE_ID, OPERATOR_ROLE_ID], true)) {
-      unset($form[$this->model_name]['role_id']);
-    }
-    if (
-      !isset($form[$this->model_name]['notified_at']) || 
-      $form[$this->model_name]['notified_at'] == '' || 
-      !isset($form[$this->model_name][$this->primary_key])) {
-      $form[$this->model_name]['authentication_key'] = StringUtil::makeRandStr(16);
-    }
-    parent::save($form);
-    return $form;
-  }
-
   public function auth($form) {
+    $this->debug->log("AuthModel::auth() form:".print_r($form, true));
     $form[$this->model_name]['password'] = md5($form[$this->model_name]['password'].SALT);
     $data = $this->where('User.username', '=', $form[$this->model_name]['username'])
                  ->where('User.password', '=', $form[$this->model_name]['password'])

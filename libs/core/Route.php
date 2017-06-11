@@ -1,7 +1,7 @@
 <?php
 class Route {
   public $route = [];
-  private $default_actions = ['index', 'new', 'edit', 'create', 'save', 'confirm', 'show', 'delete'];
+  private $default_actions = ['index', 'new', 'edit', 'create', 'save', 'update', 'confirm', 'show', 'delete'];
   private $default_need_id_actions = ['new', 'edit', 'show', 'delete'];
   private $default_need_id_confirm_str = ['confirm'];
   private $url_not_found = array('controller' => 'DefaultController', 'action' => 'index', 'uri' => '/Default/index/');
@@ -21,13 +21,11 @@ class Route {
   }
 
   public function setRoute ($uri, $controller, $action) {
-    $this->debug->log("Route::setDefaultRoutes() setRoute");
+    // $this->debug->log("Route::setDefaultRoutes() setRoute");
     $this->route[$uri] = array('controller' => $controller, 'action' => $action);
   }
 
   private function setDefaultRoutes() {
-    $this->debug->log("Route::setDefaultRoutes() Start");
-
     $file_list = $this->getFileList(CONTROLLER_PATH);
     foreach ($file_list as $file_name) {
       $namespace  = null;
@@ -39,7 +37,6 @@ class Route {
         $controller = $arr[1];
       }
 
-      $this->debug->log("Route::setDefaultRoutes() controller:".$controller);
       if($namespace){
         $this->debug->log("Route::setDefaultRoutes() namespace:".$namespace);
       }
@@ -58,7 +55,6 @@ class Route {
           $uri .= DOCUMENT_ROOT.$controller.'/'.$action.'/';
         }
 
-        // $this->debug->log("Route::setDefaultRoutes() uri:".$uri);
         if($namespace){
           $this->route[$uri] = array('namespace' => $namespace, 'controller' => $controller.'Controller', 'action' => $action);
         }
@@ -70,22 +66,17 @@ class Route {
   }
 
   public function findRoute($url) {
-    $this->debug->log("Route::findRoute() route:".print_r($this->route, true));
     foreach ($this->route as $key => $value) {
       $uri = $key;
       $key = str_replace('/', '\/', $key);
       foreach ($this->CONV_STRING_LIST as $k => $v) {
         $key = str_replace($k, $v, $key);
-        $this->debug->log("Route::findRoute() key:".$key);
       }
       $pattern = "/".$key."/";
       if (preg_match('/css/', $url)) {
         return;
       }
-      // $this->debug->log("Route::findRoute() url:".$url);
-      // $this->debug->log("Route::findRoute() pattern:".$pattern);
       if (preg_match($pattern, $url)) {
-        $this->debug->log("Route::findRoute() url:".$url);
         $value['uri'] = $uri;
         return $value;
       }

@@ -80,6 +80,7 @@ class BaseModel {
 
     $stmt = $this->dbh->prepare($sql);
     foreach ($this->conditions as $k => $v) {
+      $this->debug->log("BaseModel::find() v:".print_r($v, true));
       $arr = explode('.', $v['column_name']);
       $value = $v['value'];
       $col_name = $arr[count($arr) - 1];
@@ -396,12 +397,10 @@ class BaseModel {
         )
       ) {
         $sql = $this->createModifySql($form[$this->model_name]);  // CASE MODIFY
-        $this->debug->log("BaseModel::save() update pk[".$this->primary_key."][".$form[$this->model_name][$this->primary_key]."] sql:".$sql);
       }
       else {
         unset($form[$this->model_name][$this->primary_key]);
         $sql = $this->createInsertSql();  // CASE INSERT
-        $this->debug->log("BaseModel::save() insert sql:".$sql);
       }
       
       if($this->has){
@@ -411,8 +410,6 @@ class BaseModel {
         $hasManyAndBelongsToModels = array_keys($this->has_many_and_belongs_to);
       }
       $stmt = $this->dbh->prepare($sql);
-      $this->debug->log("BaseModel::save() model_name:".$this->model_name);
-      $this->debug->log("BaseModel::save() sql:".$sql);
       foreach ($form[$this->model_name] as $col_name => $value) {
         if ($hssModels && in_array($col_name, $hssModels)) {
           continue;
@@ -421,26 +418,19 @@ class BaseModel {
           continue;
         }
         $colum_name = ":".$col_name;
-        $this->debug->log("BaseModel::save() colum_name[".$colum_name."]value[".$value."]");
         switch ($col_name) {
           case 'created_at':
           case 'modified_at':
-            $this->debug->log("BaseModel::save() set(1)");
-            // $stmt->bindParam($col_name, 'NOW()', PDO::PARAM_STR);
             $now_date = $value ? $value : $now_date;
             $stmt->bindValue($col_name, $now_date, $this->getColumnType($col_name));
             break;
           default:
-            $this->debug->log("BaseModel::save() [".$col_name."] [".$value."] [".$this->getColumnType($col_name)."]");
             $stmt->bindValue($col_name, $value, $this->getColumnType($col_name));
-            $this->debug->log("BaseModel::save() set(2)");
             break;
         }
       }
 
-      $this->debug->log("BaseModel::save() CH-10");
       $stmt->execute();
-      $this->debug->log("BaseModel::save() CH-11");
       //  従属モデルへのセーブ処理
       $this->primary_key_value = $this->dbh->lastInsertId($this->primary_key);
       if (isset($form[$this->model_name])) {
@@ -506,7 +496,6 @@ class BaseModel {
     $form[$this->has[$model_name]['foreign_key']] = $id;
     $f = [];
     $f[$model_name] = $form;
-    $this->debug->log("BaseModel::saveHasModel() foreign_key[".$this->has[$model_name]['foreign_key']."] form:" . print_r($f, true));
     $obj->save($f);
   }
 
@@ -514,7 +503,6 @@ class BaseModel {
 
   //  共通
   protected function setValue($key, $value){
-    $this->debug->log("BaseModel::setValue() columns:".print_r($this->columns));
     $type = $this->columns[$key]['type'];
     if (is_array($value)) {
       if ($type == 'SET') {
@@ -573,7 +561,6 @@ class BaseModel {
   }
 
   public function delete($id){
-    $this->debug->log("BaseModel::delete() has:".print_r($this->has, true));
     //  隷属するモデルを先に検索・削除する。
     if (isset($this->has)) {
       foreach ($this->has as $model_name => $value) {

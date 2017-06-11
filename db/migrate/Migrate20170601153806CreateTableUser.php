@@ -22,6 +22,16 @@ CREATE TABLE users (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 EOM;
     parent::up($sql);
+
+    $sql = <<<EOM
+INSERT INTO users (username,password,role_id,email,notified_at,created_at,modified_at) VALUES ('administrator','269cb049e5460a656fecd6fff86df3d6',1,'administrator@example.com',now(),now(),now())
+EOM;
+    parent::up($sql);
+    
+    $sql = <<<EOM
+INSERT INTO users (username,password,role_id,email,notified_at,created_at,modified_at) VALUES ('operator1','269cb049e5460a656fecd6fff86df3d6',2,'administrator@example.com',now(),now(),now())
+EOM;
+    parent::up($sql);
   }
 
   public function down(){

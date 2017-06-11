@@ -9,6 +9,54 @@ class UserController extends BaseController{
     $this->setAuthCheck(['create', 'edit', 'show', 'save', 'delete']);
     $this->role_ids = Config::get('acc/users');
   }
+ /**
+   *  ログイン画面
+   */
+  public function login() {
+    $auths = new UserModel($this->dbh);
+    $form = $auths->createForm();
+    $this->set('Title', 'Auth Login');
+    $this->set('User', $form['User']);
+  }
+
+  /**
+   *  ログアウト処理
+   */
+  public function logout() {
+    session_destroy();
+    $this->redirect(DOCUMENT_ROOT);
+  }
+
+  /**
+   *  ログイン処理
+   */
+  public function auth() {
+    try{
+      if(Authentication::auth($this->dbh, $this->request)){
+        $this->redirect(DOCUMENT_ROOT);
+      }
+      else {
+        $this->redirect(DOCUMENT_ROOT.'login/');
+    }
+    } catch (Exception $e) {
+      $this->redirect(DOCUMENT_ROOT.'login/');
+    }
+  }
+
+  /**
+   *
+   */
+  public function confirm(){
+    $user = new UserModel($this->dbh);
+    $data = $user->where('User.authentication_key', '=', $this->request['confirm_string'])->find('first');
+    $data['User']['authentication_key'] = null;
+    $user->save($data);
+    $this->set('Title', 'User Confirmed');
+    $this->set('message', 'Welcom, Confirmed your redistration.');
+    $this->set('User', $data['User']);
+    $this->set('datas', $data);
+  }
+
 
   public function index() {
     $users = new UserModel($this->dbh);
@@ -39,7 +87,6 @@ class UserController extends BaseController{
   }
 
   public function create() {
-    $this->debug->log("UserController::create()");
     $users = new UserModel($this->dbh);
     $form = $users->createForm();
     $this->set('Title', 'User Create');
@@ -47,24 +94,55 @@ class UserController extends BaseController{
   }
 
   public function save(){
-    $this->debug->log("UserController::save()");
     try {
       $this->dbh->beginTransaction();
       $users = new UserModel($this->dbh);
       $users->save($this->request);
       $this->dbh->commit();
-      $url = BASE_URL . 'User' . '/show/' . $users->primary_key_value . '/';
-      $this->redirect($url);
-      exit();
+      if (!isset($form['User']['id'])) {
+        $cmd = 'php ' . BIN_PATH . 'send_notify.php';
+        // $result = exec($cmd);
+      }
+      $this->set('Title', 'User Save Error');
     } catch (Exception $e) {
-      $this->debug->log("UserController::create() error:" . $e->getMessage());
+      $this->debug->log("UserController::save() error:" . $e->getMessage());
+      $this->set('Title', 'User Save Error');
+      $this->set('error_message', '保存ができませんでした。');
+    }
+  }
+
+  public function update(){
+    $session = Session::get();
+    try {
+      $this->dbh->beginTransaction();
+      $users = new UserModel($this->dbh);
+
+      if (!isset($session['Auth'])) {
+        throw new Exception("権限がありません。", 1);
+      }
+      if (
+          isset($session['Auth']) && 
+          (
+            isset($session['Auth'][$users->primary_key]) && 
+            $session['Auth'][$users->primary_key] != $this->request['User'][$users->primary_key]
+          )
+        ) {
+        throw new Exception("権限がありません。", 1);
+      }
+
+      $users->update($this->request);
+      $this->dbh->commit();
+      $this->redirect(DOCUMENT_ROOT . 'User/show/' . $this->request['User'][$users->primary_key] .'/');
+      exit();
+      // $this->set('Title', 'User Save Error');
+    } catch (Exception $e) {
+      $this->debug->log("UserController::update() error:" . $e->getMessage());
       $this->set('Title', 'User Save Error');
       $this->set('error_message', '保存ができませんでした。');
     }
   }
 
   public function edit() {
-    $this->debug->log("UserController::edit()");
     try {
       $datas = null;
       $id = $this->request['id'];

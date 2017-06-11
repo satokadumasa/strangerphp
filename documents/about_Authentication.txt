@@ -1,0 +1,88 @@
+「認証機能」
+
+■概要
+　認証機能は、ウェブアプリケーションに必須の機能です。
+　本フレームワークではデフォルトで認証機能が組み込まれています。
+　主な機能は、下記の通りです。
+　○ユーザー登録
+　　ユーザーを登録する機能です。
+　　ユーザー登録後、確認メールを送信してメールに記載された認証URLを
+　　実行することでユーザー登録が完了します。
+
+　○ユーザー編集
+　　とりあえず、パスワードの変更が出来ます。
+
+　○ユーザー削除
+　　アプリの提供するサービスから脱退したい場合に実行します。
+　　ユーザー本人か管理者でないと実行できません。
+
+　○ユーザー認証
+　　ログイン機能です。IDとPASSWORDを入力して「ログイン」ボタンを押すと
+　　認証処理が走り、認証が通ると以降サービスが利用できます。 
+　　デフォルトの状態ではメール認証を経てからでないと認証が通らないようになっています。
+
+　○メール認証
+　　メールに記載された認証URLを実行することでユーザー登録が完了します。
+　　デフォルトで提供されている機能では、このプロセスを通らないと
+　　ログインができません。
+
+
+■関連ファイル
+bin/send_notify.php
+apps/controllers/UserController.php
+apps/controllers/RoleController.php
+apps/models/UserModel.php
+views/User/*
+views/Role/*
+config/development/acc/*
+config/production/acc/*
+config/staging/acc/*
+config/test/acc/*
+config/mailer.sample.php
+libs/Authmentation.php
+libs/utils/Notification.php
+libs/utils/SendNotify.php
+db/migrate/Migrate20170601153806CreateTableUser.php
+db/migrate/Migrate20170606020700CreateTableRole.php
+
+■利用方法
+まず、前提条件としてプロジェクトの初期化が終わっているものとします。
+次に、プロジェクトルートに遷移して、下記のコマンドを実行してください。
+
+$> php ./stranger.php migrate
+
+Migrationを実行すれば、スキーマー上にusersテーブルと、rolesテーブル、
+そして初期ユーザーとしてadministrator,operator1、ロールとして
+administrators、operatorsが作成されているはずです。
+
+次に、ロール作成を行います。
+下記のURLを開いてロール名を入力して登録を実行してください。
+
+http://example.com/Role/create/
+
+管理者ロールが作成されました。
+
+次に、下記のフィアルを編集して、管理者権限でアクセス可能なURLを設定してください。
+
+config/development/acc/user.php
+config/development/acc/role.php
+config/production/acc/user.php
+config/production/acc/role.php
+config/staging/acc/user.php
+config/staging/acc/role.php
+
+save()アクションは全てのユーザが利用できないと新規登録も編集も退会（削除）も
+できなくなります。
+別途一般ユーザー向けのコントローラーおよびテンプレートを作成した方が
+無難かもしれません。UserController.phpとviews/User/* のテンプレートを
+コピーして名前を変えて作り直した方が無難かもしれません。
+一般ユーザーが好き勝手なロールIDを指定できないように、
+role_idを編集項目からはずしておいてください。
+
+以上で、認証機能の利用法についての説明を終わります。
+
+■あとがき
+もし、本機能がいらない場合には、関連ファイルおよび処理をバッサリと削除して再実装するか、
+既存の認証ライブラリを利用するかしてください。
+なお、認証メール送信にはswiftmailerを利用させていただいております。
+swiftmailerの開発者方に謝意を申し上げます。

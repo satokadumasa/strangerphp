@@ -50,10 +50,8 @@ class Stranger {
         [5] => address:string
     )
     */
-    $this->debug->log('Stranger::exec argv:'.print_r($this->argv, true));
     $this->table_name = isset($this->argv[3]) ? $this->argv[3] : null;
     $this->class_name = StringUtil::convertTableNameToClassName($this->table_name);
-    $this->debug->log('table_name['.$this->table_name.'] class_name['.$this->class_name.']');
     echo "run stranger\n";
 
     if ($this->argv[1] == '-g') {
@@ -208,7 +206,6 @@ EOM;
    *  キャッフォルドファイル一括生成メソッド 
    */
   public function scaffoldGenerate(){
-    $this->debug->log("Stranger::scaffoldGenerate()");
     $this->controllerGenerate();
     $this->modelGenerate();
     $this->maigrateGenerate();
@@ -220,7 +217,6 @@ EOM;
    *  キャッフォルドファイル一括削除メソッド 
    */
   public function scaffoldDestroy(){
-    $this->debug->log("Stranger::scaffoldDestroy()");
     $this->controllerDestroy();
     $this->modelDestroy();
     $this->maigrateDestroy();
@@ -311,7 +307,6 @@ EOM;
    *  コントローラー削除メソッド 
    */
   public function controllerDestroy(){
-    $this->debug->log('Stranger::controllerDestroy()');
     $out_put_filename =  CONTROLLER_PATH ."/" . $this->class_name . "Controller.php";
     echo "  rm ".$out_put_filename."\n";
     unlink($out_put_filename);
@@ -322,7 +317,6 @@ EOM;
    *  モデル生成メソッド 
    */
   public function modelGenerate(){
-    $this->debug->log('Stranger::modelGenerate()');
     //  テンプレートファイル名作成 
     $template_fileatime = SCAFFOLD_TEMPLATE_PATH . 'models/model_template.tpl';
     //  出力先ファイルを開く  
@@ -342,7 +336,6 @@ EOM;
    *  モデル削除メソッド 
    */
   public function modelDestroy(){
-    $this->debug->log("Stranger::modelDestroy()");
     $out_put_filename =  MODEL_PATH .'/' . $this->class_name . 'Model.php';
     echo "  rm ".$out_put_filename."\n";
     unlink($out_put_filename);
@@ -354,7 +347,6 @@ EOM;
    */
   public function templateGenerate(){
     echo "create view templates.\n";
-    $this->debug->log('Stranger::templateGenerate()');
     $view_template_folder = VIEW_TEMPLATE_PATH . $this->class_name . '/';
     echo "  mkdir ".$view_template_folder."\n";
     if (!file_exists($view_template_folder)) {
@@ -408,7 +400,6 @@ EOM;
    *  Viewテンプレート削除メソッド 
    */
   public function templateDestroy(){
-    $this->debug->log('Stranger::templateDestroy()');
     $file_list = $this->getFileList(VIEW_TEMPLATE_PATH . $this->class_name . '/');
     foreach ($file_list as $key => $value) {
       echo "  rm ".$value."\n";
@@ -422,7 +413,6 @@ EOM;
    *  マイグレーションファイル生成メソッド
    */
   public function maigrateGenerate(){
-    $this->debug->log("Stranger::maigrateGenerate()");
     //  テンプレートファイル名作成 
     $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/migrate/migration_template.tpl';
     $now_date = date('YmdHis');
@@ -449,7 +439,6 @@ EOM;
    *  マイグレーションファイル削除メソッド
    */ 
   public function maigrateDestroy(){
-    $this->debug->log('Stranger::maigrateDestroy()');
     $file_list = $this->getFileList(MIGRATION_PATH);
     foreach ($file_list as $key => $value) {
       if (strpos($value, $this->class_name)) {
@@ -505,12 +494,10 @@ EOM;
             $columns_str .= $this->generateColumnsStr($this->argv[$j], 'form');
           }
           $value = $columns_str;
-          $this->debug->log('Stranger::applyTemplate() form_columns:'.$value);
         }
         if (strpos($value, '<!----columns---->')) {
           $columns_str = "";
           for ($j = 4; $j < count($this->argv); $j++) {
-            $this->debug->log('Stranger::applyTemplate() argv:'.print_r($this->argv[$j], true));
             $columns_str .= $this->generateColumnsStr($this->argv[$j], 'sql');
           }
           $value = $columns_str;
@@ -524,7 +511,6 @@ EOM;
         }
 
         if (strpos($value, '<!----up_template---->')) {
-          $this->debug->log('Stranger::applyTemplate() value:'.$value);
           if ($this->argv[2] == 'scaffold' || $this->argv[2] == 'model') {
             $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/migrate/parts/create_table.tpl';
             $this->applyTemplate($template_fileatime, $fp, $this->class_name);
@@ -641,7 +627,6 @@ EOM;
   protected function generateColumnsStr($column_define, $type){
     $columns_str = "";
     $arr = explode(':', $column_define);
-    $this->debug->log("Stranger::generateColumnsStr() column_define:$column_define");
     $value = null;
     $datas = [
         'column_name' => $arr[0],
@@ -654,7 +639,7 @@ EOM;
         'default' => (isset($arr[5]) && ($arr[5] != ''  || $arr[5] != null))? $arr[5] : 'null',
         'model_name' => $this->class_name,
       ];
-    $this->debug->log('Stranger::generateColumnsStr() datas:'.print_r($datas, true));
+
     if ($type == 'model') {
       $template_fileatime = SCAFFOLD_TEMPLATE_PATH."/models/parts/column.tpl";
     }

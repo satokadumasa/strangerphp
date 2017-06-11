@@ -35,6 +35,10 @@ define('COOKIE_NAME', 'AVALON');
 define('USER_COOKIE_NAME_LENGTH', 64);
 define('DEFAULT_FLAG_OF_AUTHENTICATION', true);
 
+define('ADMIN_ROLE_ID', 1);
+define('OPERATOR_ROLE_ID', 2);
+define('USER_ROLE_ID', 3);
+
 $CONV_STRING_LIST = array(
     'ID' => '\d',
     'YEAR' => '\d{4}',

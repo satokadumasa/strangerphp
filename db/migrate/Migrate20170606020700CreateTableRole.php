@@ -17,7 +17,23 @@ CREATE TABLE roles (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 EOM;
     parent::up($sql);
+
+    $sql = <<<EOM
+INSERT INTO roles (name,created_at,modified_at) VALUES ('administrators',now(),now())
+EOM;
+    parent::up($sql);
+
+    $sql = <<<EOM
+INSERT INTO roles (name,created_at,modified_at) VALUES ('operators', now(), now())
+EOM;
+    parent::up($sql);
+
+    $sql = <<<EOM
+INSERT INTO roles (name,created_at,modified_at) VALUES ('users', now(), now())
+EOM;
+    parent::up($sql);
   }
+
 
   public function down(){
     $sql = <<<EOM
