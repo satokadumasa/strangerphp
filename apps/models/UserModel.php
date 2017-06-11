@@ -37,6 +37,7 @@ class UserModel extends BaseModel {
   public function update($form) {
     $session = Session::get();
     unset($form[$this->model_name]['password_confirm']);
+    $form[$this->model_name]['password'] = md5($form[$this->model_name]['password'].SALT);
 
     $form[$this->model_name]['notified_at'] = 
       (isset($form[$this->model_name]['notified_at']) && $form[$this->model_name]['notified_at'] != '' ) ? 
