@@ -99,10 +99,8 @@ class UserController extends BaseController{
       $users = new UserModel($this->dbh);
       $users->save($this->request);
       $this->dbh->commit();
-      if (!isset($form['User']['id'])) {
-        $cmd = 'php ' . BIN_PATH . 'send_notify.php';
-        // $result = exec($cmd);
-      }
+      $cmd = 'php ' . BIN_PATH . 'send_notify.php';
+      $result = exec($cmd);
       $this->set('Title', 'User Save Error');
     } catch (Exception $e) {
       $this->debug->log("UserController::save() error:" . $e->getMessage());
