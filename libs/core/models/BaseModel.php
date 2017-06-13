@@ -68,6 +68,7 @@ class BaseModel {
    *  @return array $datas 検索結果データ格納配列
    */
   public function find($type = 'all') {
+
     $this->debug->log("BaseModel::find() Start.");
     $datas = [];
     $primary_keys = [];
@@ -76,11 +77,9 @@ class BaseModel {
 
     $column_names = null;
 
-    $this->debug->log("BaseModel::find() sql:" . $sql);
-
     $stmt = $this->dbh->prepare($sql);
+
     foreach ($this->conditions as $k => $v) {
-      $this->debug->log("BaseModel::find() v:".print_r($v, true));
       $arr = explode('.', $v['column_name']);
       $value = $v['value'];
       $col_name = $arr[count($arr) - 1];
@@ -91,19 +90,16 @@ class BaseModel {
       switch ($col_name) {
         case 'created_at':
         case 'modified_at':
-          $this->debug->log("BaseModel::find() column_name(1):".$column_name);
-          $this->debug->log("BaseModel::find() col_name(1):".$col_name);
-          $this->debug->log("BaseModel::find() value(1):".$value);
           if ($v['operator'] != 'IS NULL') {
             $stmt->bindParam($column_name, 'NOW()', PDO::PARAM_STR);
           }
           break;
         default:
-          $this->debug->log("BaseModel::find() column_name(2):".$column_name);
-          $this->debug->log("BaseModel::find() col_name(2):".$col_name);
-          $this->debug->log("BaseModel::find() value(2):".$value);
-          if ($v['operator'] != 'IS NULL') {
-            $stmt->bindValue($column_name, $value, $this->getColumnType($col_name));
+          if ($v['operator'] != 'IS NULL' && $v['operator'] != 'IN') {
+            // $param_type = $this->getColumnType($col_name);
+            $param_type = is_numeric($value) ? PDO::PARAM_INT : PDO::PARAM_STR;
+            // $stmt->bindValue($column_name, $value, $this->getColumnType($col_name));
+            $stmt->bindValue($column_name, $value, $param_type);
           }
           break;
       }
@@ -253,23 +249,25 @@ class BaseModel {
       $condition = $this->conditions[$i];
       $column_name = str_replace('.', '_', $condition['column_name']);
       $column_name = StringUtil::convertTableNameToClassName($column_name);
-      $this->debug->log("BaseModel::createCondition() column_name:".$column_name);
 
       if (is_array($condition['value'])) {
-        $arr = implode(",", $condition['value']);
+        // $arr = implode(",", $condition['value']);
         $value = "";
         
-        foreach ($arr as $k => $v) {
-          $col_arr = explode('.', $condition['column_name']);
+        $col_arr = explode('.', $condition['column_name']);
+        foreach ($condition['value'] as $k => $v) {
           $val = $this->setValue($col_arr[count($col_arr) - 1], $v);
           $value .= $value ? "," . $val : $val;
         }
         $condition['value'] = null;
-        $condition['value'] = " (" . $value .") ";
+        $condition['value'] = $value;
       }
       $cond_tmp =  " " . $condition['column_name'];
       if ($condition['operator'] == 'IS NULL') {
         $cond_tmp .= " " . $condition['operator'] . " ";
+      }
+      else if ($condition['operator'] == 'IN') {
+        $cond_tmp .= " " . " IN (".$condition['value'].") ";
       }
       else {
         $cond_tmp .= " " . $condition['operator'];
@@ -279,7 +277,6 @@ class BaseModel {
     }
 
     if($cond) $cond = " WHERE " . $cond;
-    $this->debug->log("BaseModel::createCondition() cond:".$cond);
     return $cond;
   }
 
@@ -500,6 +497,24 @@ class BaseModel {
   }
 
   //  削除
+  public function delete($id){
+    //  隷属するモデルを先に検索・削除する。
+    if (isset($this->has)) {
+      foreach ($this->has as $model_name => $value) {
+        $model_class_name = $model_name . "Model" ;
+        $obj = new $model_class_name($this->dbh);
+        $datas = $obj->where($value['foreign_key'] , '=', $id)->find();
+        foreach ($datas as $key => $data) {
+          $obj->delete($data[$model_name][$obj->primary_key]);
+        }
+      }
+    }
+
+    $sql = "DELETE FROM " . $this->table_name . " WHERE " . $this->primary_key . "=:" . $this->primary_key;
+    $stmt = $this->dbh->prepare($sql);
+    $stmt->bindValue($this->primary_key, $id, $this->getColumnType($this->primary_key));
+    $stmt->execute();
+  }
 
   //  共通
   protected function setValue($key, $value){
@@ -514,10 +529,16 @@ class BaseModel {
         }
         $value = $val_tmp;
       }
-    } else {
+    }
+    /*
+    else {
+    $this->debug->log("BaseModel::setValue() CH-03:".$value);
       $value = mysqli_escape_string($value);
       // $value .= htmlspecialchars($value, ENT_QUOTES);
     }
+    */
+
+    $value = $value == 'string' ? 'varchar' : $value;
 
     switch ($type) {
       case 'int':
@@ -527,10 +548,8 @@ class BaseModel {
       case 'float':
       case 'double':
         return $value;
-        break;
       case 'set':
         return "'" . $value . "'";
-        break;
       default:
         return "'".$value."'";
         break;
@@ -558,26 +577,6 @@ class BaseModel {
         return PDO::PARAM_STR;
         break;
     }
-  }
-
-  public function delete($id){
-    //  隷属するモデルを先に検索・削除する。
-    if (isset($this->has)) {
-      foreach ($this->has as $model_name => $value) {
-        $model_class_name = $model_name . "Model" ;
-        $obj = new $model_class_name($this->dbh);
-        $datas = $obj->where($value['foreign_key'] , '=', $id)->find();
-        foreach ($datas as $key => $data) {
-          $obj->delete($data[$model_name][$obj->primary_key]);
-        }
-      }
-    }
-
-    $sql = "DELETE FROM " . $this->table_name . " WHERE " . $this->primary_key . "=:" . $this->primary_key;
-    $this->debug->log("BaseModel::delete() sql[".$sql."] id[".$id."]");
-    $stmt = $this->dbh->prepare($sql);
-    $stmt->bindValue($this->primary_key, $id, $this->getColumnType($this->primary_key));
-    $stmt->execute();
   }
 
   public function getColumns() {
