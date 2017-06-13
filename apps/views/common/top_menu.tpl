@@ -3,6 +3,6 @@
     <!----value:SiteTitle---->
   </div>
   <div class="site_setup">
-    <!----value:Sitemenu---->
+    <!----value:SiteTitle---->
   </div>
 </div>

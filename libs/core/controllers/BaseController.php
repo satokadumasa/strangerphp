@@ -35,16 +35,23 @@ class BaseController {
 
   protected function defaultSet(){
     $this->set('document_root',DOCUMENT_ROOT);
+
     if (isset($_SESSION[COOKIE_NAME]['error_message'])) {
       $this->set('error_message', $_SESSION[COOKIE_NAME]['error_message']);
     }
     //    $this->set('Sitemenu',)
     $session = Session::get();
     if (isset($session['Auth'])) {
-      $log_out_str = "<a href='".DOCUMENT_ROOT."logout/'>Logout</a>";
+      //$log_out_str = "<a href='".DOCUMENT_ROOT."logout/'>Logout</a>";
+      $this->debug->log("BaseController::defaultSet() CH-01");
+      $menu_helper = new MenuHelper($session['Auth']);
+      $log_out_str = $menu_helper::site_menu();
     }
     else {
-      $log_out_str = "<a href='".DOCUMENT_ROOT."login/'>Login</a>";
+      $this->debug->log("BaseController::defaultSet() CH-02");
+      $menu_helper = new MenuHelper($session['Auth']);
+      $log_out_str = $menu_helper::site_menu();
+      // $log_out_str = "<a href='".DOCUMENT_ROOT."login/'>Login</a>";
     }
     $this->set('Sitemenu',$log_out_str);
     Session::deleteMessage('error_message');
