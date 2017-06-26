@@ -18,6 +18,7 @@ class BaseController {
   protected $auth_check = [];
   public $roles = [];
   public $role_ids = [];
+  protected $auth = null;
 
   public function __construct($database, $uri, $url) {
     Session::sessionStart();
@@ -35,22 +36,18 @@ class BaseController {
 
   protected function defaultSet(){
     $this->set('document_root',DOCUMENT_ROOT);
-
     if (isset($_SESSION[COOKIE_NAME]['error_message'])) {
       $this->set('error_message', $_SESSION[COOKIE_NAME]['error_message']);
     }
     //    $this->set('Sitemenu',)
     $session = Session::get();
+    $menu_helper = new MenuHelper($session['Auth']);
     if (isset($session['Auth'])) {
-      //$log_out_str = "<a href='".DOCUMENT_ROOT."logout/'>Logout</a>";
-      $this->debug->log("BaseController::defaultSet() CH-01");
-      $menu_helper = new MenuHelper($session['Auth']);
-      $log_out_str = $menu_helper::site_menu();
+      $log_out_str = $menu_helper->site_menu($session['Auth'], 'logined');
+      $this->auth = $session['Auth'];
     }
     else {
-      $this->debug->log("BaseController::defaultSet() CH-02");
-      $menu_helper = new MenuHelper($session['Auth']);
-      $log_out_str = $menu_helper::site_menu();
+      $log_out_str = $menu_helper->site_menu($session['Auth'], 'nologin');
       // $log_out_str = "<a href='".DOCUMENT_ROOT."login/'>Login</a>";
     }
     $this->set('Sitemenu',$log_out_str);
@@ -78,7 +75,6 @@ class BaseController {
       if($uris[$i] == $urls[$i]) continue;
       $this->request[mb_strtolower($uris[$i], 'UTF-8')] = $urls[$i];
     }
-    $this->debug->log("BaseController::getRequestValues() request".print_r($this->request, true));
   }
 
   /**

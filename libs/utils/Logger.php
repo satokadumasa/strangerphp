@@ -1,6 +1,4 @@
 <?php
-require_once dirname(dirname(dirname(__FILE__))) . "/config/config.php";
-
 class Logger {
   private $log_file = "";
   private $log_level = 'INFO';

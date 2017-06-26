@@ -5,8 +5,7 @@ class BaseModel {
   //  検索条件指定
   protected $conditions = [];
   //  並び順指定
-  protected $ascs = null;
-  protected $descs = null;
+  public $ascs = [];
   protected $keys = null;
   protected $max_rows = 0;
   protected $limit_num = 0;
@@ -33,7 +32,6 @@ class BaseModel {
     $this->error_log = new Logger('ERROR');
     $this->info_log = new Logger('INFO');
     $this->debug = new Logger('DEBUG');
-    $this->debug->log("BaseModel::__construct() Start.");
   }
 
   /**
@@ -68,8 +66,6 @@ class BaseModel {
    *  @return array $datas 検索結果データ格納配列
    */
   public function find($type = 'all') {
-
-    $this->debug->log("BaseModel::find() Start.");
     $datas = [];
     $primary_keys = [];
 
@@ -77,6 +73,7 @@ class BaseModel {
 
     $column_names = null;
 
+    $this->debug->log("BaseModel::find() sql:".$sql);
     $stmt = $this->dbh->prepare($sql);
 
     foreach ($this->conditions as $k => $v) {
@@ -91,21 +88,20 @@ class BaseModel {
         case 'created_at':
         case 'modified_at':
           if ($v['operator'] != 'IS NULL') {
-            $stmt->bindParam($column_name, 'NOW()', PDO::PARAM_STR);
+            $value = $value ? $value : 'NOW()';
+            $stmt->bindParam($column_name, $value, PDO::PARAM_STR);
           }
           break;
         default:
           if ($v['operator'] != 'IS NULL' && $v['operator'] != 'IN') {
-            // $param_type = $this->getColumnType($col_name);
             $param_type = is_numeric($value) ? PDO::PARAM_INT : PDO::PARAM_STR;
-            // $stmt->bindValue($column_name, $value, $this->getColumnType($col_name));
             $stmt->bindValue($column_name, $value, $param_type);
           }
           break;
       }
     }
     $stmt->execute();
-    // foreach ($this->dbh->query($sql) as $row) {
+
     foreach ($stmt->fetchAll() as $row) {
       $data = [];
       if(!$column_names) $column_names = array_keys($row);
@@ -120,6 +116,7 @@ class BaseModel {
       $primary_keys[] = $data[$this->model_name][$this->primary_key];
       $datas[$data[$this->model_name][$this->primary_key]] = $data;
     }
+
     if (count($primary_keys) > 0) {
       if ($this->has){
         $this->findHasModelesData($datas, $this->has, $primary_keys);
@@ -133,6 +130,7 @@ class BaseModel {
       $id = $primary_keys[0];
       $datas = $datas[$id];
     }
+
     return $datas;
   }
 
@@ -230,6 +228,16 @@ class BaseModel {
     }
 
     $sql .= $this->createCondition();
+
+    if (count($this->ascs) > 0 ) {
+      $sql .= ' ORDER BY ';
+    }
+
+    if (count($this->ascs) > 0) {
+      foreach ($this->ascs as $key => $asc) {
+        $sql .= $asc;
+      }
+    }
 
     if($this->limit_num > 0) $sql .= " LIMIT " . $this->limit_num ." "; 
     if($this->offset_num > 0) $sql .= " OFFSET " . $this->offset_num . " ";
@@ -359,7 +367,7 @@ class BaseModel {
    *  @retrun BaseModel $this
    */
   public function desc($asc){
-    $this->descs[] = $this->descs ? "," . $this->model_name . "." . $asc . " DESC ":  " " . $this->model_name . "." . $asc . " DESC ";
+    $this->ascs[] = $this->ascs ? "," . $this->model_name . "." . $asc . " DESC ":  " " . $this->model_name . "." . $asc . " DESC ";
     return $this;
   }
 
@@ -530,13 +538,6 @@ class BaseModel {
         $value = $val_tmp;
       }
     }
-    /*
-    else {
-    $this->debug->log("BaseModel::setValue() CH-03:".$value);
-      $value = mysqli_escape_string($value);
-      // $value .= htmlspecialchars($value, ENT_QUOTES);
-    }
-    */
 
     $value = $value == 'string' ? 'varchar' : $value;
 

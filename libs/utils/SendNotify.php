@@ -22,7 +22,6 @@ class SendNotify {
   public function sendNotify(){
     $user = new UserModel($this->dbh);
     $users = $user->where('User.notified_at', 'IS NULL', '')->find('all');
-    $this->debug->log("SendNotify::sendNotify() users".print_r($users, true));
     foreach ($users as $key => $form) {
       $body = null;
       $user2 = null;
@@ -30,8 +29,11 @@ class SendNotify {
       $body = $notification->geterateRegistNotifyMessage($form, 'Mailer', 'regist_notify');
       $notification->sendRegistNotify($form, $body, '登録確認メール');
       $form['User']['notified_at'] = date('Y-m-d H:i:s');
+      $this->debug->log("SendNotify::sendNotify() form:".print_r($form, true));
+      unset($form['User']['password']);
+      unset($form['User']['authentication_key']);
       $user2 = new UserModel($this->dbh);
-      $user2->save($form);
+      $user2->update($form, 'send_notify');
     }
   }
 

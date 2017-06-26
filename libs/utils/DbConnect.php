@@ -18,9 +18,6 @@ class DbConnect {
   public function createConnection() {
     try {
       $dsn = $this->rdb . ":host=" . $this->host . ";dbname=" . $this->dbname . ";charset=" . $this->charset;
-      $this->debug->log("DbConnect::createConnection() dsn:".$dsn);
-      $this->debug->log("DbConnect::createConnection() username:".$this->username);
-      $this->debug->log("DbConnect::createConnection() password:".$this->password);
 
       $dbh = new PDO(
         $dsn,

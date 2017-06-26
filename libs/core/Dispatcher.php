@@ -10,8 +10,6 @@ class Dispatcher {
   }
 
   public function dispatcheController() {
-    // $this->debug->log("ENV:" . print_r($_SERVER, true));
-
     $route = $this->route->findRoute($_SERVER['REQUEST_URI']);
     $controller_name = $route['controller'];
     $controller = new $controller_name($route['uri'], $_SERVER['REQUEST_URI']);

@@ -21,7 +21,6 @@ class Route {
   }
 
   public function setRoute ($uri, $controller, $action) {
-    // $this->debug->log("Route::setDefaultRoutes() setRoute");
     $this->route[$uri] = array('controller' => $controller, 'action' => $action);
   }
 
@@ -74,6 +73,15 @@ class Route {
       }
       $pattern = "/".$key."/";
       if (preg_match('/css/', $url)) {
+        return;
+      }
+      if (preg_match('/js/', $url)) {
+        return;
+      }
+      if (preg_match('/images/', $url)) {
+        return;
+      }
+      if (preg_match('/empty/', $url)) {
         return;
       }
       if (preg_match($pattern, $url)) {
