@@ -1,4 +1,3 @@
-config/development/database.config.php
 config/development/mailer.php
 config/development/site_info.php
 config/staging/database.config.php

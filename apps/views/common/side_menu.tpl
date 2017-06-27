@@ -3,6 +3,6 @@
     SIDEMENU    
   </div>
   <div class="side_menu_item">
-    MENU_1
+    <a href="#">MENU_1</a>
   </div>
 </div>

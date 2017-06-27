@@ -1,5 +1,5 @@
 <div class="fotter">
   <div class="announcement">
-    Powered by Strangers.Inc
+    Powered by <a href="http://selaeno.com/">Selaeno.com</a>
   </div>
 </div>
