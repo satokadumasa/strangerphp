@@ -55,7 +55,6 @@ class View {
       try {
         $value = str_replace("\n", '', $value);
         $value = str_replace("\r", '', $value);
-        $this->debug->log("View::framingView() value:".$value);
         //  展開先の取得
         preg_match_all(
           "<\!----(.*?)---->",
@@ -115,20 +114,16 @@ class View {
             continue;
           }
           else if(strpos($value, '!----disp_div:') && (strpos($value, '!----disp_div:end---->') == 0)) {
-            $this->debug->log("View::framingView() start disp_div");
             $disp_div = $this->disp_div($value, $datas);
-            $this->debug->log("View::framingView() return(1):".$disp_div);
             continue;
           }
           else if(strpos($value, '!----disp_div:end----')) {
-            $this->debug->log("View::framingView() end disp_div");
             $disp_div = true;
             continue;
           }
         }
         if ($disp_div) {
           echo $value;
-          $this->debug->log("View::framingView() return(1)[".$disp_div."] value:".$value);
           $document[] = $value;
         }
       } catch (Exception $e) {
@@ -139,9 +134,7 @@ class View {
   }
 
   protected function disp_div($value, $data) {
-    $this->debug->log("View::disp_div() data:".print_r($data, true));
     $result = false;
-    $this->debug->log("View::disp_div() return(1):".$result);
     $operators =[':equal:',':not_equal:',':or_more:',':greater_than:',':less_than:',':or_less:',':existing:'];
     /***
      * ・Authが空の場合
@@ -158,17 +151,12 @@ class View {
      */
     $value = str_replace('<!----disp_div:', '', $value);
     $value = str_replace('---->', '', $value);
-    $this->debug->log("View::disp_div() CH-01:");
     foreach ($operators as $key => $operator) {
-      $this->debug->log("View::disp_div() CH-02:");
       if (strpos($value, $operator)) {
-        $this->debug->log("View::disp_div() CH-01:");
         $arr = explode($operator, $value);
         $result = $this->compLastPropaty($arr, $data, $operator);
-        $this->debug->log("View::disp_div() return(2):".$result);
       }
     }
-    $this->debug->log("View::disp_div() return(3):".$result);
     return $result;
   }
 
@@ -182,21 +170,14 @@ class View {
    *  @return boolean
    */
   protected function compLastPropaty($arr, $data, $operator){
-    $this->debug->log("View::compLastPropaty() data:".print_r($data, true));
-    $this->debug->log("View::compLastPropaty() arr:".print_r($arr, true));
     if (isset($arr[0]) && $arr[0] != '') {
       $arr_comp_left = explode(':', $arr[0]);
-      $this->debug->log("View::compLastPropaty() arr_comp_left:".print_r($arr_comp_left, true));    
       if (count($arr_comp_left) > 0 && $arr_comp_left[0] != '') $datum_left = $this->getLastProperty($arr_comp_left, $data);
-      $this->debug->log("View::compLastPropaty() datum_left:".print_r($datum_left, true));
     }
 
-    $this->debug->log("View::compLastPropaty() arr[1]:".$arr[1]);
     if (isset($arr[1]) && $arr[1] !== 'none') {
       $arr_comp_right = explode(':', $arr[1]);
-      $this->debug->log("View::compLastPropaty() arr_comp_right:".print_r($arr_comp_right, true));
       if (count($arr_comp_right) > 0 && $arr_comp_right[0] != '') $datum_right = $this->getLastProperty($arr_comp_right, $data);
-      $this->debug->log("View::compLastPropaty() datum_right:".print_r($datum_right, true));
     }
 
     $ret = false;
@@ -209,7 +190,6 @@ class View {
      *      less_tan：「左辺が右辺より小さい場合」
      *      or_less：「左辺が右辺以下の場合」
      */
-    $this->debug->log("View::compLastPropaty() operator:".$operator);
 
     switch ($operator) {
       case ':equal:':
@@ -231,14 +211,11 @@ class View {
         $ret = ($datum_left <= $datum_right) ? true : false;
         break;
       case ':existing:':
-        $this->debug->log("View::compLastPropaty() switch existing:".$operator);
         $ret = $datum_left ? true : false;
         break;
       default:
-        $this->debug->log("View::compLastPropaty() switch default:".$operator);
         break;
     }
-    $this->debug->log("View::compLastPropaty() return:".$ret);
     return $ret;
   }
 
@@ -248,11 +225,7 @@ class View {
    *
    */
   protected function getLastProperty($arr, $data) {
-    $this->debug->log("View::getLastProperty() arr(1):".print_r($arr, true));
     $key = is_array($arr) ? array_shift($arr) : $arr;
-    $this->debug->log("View::getLastProperty() arr(2):".print_r($arr, true));
-    $this->debug->log("View::getLastProperty() key:".print_r($key, true));
-    $this->debug->log("View::getLastProperty() data:".print_r($data, true));
     $data = $data[$key];
     if (count($arr) > 0){
       $data = $this->getLastProperty($arr, $data);
