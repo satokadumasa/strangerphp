@@ -52,6 +52,9 @@ class BaseController {
     }
     $this->set('Sitemenu',$log_out_str);
     Session::deleteMessage('error_message');
+    
+    $this->set('document_root', DOCUMENT_ROOT);
+    $this->set('site_name', SITE_NAME);
   }
 
   public function setRequest($uri, $url) {

@@ -119,7 +119,7 @@ EOM;
   public function initSchema()
   {
     echo "create migrations\n";
-    try {
+/*    try {
       $sql = <<<EOM
 DROP TABLE migrations;
 EOM;
@@ -129,7 +129,7 @@ EOM;
     } catch (PDOException $e) {
       echo "can not drop maigrations table.\n";
     }
-
+*/
     $sql = <<<EOM
 CREATE TABLE migrations (
   version BIGINT,
@@ -683,6 +683,7 @@ EOM;
    * @param $argv 
    */
   protected function geterateColumnString($argv) {
+    $this->debug->log('Stranger::geterateColumnString() start:');
     $column_string = null;
     for ($i = 4; $i < count($argv); $i++) {
       $arr = explode(':', $argv[$i]);
