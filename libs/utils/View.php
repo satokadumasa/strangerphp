@@ -93,6 +93,7 @@ class View {
               foreach ($datas[$keys[1]] as $data) {
                 $ret = $this->viewIterator($i, $data, $file_context);
               }
+              $value = "";
               $i = isset($ret) ? $ret : $i;
             }
             else {
@@ -123,7 +124,7 @@ class View {
           }
         }
         if ($disp_div) {
-          echo $value;
+          echo $value . "\n";
           $document[] = $value;
         }
       } catch (Exception $e) {
@@ -265,6 +266,7 @@ class View {
     /**
      *  <!----select_options:UserInfo:pref_id:Prefecture:name---->
      */
+    $this->debug->log("View::selectOptions() datas:", print_r($datas, true));
     $arr = explode(':', $value);
     $pattern = "<!----select_options:(.*)---->";
     preg_match_all(
@@ -414,24 +416,26 @@ class View {
    *  @param string $file_context : テンプレート内容  
    */
   public function viewIterator($i, $datas, $file_context) {
+    $this->debug->log("View::viewIterator() Start");
     $keys = [];
     $j = 0;
     for($j = ($i + 1); $j < count($file_context); $j++) {
       $value = $file_context[$j];
-      $value = str_replace('¥n', '', $value);
+      $value = str_replace('\n', '', $value);
       preg_match_all(
         '<\!----(.*?)---->',
         $value,
         $matchs
       );
-      // $this->debug->log("View::viewIterator() matchs:".print_r($matchs, true));
       if (strpos($value, '<!----iteratior:') && strpos($value, ':start')) {
+        $this->debug->log("View::viewIterator() Start");
         //  イテレーター再帰呼び出し
         $keys = explode(':', $matchs[1][0]);
         if (isset($datas[$keys[1]][$keys[2]])) {
           foreach ($datas[$keys[1]][$keys[2]] as $data) {
             $ret = $this->viewIterator($j, $data, $file_context);
           }
+          $value = "";
           $j = $ret;
         }
         else {

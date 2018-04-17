@@ -134,6 +134,21 @@ class BaseModel {
     return $datas;
   }
 
+  public function find_by_sql($sql) {
+    $stmt = $this->dbh->prepare($sql);
+    $stmt->execute();
+    foreach ($stmt->fetchAll() as $row) {
+      $column_names = array_keys($row);
+      foreach ($column_names as  $column_name) {
+        if(is_int($column_name)) continue;
+        list($model_name, $col_name) = explode(".", $column_name);
+        $model_name = $model_name ? $model_name : $this->table_name;
+        $data[$model_name][$col_name]= $row[$column_name];
+      }
+    }
+    return $data;
+  }
+
   /**
    *  HasOne/HasManyなモデルの検索
    * 

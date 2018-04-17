@@ -9,25 +9,27 @@ class Stranger {
   protected $default_database = null;
   protected $dbh = null;
 
-  public function __construct($argv) {
+  public function __construct($argv)
+  {
+    echo "create instance\n";
     $this->argv = $argv;
-
-    echo "try connect\n";
-    $this->con();
-    echo "connected\n";
     $this->error_log = new Logger('ERROR');
     $this->info_log = new Logger('INFO');
     $this->debug = new Logger('DEBUG');
   }
 
-  public function con() {
+  public function con($conf)
+  {
     try {
-      $conf = Config::get('database.config');
+      echo "try connect\n";
+      echo "database:".print_r($conf, true)."\n";
       $database = $conf['default_database'];
       $this->default_database = $database;
       $this->dbConnect = new DbConnect();
       $this->dbConnect->setConnectionInfo($database);
       $this->dbh = $this->dbConnect->createConnection();
+      echo "connected\n";
+      echo "Stranger::con() end\n";
     } catch (PDOException $e) {
       echo "can not connect to database\n";
       echo ">>>>".$e->getMessage()."\n";
@@ -63,19 +65,25 @@ class Stranger {
       exit();
     }
     if ($this->argv[1] == 'migrate:init'){
+      $conf = Config::get('database.config');
+      $this->con($conf);
       $this->initSchema();
       exit();
     }
     if ($this->argv[1] == 'migrate'){
+      $conf = Config::get('database.config');
+      $this->con($conf);
       $this->execMigration();
       exit();
+    }
+    else if ($this->argv[1] == 'db:migrate') {
+      $conf = Config::get('database.config');
+      $this->con($conf);
+      $arr = explode(':', $this->argv[1]);
     }
     else if ($this->argv[1] == '-d') {
       echo "run destroy\n";
       $this->executeDestroies();
-    }
-    else if ($this->argv[1] == 'db:migrate') {
-      $arr = explode(':', $this->argv[1]);
     }
   }
 
@@ -87,27 +95,34 @@ class Stranger {
    */
   public function createSchema($connection_param)
   {
-    // migrate:create:schena host:charset:username:password:schema
-    echo "  createSchema\n";
-    $arr = explode(':', $connection_param);
-    $database = [
-      'rdb'      => 'mysql',
-      'host'     => $arr[0],
-      'dbname'   => 'mysql',
-      'charset'  => $arr[1],
-      'username' => $arr[2],
-      'password' => $arr[3],
-    ];
-    $dbConnect = new DbConnect();
-    $dbConnect->setConnectionInfo($database);
-    $dbh = $this->dbConnect->createConnection();
-    $schena = $arr[4];
-    $sql = <<<EOM
+    try {
+      // migrate:create:schena host:charset:username:password:schema
+      echo "  createSchema\n";
+      $arr = explode(':', $connection_param);
+      $database = [
+        'rdb'      => 'mysql',
+        'host'     => $arr[0],
+        'dbname'   => 'mysql',
+        'charset'  => $arr[1],
+        'username' => $arr[2],
+        'password' => $arr[3],
+      ];
+      echo "database:".print_r($database, true)."\n";
+      $dbConnect = new DbConnect();
+      $dbConnect->setConnectionInfo($database);
+      $dbh = $dbConnect->createConnection();
+      echo "connected\n";
+      $schena = $arr[4];
+      $sql = <<<EOM
 CREATE DATABASE $schena;
 EOM;
-    $stmt = $dbh->prepare($sql);
-    $stmt->execute();
-    echo "  createSchema end\n";
+      echo "SQL:$sql\n";
+      $stmt = $dbh->prepare($sql);
+      $stmt->execute();
+      echo "  createSchema end\n";
+    } catch (Exception $e) {
+      echo "Error:".$e->getMessage()."\n";
+    }
   }
 
   /**

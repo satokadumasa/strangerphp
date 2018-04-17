@@ -20,12 +20,14 @@ class BaseController {
   public $role_ids = [];
   protected $auth = null;
 
+  protected $template = null;
+
   public function __construct($database, $uri, $url) {
     Session::sessionStart();
     $this->error_log = new Logger('ERROR');
     $this->info_log = new Logger('INFO');
     $this->debug = new Logger('DEBUG');
-    
+    $this->debug->log("BaseController::__construct() database:".print_r($database, true));
     $this->dbConnect = new DbConnect();
     $this->dbConnect->setConnectionInfo($database);
     $this->dbh = $this->dbConnect->createConnection();
@@ -121,19 +123,36 @@ class BaseController {
    */
   public function render(){
     $this->set('SiteTitle', SITE_NAME);
-    $this->view->render($this->controller_class_name, $this->action, $this->datas);
+    $this->template = $this->template ? $this->template : $this->action;
+    $this->view->render($this->controller_class_name, $this->template, $this->datas);
   }
 
+  /**
+   *
+   */
+  public function setTemplate($template)
+  {
+    $this->template = $template;
+  }
 
+  /**
+   *
+   */
   protected function perseKey($key, $value) {
     $this->request[$key] = $value;
   }
 
+  /**
+   *
+   */
   protected function redirect($url) {
     header("Location: {$url}");
     exit;
   }
 
+  /**
+   *
+   */
   public function setAuthCheck($actions) {
     $this->auth_check = $actions;
   }

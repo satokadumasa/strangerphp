@@ -10,14 +10,30 @@ class Dispatcher {
   }
 
   public function dispatcheController() {
-    $route = $this->route->findRoute($_SERVER['REQUEST_URI']);
-    $controller_name = $route['controller'];
-    $controller = new $controller_name($route['uri'], $_SERVER['REQUEST_URI']);
-    $controller->setAction($route['action']);
-    $controller->beforeAction();
-    $controller->$route['action']();
-    $controller->afterAction();
-    $controller->render();
-    exit();
+    // $route = $this->route->findRoute($_SERVER['REQUEST_URI']);
+    // $controller_name = $route['controller'];
+    // $controller = new $controller_name($route['uri'], $_SERVER['REQUEST_URI']);
+    // $controller->setAction($route['action']);
+    // $controller->beforeAction();
+    // $action = $route['action'];
+    // $controller->$action();
+    // $controller->afterAction();
+    // $controller->render();
+    // exit();
+    try {
+      $route = $this->route->findRoute($_SERVER['REQUEST_URI']);
+      $this->debug->log("Dispatcher::dispatcheController() route:".print_r($route, true));
+      $controller_name = $route['controller'];
+      $controller = new $controller_name($route['uri'], $_SERVER['REQUEST_URI']);
+      $controller->setAction($route['action']);
+      $controller->beforeAction();
+      $action = $route['action'];
+      $controller->$action();
+      $controller->afterAction();
+      $controller->render();
+      exit();
+    } catch (Exception $e) {
+      $this->debug->log("Dispatcher::dispatcheController() error:".$e->getMessage());
+    }
   }
 }

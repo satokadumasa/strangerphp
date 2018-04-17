@@ -60,11 +60,14 @@ class Route {
         else{
           $this->route[$uri] = array('controller' => $controller.'Controller', 'action' => $action);
         }
+        // $this->debug->log("Route::setDefaultRoutes() route:".print_r($this->route, true));
       }
     }
   }
 
   public function findRoute($url) {
+    $this->debug->log("Route::findRoute() Start");
+    $this->debug->log("Route::findRoute() url:".$url);
     foreach ($this->route as $key => $value) {
       $uri = $key;
       $key = str_replace('/', '\/', $key);
@@ -72,6 +75,7 @@ class Route {
         $key = str_replace($k, $v, $key);
       }
       $pattern = "/".$key."/";
+      $this->debug->log("Route::findRoute() pattern:".$pattern);
       if (preg_match('/css/', $url)) {
         return;
       }
@@ -86,6 +90,7 @@ class Route {
       }
       if (preg_match($pattern, $url)) {
         $value['uri'] = $uri;
+        $this->debug->log("Route::findRoute() url:".print_r($value, true));
         return $value;
       }
     }
