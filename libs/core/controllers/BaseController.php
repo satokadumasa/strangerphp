@@ -72,10 +72,11 @@ class BaseController {
       }
     }
 
-    $urls = explode('/', explode('?', $url)[0]);
+    $arr = explode('?', $url);
+    $urls = explode('/', $arr[0]);
     $uris = explode('/', $uri);
     
-    for ($i=0; $i < count($urls) - 1; $i++) { 
+    for ($i = 0; $i < count($urls); $i++) { 
       if(!isset($uris[$i])) continue;
       if($uris[$i] == $urls[$i]) continue;
       $this->request[mb_strtolower($uris[$i], 'UTF-8')] = $urls[$i];

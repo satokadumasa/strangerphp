@@ -9,6 +9,7 @@ class DbConnect {
     $this->debug = new Logger('DEBUG');
     $this->rdb = $connection_info['rdb'];
     $this->host = $connection_info['host'];
+    $this->port = isset($connection_info['port']) ? $connection_info['port'] : 3306; 
     $this->dbname = $connection_info['dbname'];
     $this->charset = $connection_info['charset'];
     $this->username = $connection_info['username'];
@@ -17,7 +18,7 @@ class DbConnect {
 
   public function createConnection() {
     try {
-      $dsn = $this->rdb . ":host=" . $this->host . ";dbname=" . $this->dbname . ";charset=" . $this->charset;
+      $dsn = $this->rdb . ":host=" . $this->host . ";port=".$this->port.";dbname=" . $this->dbname . ";charset=" . $this->charset;
 
       $dbh = new PDO(
         $dsn,
