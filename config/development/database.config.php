@@ -1,10 +1,10 @@
 <?php
-[
+$default_database = [
   'rdb'      => 'mysql',
   'host'     => 'localhost',
-  'dbname'   => 'strangercms',
+  'dbname'   => 'avalon',
   'port'     => 3306,
   'charset'  => 'utf8',
-  'username' => 'root',
+  'username' => 'avalon',
   'password' => 'glxre297',
 ];

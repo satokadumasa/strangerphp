@@ -8,7 +8,7 @@ define('LIB_PATH', PROJECT_ROOT.'/libs/');
 define('TEMP_PATH', PROJECT_ROOT.'/temp/');
 define('LOG_PATH', PROJECT_ROOT.'/logs/');
 define('MIGRATION_PATH', PROJECT_ROOT.'/db/migrate/');
-define('SCAFFOLD_TEMPLATE_PATH', PROJECT_ROOT.'/templates/');
+define('SCAFFOLD_TEMPLATE_PATH', LIB_PATH.'/templates/');
 
 define('CONTROLLER_PATH', APP_PATH . 'controllers/');
 define('MODEL_PATH', APP_PATH . 'models/');

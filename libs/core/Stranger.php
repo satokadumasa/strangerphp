@@ -107,7 +107,6 @@ class Stranger {
         'username' => $arr[2],
         'password' => $arr[3],
       ];
-      echo "database:".print_r($database, true)."\n";
       $dbConnect = new DbConnect();
       $dbConnect->setConnectionInfo($database);
       $dbh = $dbConnect->createConnection();
@@ -311,7 +310,7 @@ EOM;
   public function controllerGenerate(){
     $template_fileatime = SCAFFOLD_TEMPLATE_PATH . 'controllers/controller_template.tpl';
     //  出力先ファイルを開く  
-    $out_put_filename =  CONTROLLER_PATH ."/" . $this->class_name . "Controller.php";
+    $out_put_filename =  CONTROLLER_PATH . $this->class_name . "Controller.php";
     echo "  create ".$out_put_filename."\n";
     $fp = fopen($out_put_filename, "w");
     $return = $this->applyTemplate($template_fileatime, $fp, $this->class_name, null, null);
@@ -322,7 +321,7 @@ EOM;
    *  コントローラー削除メソッド 
    */
   public function controllerDestroy(){
-    $out_put_filename =  CONTROLLER_PATH ."/" . $this->class_name . "Controller.php";
+    $out_put_filename =  CONTROLLER_PATH . $this->class_name . "Controller.php";
     echo "  rm ".$out_put_filename."\n";
     unlink($out_put_filename);
   }
@@ -335,7 +334,7 @@ EOM;
     //  テンプレートファイル名作成 
     $template_fileatime = SCAFFOLD_TEMPLATE_PATH . 'models/model_template.tpl';
     //  出力先ファイルを開く  
-    $out_put_filename =  MODEL_PATH .'/' . $this->class_name . 'Model.php';
+    $out_put_filename =  MODEL_PATH . $this->class_name . 'Model.php';
     echo "  create ".$template_fileatime."\n";
     $fp = fopen($out_put_filename, 'w');
     echo "  create ".$out_put_filename."\n";
@@ -351,7 +350,7 @@ EOM;
    *  モデル削除メソッド 
    */
   public function modelDestroy(){
-    $out_put_filename =  MODEL_PATH .'/' . $this->class_name . 'Model.php';
+    $out_put_filename =  MODEL_PATH . $this->class_name . 'Model.php';
     echo "  rm ".$out_put_filename."\n";
     unlink($out_put_filename);
   }
@@ -438,7 +437,7 @@ EOM;
       $create = $this->argv[1] == '-g' ? 'AddColumn' : 'DropColumn';
     }
     $migration_class_name = 'Migrate' . $now_date . $create . $this->class_name;
-    $out_put_filename = MIGRATION_PATH .'/' . $migration_class_name . '.php';
+    $out_put_filename = MIGRATION_PATH . $migration_class_name . '.php';
     //  出力先ファイルを開く
     $fp = fopen($out_put_filename, 'w');
     echo "  create ".$out_put_filename."\n";

@@ -7,7 +7,7 @@ class ClassLoader {
       LIB_PATH,
       MIGRATION_PATH,
       HELPER_PATH,
-      SERVICE_PATH,
+      // SERVICE_PATH,
     );
     $class = str_replace("\\", "/", $class);
     foreach ($scan_dir_list as $scan_dir) {
