@@ -41,7 +41,7 @@ $default_database = array(
   'charset'  => 'utf8',
   'username' => 'root',
   'password' => 'password',
-);
+  );
 
 この時点ではスキーマ名(dbname)を自分のプロジェクト用のスキーマ名には変更しないでください。
 編集がおわったらdatabase.config.phpを保存して編集を終了してください。
@@ -69,7 +69,7 @@ $default_database = array(
   'charset'  => 'utf8',
   'username' => 'root',
   'password' => 'password',
-);
+  );
 
 これで、スキーマstrangerにアクセスできるようになりました。
 
