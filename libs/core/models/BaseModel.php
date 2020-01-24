@@ -14,6 +14,7 @@ class BaseModel {
   public $error_log;
   public $info_log;
   public $debug;
+  public $columns;
 
   protected $form;
 
@@ -27,11 +28,17 @@ class BaseModel {
    *  @param PDOObject &$dbh データベース接続ハンドラ
    */
   public function __construct(&$dbh) {
-    if($dbh) $this->setDbh($dbh);
+    try{
+      if($dbh) $this->setDbh($dbh);
 
-    $this->error_log = new Logger('ERROR');
-    $this->info_log = new Logger('INFO');
-    $this->debug = new Logger('DEBUG');
+      $this->error_log = new Logger('ERROR');
+      $this->info_log = new Logger('INFO');
+      $this->debug = new Logger('DEBUG');
+      $columns = Spyc::YAMLLoad(SCHEMA_PATH.$this->table_name.".yaml");
+      $this->columns = $columns[$this->table_name];
+    } catch(Exception $e) {
+      $this->debug->log("       BaseModel::__construct() error:" . $e->getMessage());
+    }
   }
 
   /**

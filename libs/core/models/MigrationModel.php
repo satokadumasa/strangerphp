@@ -8,16 +8,15 @@ class MigrationModel extends BaseModel {
   public $belongthTo  = null;
   public $has = null;
   public $has_many_and_belongs_to = null;
-
-  public $columns = array(
-    'version' => array('type' => 'int', 'length' => 11, 'null' => false, 'key' => 'PRI', 'default' => null, ), 
-    'name' => array('type' => 'varchar', 'length' => 32, 'null' => false, 'key' => '', 'default' => null, ), 
-    'created_at' => array('type' => 'datetime', 'length' => 19, 'null' => false, 'key' => 'PRI', 'default' => null, ), 
-    'modified_at' => array('type' => 'datetime', 'length' => 19, 'null' => false, 'key' => 'PRI', 'default' => null, ), 
-  );
-
+/*
+  public $columns = [
+    'version' => ['type' => 'int', 'length' => 11, 'null' => false, 'key' => 'PRI', 'default' => null, ], 
+    'name' => ['type' => 'varchar', 'length' => 32, 'null' => false, 'key' => '', 'default' => null,] , 
+    'created_at' => ['type' => 'datetime', 'length' => 19, 'null' => false, 'key' => 'PRI', 'default' => null,] , 
+    'modified_at' => ['type' => 'datetime', 'length' => 19, 'null' => false, 'key' => 'PRI', 'default' => null,] , 
+  ];
+*/
   public function __construct(&$dbh = null) {
-    echo "MigrationModel::__construct() \n";
     parent::__construct($dbh);
   }
 
@@ -46,8 +45,10 @@ EOM;
 SELECT MAX(version) as version FROM $this->table_name;
 EOM;
     $stmt = $this->dbh->prepare($sql);
-    $datas = null;
+    if(!$stmt) echo "      stmt is null\n";
+    $data = null;
     foreach ($this->dbh->query($sql) as $row) {
+      echo "        row[]\n";
       $version = $row[0];
     }
     return $version;

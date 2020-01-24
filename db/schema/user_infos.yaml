@@ -1,0 +1,49 @@
+user_infos:
+  id:
+    type: int
+    length: 8
+    null: false
+    key: PRI
+    default: null
+  first_name:
+    type: string
+    length: 64
+    null: false
+    key: ""
+    default: null
+  last_name:
+    type: string
+    length: 64
+    null: false
+    key: ""
+    default: null
+  pref_id:
+    type: int
+    length: 8
+    null: false
+    key: ""
+    default: null
+  city:
+    type: string
+    length: 32
+    null: false
+    key: ""
+    default: null
+  address:
+    type: string
+    length: 64
+    null: false
+    key: ""
+    default: null
+  created_at:
+    type: datetime
+    length: 19
+    null: false
+    key: PRI
+    default: null
+  modified_at:
+    type: datetime
+    length: 19
+    null: false
+    key: PRI
+    default: null

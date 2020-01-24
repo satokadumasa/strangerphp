@@ -1,0 +1,55 @@
+auth:
+  id:
+    type: int
+    length: 8
+    null: false
+    key: PRI
+    default: null
+  username:
+    type: string
+    length: 64
+    null: false
+    key: ""
+    default: null
+  password:
+    type: string
+    length: 64
+    null: false
+    key: ""
+    default: null
+  role_id:
+    type: int
+    length: 64
+    null: false
+    key: ""
+    default: null
+  email:
+    type: string
+    length: 128
+    null: false
+    key: ""
+    default: null
+  notified_at:
+    type: datetime
+    length: 64
+    null: false
+    key: ""
+    default: null
+  authentication_key:
+    type: string
+    length: 128
+    null: true
+    key: ""
+    default: null
+  created_at:
+    type: datetime
+    length: 19
+    null: false
+    key: PRI
+    default: null
+  modified_at:
+    type: datetime
+    length: 19
+    null: false
+    key: PRI
+    default: null

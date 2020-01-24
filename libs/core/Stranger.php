@@ -21,22 +21,20 @@ class Stranger {
   public function con($conf)
   {
     try {
-      echo "try connect\n";
-      echo "database:".print_r($conf, true)."\n";
+      echo "  try connect\n";
       $database = $conf['default_database'];
       $this->default_database = $database;
       $this->dbConnect = new DbConnect();
       $this->dbConnect->setConnectionInfo($database);
       $this->dbh = $this->dbConnect->createConnection();
-      echo "connected\n";
-      echo "Stranger::con() end\n";
+      echo "  connected\n";
+      echo "  Stranger::con() end\n";
     } catch (PDOException $e) {
-      echo "can not connect to database\n";
-      echo ">>>>".$e->getMessage()."\n";
+      echo "  can not connect to database\n";
+      echo "  >>>>".$e->getMessage()."\n";
     }
   }
 
-  //  
   /**
    *  stranger command execute method
    *
@@ -56,34 +54,45 @@ class Stranger {
     $this->class_name = StringUtil::convertTableNameToClassName($this->table_name);
     echo "run stranger\n";
 
-    if ($this->argv[1] == '-g') {
-      echo "run generate\n";
-      $this->executeGenerates();
-    }
-    if ($this->argv[1] == 'migrate:create:schema'){
-      $this->createSchema($this->argv[2]);
-      exit();
-    }
-    if ($this->argv[1] == 'migrate:init'){
-      $conf = Config::get('database.config');
-      $this->con($conf);
-      $this->initSchema();
-      exit();
-    }
-    if ($this->argv[1] == 'migrate'){
-      $conf = Config::get('database.config');
-      $this->con($conf);
-      $this->execMigration();
-      exit();
-    }
-    else if ($this->argv[1] == 'db:migrate') {
-      $conf = Config::get('database.config');
-      $this->con($conf);
-      $arr = explode(':', $this->argv[1]);
-    }
-    else if ($this->argv[1] == '-d') {
-      echo "run destroy\n";
-      $this->executeDestroies();
+    switch ($this->argv[1]) {
+      case '-g':
+        echo "  run generate\n";
+        $this->executeGenerates();
+        break;
+      case 'migrate:create:schema':
+        echo "  exec migrate:create:schema\n";
+        $this->createSchema($this->argv[2]);
+        exit();
+        break;
+      case 'migrate:init':
+        echo "  exec migrate:init\n";
+        $conf = Config::get('database.config');
+        $this->con($conf);
+        $this->initSchema();
+        exit();
+        break;
+      case 'migrate':
+        echo "  exec migrate\n";
+        $conf = Config::get('database.config');
+        $this->con($conf);
+        $this->execMigration();
+        exit();
+        break;
+      case 'db:migrate':
+        echo "  exec db:migrate\n";
+        $conf = Config::get('database.config');
+        $this->con($conf);
+        $arr = explode(':', $this->argv[1]);
+        exit();
+        break;
+      case '-d':
+        echo "  run destroy\n";
+        $this->executeDestroies();
+        exit();
+        break;
+      default:
+        echo "  Input Option.\n";
+        break;
     }
   }
 
@@ -110,12 +119,12 @@ class Stranger {
       $dbConnect = new DbConnect();
       $dbConnect->setConnectionInfo($database);
       $dbh = $dbConnect->createConnection();
-      echo "connected\n";
+      echo "  connected\n";
       $schena = $arr[4];
       $sql = <<<EOM
 CREATE DATABASE $schena;
 EOM;
-      echo "SQL:$sql\n";
+      echo "  SQL:$sql\n";
       $stmt = $dbh->prepare($sql);
       $stmt->execute();
       echo "  createSchema end\n";
@@ -132,7 +141,7 @@ EOM;
    */
   public function initSchema()
   {
-    echo "create migrations\n";
+    echo "  create migrations\n";
 /*    try {
       $sql = <<<EOM
 DROP TABLE migrations;
@@ -156,32 +165,39 @@ CREATE TABLE migrations (
 EOM;
     $stmt = $this->dbh->prepare($sql);
     $stmt->execute();
-    echo "create migrations success\n";
+    echo "  create migrations success\n";
   }
 
   /**
    *  テンプレート、モデル、コントローラー生成 
    */
   public function executeGenerates(){
-    if ($this->argv[1] == '-g') {
-      if ($this->argv[2] == 'scaffold') {
-        echo "run create scaffold\n";
+      echo "  run executeGenerates\n";
+    if ($this->argv[1] !== '-g') {
+      echo "    Please specify the correct parameter.\n";
+      return;
+    }
+    switch ($this->argv[2]) {
+      case 'scaffold':
+        echo "    run create scaffold\n";
         $this->scaffoldGenerate();
-      }
-      else if ($this->argv[2] == 'controller'){
+        break;
+      case 'controller':
+        echo "    run create controller\n";
         $this->controllerGenerate();
-      }
-      else if ($this->argv[2] == 'model'){
-        echo "run create model\n";
+        break;
+      case 'model':
+        echo "    run create model\n";
         $this->modelGenerate();
-      }
-      else if ($this->argv[2] == 'model' || $this->argv[2] == 'column'){
-        echo "run create model/column\n";
+        break;
+      case 'column':
+        echo "    run add column migrations\n";
         $this->maigrateGenerate();
-      }
-      else {
-        echo "Please specify the correct parameter.\n";
-      }
+        break;
+      
+      default:
+        echo "    Please specify the correct parameter.\n";
+        break;
     }
   }
 
@@ -189,29 +205,30 @@ EOM;
    *  テンプレート、モデル、コントローラー削除
    */
   public function executeDestroies(){
-    if ($this->argv[1] == '-d') {
-      if ($this->argv[2] == 'scaffold') {
-        echo "run destroy scaffold\n";
-        $this->scaffoldDestroy();
-      }
-      else if ($this->argv[2] == 'controller'){
-        echo "run destroy controller\n";
-        $this->controllerDestroy();
-      }
-      else if ($this->argv[2] == 'model'){
-        echo "run destroy model\n";
-        $this->modelDestroy();
-      }
-      else if ($this->argv[2] == 'model' || $this->argv[2] == 'column'){
-        echo "run destroy model/column\n";
-        $this->maigrateGenerate();
-      }
-      else {
-        echo "Please specify the correct parameter.\n";
-      }
+    if ($this->argv[1] !== '-d') {
+      echo "    Please specify the correct parameter.\n";
+      return;
     }
-    else {
-      echo "Please specify the correct parameter.\n";
+    switch ($this->argv[2]) {
+      case 'scaffold':
+        echo "    run destroy scaffold\n";
+        $this->scaffoldDestroy();
+        break;
+      case 'controller':
+        echo "    run destroy controller\n";
+        $this->controllerDestroy();
+        break;
+      case 'model':
+        echo "    run destroy model\n";
+        $this->modelDestroy();
+        break;
+      case 'column':
+        echo "    run destroy model/column\n";
+        $this->maigrateGenerate();
+        break;
+      default:
+        echo "    Please specify the correct parameter.\n";
+        break;
     }
   }
 
@@ -238,48 +255,58 @@ EOM;
   }
 
   public function execMigration(){
-    $migration_files = $this->getFileList(MIGRATION_PATH);
-    $migrate = new MigrationModel($this->dbh);
-    if (isset($this->argv[2]) && $this->argv[2] == 'version') {
-      echo "Migrate drop table and add column.\n";
-      if(!isset($this->argv[3])) {
-        return false;
+    try{
+      $this->debug->log("Stranger::execMigration() Start");
+      $migration_files = $this->getFileList(MIGRATION_PATH);
+      $migrate = new MigrationModel($this->dbh);
+      $versions = [];
+      if(isset($this->argv[2])) $versions = explode('=', $this->argv[2]);
+      if (isset($this->argv[2]) && $versions[0] == 'version') {
+        echo "    Migrate drop table and add column.\n";
+        $this->debug->log("Stranger::execMigration() Migrate drop table and add column");
+
+        $migrate_classes = $migrate->where('version', '>', $versions[1])->desc('version')->find('all');
+
+        foreach ($migrate_classes as $key => $migrate_class) {
+          $migration_file = $migrate_class['Migration']['name'];
+          echo "      ========== Migrate ".$migration_file." down start ==========\n";
+          require_once MIGRATION_PATH . $migration_file . ".php";
+          $migration = new $migration_file($this->default_database);
+          $migration->down();
+          $migrate->delete($migrate_class['Migration']['version']);
+          echo "      ========== Migrate ".$migration_file." down end   ==========\n";
+        }
       }
-      $migrate_classes = $migrate->where('version', '>', $this->argv[3])->desc('version')->find('all');
+      else {
+        echo "    Migrate create table and add column.\n";
+        $this->debug->log("Stranger::execMigration() Migrate create table and add column");
+        $max_version = $migrate->getMaxVersion();
+        $this->debug->log("Stranger::execMigration() max_version[${max_version}]");
 
-      foreach ($migrate_classes as $key => $migrate_class) {
-        $migration_file = $migrate_class['Migration']['name'];
-        echo "========== Migrate ".$migration_file." down start ==========\n";
-        require_once MIGRATION_PATH . $migration_file . ".php";
-        $migration = new $migration_file($this->default_database);
-        $migration->down();
-        $migrate->delete($migrate_class['Migration']['version']);
-        echo "========== Migrate ".$migration_file." down end   ==========\n";
+
+        foreach ($migration_files as $key => $value) {
+          $this->debug->log("Stranger::execMigration() key[${key}] value[${value}]");
+          if (!strpos($value, '.php')) continue;
+
+          $arr = explode('/', $value);
+          $migration_file = $arr[count($arr) - 1];
+          $migration_file = str_replace('.php', '', $migration_file);
+
+          //  バージョン取得
+          $varsion = preg_replace('/[^0-9]/', '', $migration_file);
+          
+          if ($varsion <= $max_version) continue;
+          echo "      ========== Migrate ".$migration_file." up start ==========\n";
+          require_once $value;
+          $migration = new $migration_file($this->default_database);
+          $migration->up();
+          $migrate->insert(['Migration' => ['version' => $varsion, 'name' => $migration_file]]);
+          echo "      ========== Migrate ".$migration_file." up end   ==========\n";
+        }
       }
-    }
-    else {
-      echo "Migrate create table and add column.\n";
-      $max_version = $migrate->getMaxVersion();
-
-
-      foreach ($migration_files as $key => $value) {
-        if (!strpos($value, '.php')) continue;
-
-        $arr = explode('/', $value);
-        $migration_file = $arr[count($arr) - 1];
-        $migration_file = str_replace('.php', '', $migration_file);
-
-        //  バージョン取得
-        $varsion = preg_replace('/[^0-9]/', '', $migration_file);
-        
-        if ($varsion <= $max_version) continue;
-        echo "========== Migrate ".$migration_file." up start ==========\n";
-        require_once $value;
-        $migration = new $migration_file($this->default_database);
-        $migration->up();
-        $migrate->insert(['Migration' => ['version' => $varsion, 'name' => $migration_file]]);
-        echo "========== Migrate ".$migration_file." up end   ==========\n";
-      }
+    } catch (Exception $e) {
+      echo "Stranger::execMigration() error\n";
+      echo "  >>>>".$e->getMessage()."\n";
     }
   }
 
@@ -447,6 +474,96 @@ EOM;
       return false;
     }
   }
+
+  // geterate XXX
+  public function generateTableConfig($table_name)
+  {
+    for ($j = 4; $j < count($this->argv); $j++) {
+      /*
+      $> php ./stranger.php -g scaffold user_infos \
+      first_name:string:64:false:: \
+      last_name:string:64:false:: \
+      pref_id:int:8:false:: \
+      city:string:32:false:: \
+      address:string:64:false:: \
+      */
+      $this->argv[$j]
+      $ret[$this->argv[$j][0]] = [
+        'type'   => $this->argv[$j][1]
+        'length' => $this->argv[$j][2]
+        'null'   => $this->argv[$j][3]
+        'key'    => PRI
+        'default' => null
+      ];
+    }
+    if(file_exists(SCHEMA_PATH.$table_name.".yaml")){
+      $table_config = Spyc::YAMLLoad(SCHEMA_PATH.$table_name.".yaml");
+    }
+    else {
+
+    }
+
+  }
+
+  ///////////////////////////////
+  /**
+   *  
+   *  
+   *  column_define :   
+   */
+  protected function addColumnArrayToTable($column_define, $type){
+    $columns_str = "";
+    $arr = explode(':', $column_define);
+    $value = null;
+    $datas = [
+        'column_name' => $arr[0],
+        'type' => $arr[1],
+        'type_str' => $this->convertTypeKeyString($arr[1], (isset($arr[2]) ? $arr[2] : 255), $value),
+        'length' => isset($arr[2]) ? $arr[2] : 255,
+        'null' => (isset($arr[3]) && $arr[3] != '') ? 'false' : 'true',
+        'null_ok' => (isset($arr[3]) && $arr[3] != '')? 'NOT NULL' : '',
+        'key' => isset($arr[4]) ? $arr[4] : '',
+        'default' => (isset($arr[5]) && ($arr[5] != ''  || $arr[5] != null))? $arr[5] : 'null',
+        'model_name' => $this->class_name,
+      ];
+
+    if ($type == 'model') {
+      $template_fileatime = SCAFFOLD_TEMPLATE_PATH."/models/parts/column.tpl";
+    }
+    else if ($type == 'sql'){
+      $template_fileatime = SCAFFOLD_TEMPLATE_PATH."/migrate/parts/column.tpl";
+    }
+    else if ($type == 'add_col') {
+      $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/migrate/parts/add_column.tpl';
+    }
+    else if ($type == 'drop_col') {
+      $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/migrate/parts/drop_column.tpl';
+    }
+    else if ($type == 'view') {
+      $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/views/parts/column.tpl';
+    }
+    else if ($type == 'form') {
+      $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/views/parts/form/column.tpl';
+    }
+    $file_context = file($template_fileatime);
+    for($i = 0; $i < count($file_context); $i++) {
+      $value = $file_context[$i];
+      preg_match_all(
+        '|<!----(.*)---->|U',
+        $value,
+        $matchs
+      );
+      if (count($matchs[1]) > 0){
+        $columns_str .= $this->convertKeyToValue($value, $matchs[1], $datas);
+      }
+      else {
+        $columns_str .= $value ;
+      }
+    }
+
+    return $columns_str;
+  }
+  ///////////////////////////////
 
   //  destroy maigrate_file 
   /**

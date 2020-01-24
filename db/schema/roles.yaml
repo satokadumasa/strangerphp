@@ -1,0 +1,25 @@
+roles:
+  id:
+    type: int
+    length: 8
+    null: false
+    key: PRI
+    default: null
+  name:
+    type: string
+    length: 64
+    null: false
+    key: ""
+    default: null
+  created_at:
+    type: datetime
+    length: 19
+    null: false
+    key: PRI
+    default: null
+  modified_at:
+    type: datetime
+    length: 19
+    null: false
+    key: PRI
+    default: null
