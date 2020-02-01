@@ -10,5 +10,7 @@ putenv("ENVIRONMENT=development");
 spl_autoload_register(array('ClassLoader', 'loadClass'));
 
 echo "Init Stranger\n";
+echo "argv:" . print_r($argv, true) . "\n";
 $stranger = new Stranger($argv);
+echo "Stranger:".print_r($stranger, true)."\n";
 $stranger->execute();

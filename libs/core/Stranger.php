@@ -97,10 +97,10 @@ class Stranger {
   }
 
   /**
-   *  データベース作成 
+   *  データベース作成
    *
    *  @param string $connection_param 接続情報
-   *  @return none
+   *  @return
    */
   public function createSchema($connection_param)
   {
@@ -134,10 +134,10 @@ EOM;
   }
 
   /**
-   *  migrationテーブル作成 
+   *  migrationテーブル作成
    *
    *  @param none
-   *  @return none
+   *  @return
    */
   public function initSchema()
   {
@@ -169,7 +169,7 @@ EOM;
   }
 
   /**
-   *  テンプレート、モデル、コントローラー生成 
+   *  テンプレート、モデル、コントローラー生成
    */
   public function executeGenerates(){
       echo "  run executeGenerates\n";
@@ -194,7 +194,7 @@ EOM;
         echo "    run add column migrations\n";
         $this->maigrateGenerate();
         break;
-      
+
       default:
         echo "    Please specify the correct parameter.\n";
         break;
@@ -234,7 +234,7 @@ EOM;
 
   //  generate scaffold
   /**
-   *  キャッフォルドファイル一括生成メソッド 
+   *  キャッフォルドファイル一括生成メソッド
    */
   public function scaffoldGenerate(){
     $this->controllerGenerate();
@@ -245,7 +245,7 @@ EOM;
 
   //  destroy scaffold
   /**
-   *  キャッフォルドファイル一括削除メソッド 
+   *  キャッフォルドファイル一括削除メソッド
    */
   public function scaffoldDestroy(){
     $this->controllerDestroy();
@@ -294,7 +294,7 @@ EOM;
 
           //  バージョン取得
           $varsion = preg_replace('/[^0-9]/', '', $migration_file);
-          
+
           if ($varsion <= $max_version) continue;
           echo "      ========== Migrate ".$migration_file." up start ==========\n";
           require_once $value;
@@ -326,17 +326,17 @@ EOM;
         $list = array_merge($list, $this->getFileList($fullpath));
       }
     }
-   
+
     return $list;
   }
 
   //  generate controller
   /**
-   *  コントローラー生成メソッド 
+   *  コントローラー生成メソッド
    */
-  public function controllerGenerate(){
+  private function controllerGenerate(){
     $template_fileatime = SCAFFOLD_TEMPLATE_PATH . 'controllers/controller_template.tpl';
-    //  出力先ファイルを開く  
+    //  出力先ファイルを開く
     $out_put_filename =  CONTROLLER_PATH . $this->class_name . "Controller.php";
     echo "  create ".$out_put_filename."\n";
     $fp = fopen($out_put_filename, "w");
@@ -345,9 +345,9 @@ EOM;
 
   //  destroy controller
   /**
-   *  コントローラー削除メソッド 
+   *  コントローラー削除メソッド
    */
-  public function controllerDestroy(){
+  private function controllerDestroy(){
     $out_put_filename =  CONTROLLER_PATH . $this->class_name . "Controller.php";
     echo "  rm ".$out_put_filename."\n";
     unlink($out_put_filename);
@@ -355,12 +355,12 @@ EOM;
 
   //  generate model
   /**
-   *  モデル生成メソッド 
+   *  モデル生成メソッド
    */
-  public function modelGenerate(){
-    //  テンプレートファイル名作成 
+  private function modelGenerate(){
+    //  テンプレートファイル名作成
     $template_fileatime = SCAFFOLD_TEMPLATE_PATH . 'models/model_template.tpl';
-    //  出力先ファイルを開く  
+    //  出力先ファイルを開く
     $out_put_filename =  MODEL_PATH . $this->class_name . 'Model.php';
     echo "  create ".$template_fileatime."\n";
     $fp = fopen($out_put_filename, 'w');
@@ -370,13 +370,14 @@ EOM;
     if ($return === false) {
       return false;
     }
+    $this->generateTableConfig();
   }
 
   //  destroy model
   /**
-   *  モデル削除メソッド 
+   *  モデル削除メソッド
    */
-  public function modelDestroy(){
+  private function modelDestroy(){
     $out_put_filename =  MODEL_PATH . $this->class_name . 'Model.php';
     echo "  rm ".$out_put_filename."\n";
     unlink($out_put_filename);
@@ -384,16 +385,16 @@ EOM;
 
   //  generate template
   /**
-   *  Viewテンプレート生成メソッド 
+   *  Viewテンプレート生成メソッド
    */
-  public function templateGenerate(){
+  private function templateGenerate(){
     echo "create view templates.\n";
     $view_template_folder = VIEW_TEMPLATE_PATH . $this->class_name . '/';
     echo "  mkdir ".$view_template_folder."\n";
     if (!file_exists($view_template_folder)) {
       if(!mkdir($view_template_folder)) return false;
     }
-    //  index 
+    //  index
     echo "create index template.\n";
     $index = $view_template_folder . 'index.tpl';
     $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/views/index.tpl';
@@ -426,7 +427,7 @@ EOM;
     $this->createViewTemplate($template_fileatime, $edit, $method);
   }
 
-  public function createViewTemplate($template_fileatime, $view_template, $method) {
+  private function createViewTemplate($template_fileatime, $view_template, $method) {
     $fp = fopen($view_template, "w");
     echo "  create ".$view_template."\n";
     $return = $this->applyTemplate($template_fileatime, $fp, $this->class_name, null, $method);
@@ -438,9 +439,9 @@ EOM;
 
   //  destroy template
   /**
-   *  Viewテンプレート削除メソッド 
+   *  Viewテンプレート削除メソッド
    */
-  public function templateDestroy(){
+  private function templateDestroy(){
     $file_list = $this->getFileList(VIEW_TEMPLATE_PATH . $this->class_name . '/');
     foreach ($file_list as $key => $value) {
       echo "  rm ".$value."\n";
@@ -449,12 +450,12 @@ EOM;
     rmdir(VIEW_TEMPLATE_PATH . $this->class_name);
   }
 
-  //  generate maigrate_file  
+  //  generate maigrate_file
   /**
    *  マイグレーションファイル生成メソッド
    */
-  public function maigrateGenerate(){
-    //  テンプレートファイル名作成 
+  private function maigrateGenerate(){
+    //  テンプレートファイル名作成
     $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/migrate/migration_template.tpl';
     $now_date = date('YmdHis');
     $create = null;
@@ -475,41 +476,75 @@ EOM;
     }
   }
 
-  // geterate XXX
-  public function generateTableConfig($table_name)
+  // geterate generateTableConfig()
+  /**
+   * Generate or Update Schema File.
+   * generateTableConfig($table_name)
+   *
+   * @param String table_name
+   * @return
+   */
+  private function generateTableConfig()
   {
-    for ($j = 4; $j < count($this->argv); $j++) {
-      /*
-      $> php ./stranger.php -g scaffold user_infos \
-      first_name:string:64:false:: \
-      last_name:string:64:false:: \
-      pref_id:int:8:false:: \
-      city:string:32:false:: \
-      address:string:64:false:: \
-      */
-      $this->argv[$j]
-      $ret[$this->argv[$j][0]] = [
-        'type'   => $this->argv[$j][1]
-        'length' => $this->argv[$j][2]
-        'null'   => $this->argv[$j][3]
-        'key'    => PRI
-        'default' => null
-      ];
-    }
-    if(file_exists(SCHEMA_PATH.$table_name.".yaml")){
-      $table_config = Spyc::YAMLLoad(SCHEMA_PATH.$table_name.".yaml");
-    }
-    else {
+    try{
 
-    }
+      echo "    exec generateTableConfig()\n";
+      echo "      Schema File:".SCHEMA_PATH.$this->argv[3].".yaml\n";
+      $table_config = [];
+      if(file_exists(SCHEMA_PATH.$this->argv[3].".yaml")){
+        $table_config = Spyc::YAMLLoad(SCHEMA_PATH.$this->argv[3].".yaml");
+      }
+      else {
+        $table_config[$this->argv[3]]['id'] = [
+            'type'    => 'int'
+          , 'length'  => 8
+          , 'null'    => 'false'
+          , 'key'     => 'PRI'
+          , 'default' => null
+        ];
+      }
 
+      for ($j = 4; $j < count($this->argv); $j++) {
+        $column_conf = explode(':', $this->argv[$j]);
+
+        $table_config[$this->argv[3]][$column_conf[0]] = [
+            'type'    => $column_conf[1]
+          , 'length'  => $column_conf[2]
+          , 'null'    => $column_conf[3] ? 'true' : 'false'
+          , 'key'     => $column_conf[4] ? 'PRI' : ''
+          , 'default' => $column_conf[5] ? $this->argv[$j][5] : ''
+        ];
+        // echo "      table_config(3):".print_r($table_config, true)."\n";
+      }
+      if(!array_key_exists('created_at', $table_config[$this->argv[3]])){
+        $table_config[$this->argv[3]]['created_at'] = [
+            'type'    => 'datetime'
+          , 'length'  => 19
+          , 'null'    => 'false'
+          , 'key'     => ''
+          , 'default' => null
+        ];
+        $table_config[$this->argv[3]]['modified_at'] = [
+            'type'    => 'datetime'
+          , 'length'  => 19
+          , 'null'    => 'false'
+          , 'key'     => ''
+          , 'default' => null
+        ];
+      }
+      $fp .= Spyc::YAMLDump($table_config,true , true, true);
+      file_put_contents(SCHEMA_PATH.$this->argv[3].".yaml", $fp);
+    } catch (Exception $e) {
+      echo "  Can not create schema file\n";
+      echo "  >>>>".$e->getMessage()."\n";
+    }
   }
 
   ///////////////////////////////
   /**
-   *  
-   *  
-   *  column_define :   
+   *
+   *
+   *  column_define :
    */
   protected function addColumnArrayToTable($column_define, $type){
     $columns_str = "";
@@ -527,24 +562,29 @@ EOM;
         'model_name' => $this->class_name,
       ];
 
-    if ($type == 'model') {
-      $template_fileatime = SCAFFOLD_TEMPLATE_PATH."/models/parts/column.tpl";
+    switch ($type) {
+      case 'model':
+        $template_fileatime = SCAFFOLD_TEMPLATE_PATH."/models/parts/column.tpl";
+        break;
+      case 'sql':
+        $template_fileatime = SCAFFOLD_TEMPLATE_PATH."/migrate/parts/column.tpl";
+        break;
+      case 'add_col':
+        $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/migrate/parts/add_column.tpl';
+        break;
+      case 'drop_col':
+        $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/migrate/parts/drop_column.tpl';
+        break;
+      case 'view':
+        $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/views/parts/column.tpl';
+        break;
+      case 'form':
+        $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/views/parts/form/column.tpl';
+        break;
+      default:
+        break;
     }
-    else if ($type == 'sql'){
-      $template_fileatime = SCAFFOLD_TEMPLATE_PATH."/migrate/parts/column.tpl";
-    }
-    else if ($type == 'add_col') {
-      $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/migrate/parts/add_column.tpl';
-    }
-    else if ($type == 'drop_col') {
-      $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/migrate/parts/drop_column.tpl';
-    }
-    else if ($type == 'view') {
-      $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/views/parts/column.tpl';
-    }
-    else if ($type == 'form') {
-      $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/views/parts/form/column.tpl';
-    }
+
     $file_context = file($template_fileatime);
     for($i = 0; $i < count($file_context); $i++) {
       $value = $file_context[$i];
@@ -565,10 +605,10 @@ EOM;
   }
   ///////////////////////////////
 
-  //  destroy maigrate_file 
+  //  destroy maigrate_file
   /**
    *  マイグレーションファイル削除メソッド
-   */ 
+   */
   public function maigrateDestroy(){
     $file_list = $this->getFileList(MIGRATION_PATH);
     foreach ($file_list as $key => $value) {
@@ -582,10 +622,10 @@ EOM;
   /**
    *  テンプレート適用メソッド
    *
-   *  template_fileatime : テンプレートファイル名  
-   *  fp : 出力先ファイルポインター 
+   *  template_fileatime : テンプレートファイル名
+   *  fp : 出力先ファイルポインター
    *  class_name : クラス名
-   *  migration_class_name : マイグレーションファイル　クラス名 
+   *  migration_class_name : マイグレーションファイル　クラス名
    *  method_name : コントローラメソッド名
    */
   public function applyTemplate($template_fileatime, &$fp, $class_name, $migration_class_name = null, $method_name = null) {
@@ -733,7 +773,7 @@ EOM;
 
   /**
    *  キー置換メソッド
-   *  
+   *
    *  context   : 置換対象文字列
    *  matchs    : 置換対象キー文字列
    *  datas     : 置き換えデータ
@@ -751,9 +791,9 @@ EOM;
   }
 
   /**
-   *  
-   *  
-   *  column_define :   
+   *
+   *
+   *  column_define :
    */
   protected function generateColumnsStr($column_define, $type){
     $columns_str = "";
@@ -809,9 +849,9 @@ EOM;
   }
 
   /**
-   * 
    *
-   * @param $argv 
+   *
+   * @param $argv
    */
   protected function geterateColumnString($argv) {
     $this->debug->log('Stranger::geterateColumnString() start:');
