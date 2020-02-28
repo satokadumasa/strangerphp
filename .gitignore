@@ -44,3 +44,10 @@ apps/views/*
 !layout
 vendor/*
 !.gitkeep
+db/schema/*
+!auth.yaml
+!boards.yaml
+!migrations.yaml
+!roles.yaml
+!user_infos.yaml
+!users.yaml

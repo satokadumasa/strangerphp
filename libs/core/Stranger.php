@@ -388,52 +388,41 @@ EOM;
    *  Viewテンプレート生成メソッド
    */
   private function templateGenerate(){
-    echo "create view templates.\n";
-    $view_template_folder = VIEW_TEMPLATE_PATH . $this->class_name . '/';
-    echo "  mkdir ".$view_template_folder."\n";
-    if (!file_exists($view_template_folder)) {
-      if(!mkdir($view_template_folder)) return false;
+    $templates = [
+       'index'
+      ,'detail'
+      ,'create'
+      ,'edit'
+      ,'save'
+    ];
+    try{
+      echo "create view templates.\n";
+      $view_template_folder = VIEW_TEMPLATE_PATH . $this->class_name . '/';
+      echo "  mkdir ".$view_template_folder."\n";
+      if (!file_exists($view_template_folder)) {
+        if(!mkdir($view_template_folder)) return false;
+      }
+      foreach ($templates as $key => $method) {
+        $this->createViewTemplate(
+          SCAFFOLD_TEMPLATE_PATH . "/views/${method}.tpl", 
+          $view_template_folder . $method.'.tpl', 
+          $method
+        );
+      }
+    } catch (Exception $e) {
+      echo "    ".$e->getMessage()."\n";
+      $this->debug->log("Stranger::templateGenerate() :".$e->getMessage());
     }
-    //  index
-    echo "create index template.\n";
-    $index = $view_template_folder . 'index.tpl';
-    $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/views/index.tpl';
-    $method = 'index';
-    $this->createViewTemplate($template_fileatime, $index, $method);
-
-    //  show
-    echo "create show template.\n";
-    $show = $view_template_folder . 'show.tpl';
-    $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/views/detail.tpl';
-    $method = 'detail';
-    $this->createViewTemplate($template_fileatime, $show, $method);
-    //  create
-    echo "create create template.\n";
-    $create = $view_template_folder . 'create.tpl';
-    $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/views/create_form.tpl';
-    $method = 'create';
-    $this->createViewTemplate($template_fileatime, $create, $method);
-    //  edit
-    echo "create edit template.\n";
-    $edit = $view_template_folder . 'edit.tpl';
-    $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/views/edit_form.tpl';
-    $method = 'edit';
-    $this->createViewTemplate($template_fileatime, $edit, $method);
-    //  save
-    echo "create save template.\n";
-    $edit = $view_template_folder . 'save.tpl';
-    $template_fileatime = SCAFFOLD_TEMPLATE_PATH . '/views/save.tpl';
-    $method = 'save';
-    $this->createViewTemplate($template_fileatime, $edit, $method);
   }
 
   private function createViewTemplate($template_fileatime, $view_template, $method) {
+    echo "create ${method} template.\n";
     $fp = fopen($view_template, "w");
     echo "  create ".$view_template."\n";
     $return = $this->applyTemplate($template_fileatime, $fp, $this->class_name, null, $method);
     fclose($fp);
     if ($return === false) {
-      return false;
+      throw new Exception("Can not create ${$method} view template.", 1);
     }
   }
 
