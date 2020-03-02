@@ -21,7 +21,7 @@ class BaseModel {
   public $primary_key = 'id';
 
   public $primary_key_value = null;
-
+  protected $joins = [];
   /**
    *  コンストラクタ  
    *
@@ -76,7 +76,7 @@ class BaseModel {
     $datas = [];
     $primary_keys = [];
 
-    $sql = $this->creteFindSql();
+    $sql = $this->createFindSql();
 
     $column_names = null;
 
@@ -210,32 +210,43 @@ class BaseModel {
    *
    *  @retrun string $sql
    */
-  private function creteFindSql(){
+  private function createFindSql(){
     $sql = null;
     $relationship_conds = [];
     $relationship_columuns = [];
     $relationship_sql = [];
     $relationship_columuns[] = " " . $this->model_name . ".*";
 
-    if (isset($this->belongthTo)) {
-      foreach ($this->belongthTo as $model_name => $relationship_conditions) {
-        $model_class_name = $model_name . "Model";
-        $obj = new $model_class_name($this->dbh);
-        $table_name = $obj->table_name;
-        $join_cond = isset($relationship_conditions['JOIN_COND']) ? $relationship_conditions['JOIN_COND'] : "INNER";
+    $tmp_sql = '';
+    foreach ($this->joins as $model_name => $conditions) {
+      $model_class_name = $model_name . "Model";
+      $obj = new $model_class_name($this->dbh);
+      $tmp_sql .+ '  ' . StringUtil::camelize($conditions['PARENT']['MODEL_NAME']) . ' as ' . $conditions['PARENT']['MPDEL_NAME'] . ' ';
+      $tmp_sql .= '  ' . $conditions['JON'] . ' ' 
+        . $conditions['PARENT']['MODEL_NAME'] . '.' . $conditions['PARENT']['COLUMNS'] .'=' 
+        . $conditions['CHILD']['MODEL_NAME']. '.' . $conditions['CHILD']['COLUMNS'] .' ';
+    }
+    else {
+      if (isset($this->belongthTo)) {
+          foreach ($this->belongthTo as $model_name => $relationship_conditions) {
+          $model_class_name = $model_name . "Model";
+          $obj = new $model_class_name($this->dbh);
+          $table_name = $obj->table_name;
+          $join_cond = isset($relationship_conditions['JOIN_COND']) ? $relationship_conditions['JOIN_COND'] : "INNER";
 
-        $relationship_sql = "";
-        foreach ($relationship_conditions['conditions'] as $key => $value) {
-          $sql_tmp = " " . $key . " = " . $value;
-          $relationship_sql .= $relationship_sql ? " AND " .$sql_tmp . " " : " " . $sql_tmp . " ";
+          $relationship_sql = "";
+          foreach ($relationship_conditions['conditions'] as $key => $value) {
+            $sql_tmp = " " . $key . " = " . $value;
+            $relationship_sql .= $relationship_sql ? " AND " .$sql_tmp . " " : " " . $sql_tmp . " ";
+          }
+          $relationship_sql = " " . $join_cond . " JOIN " . $table_name . " as " . $model_name . " on " . $relationship_sql;
+
+          $relationship_conds[] = $relationship_sql;
+          $relationship_columuns[] = ", " . $model_name . ".*";
         }
-        $relationship_sql = " " . $join_cond . " JOIN " . $table_name . " as " . $model_name . " on " . $relationship_sql;
-
-        $relationship_conds[] = $relationship_sql;
-        $relationship_columuns[] = ", " . $model_name . ".*";
       }
     }
-
+    
     $sql = "SELECT ";
     foreach ($relationship_columuns as $value) $sql .= $value;
 
@@ -634,5 +645,10 @@ class BaseModel {
       $form[$this->model_name][$value] = '';
     }
     return $form;
+  }
+
+  public function join($model_name, $conditions[]) {
+    $this->joins[] = [$model_name => $conditions];
+    return $this;
   }
 }
