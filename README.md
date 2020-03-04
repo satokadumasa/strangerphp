@@ -107,7 +107,7 @@ address:string:64:false:: \
 コントローラ
 /home/someone/Project/stranger/controllers/UserInfoController.php
 モデルクラス
-/home/someone/Project/stranger/models/UserInfoModel.php
+/home/someone/Project/stranger/models/UserInfo.php
 Viewテンプレート
 /home/someone/Project/stranger/views/UserInfo/index.tpl
 /home/someone/Project/stranger/views/UserInfo/create.tpl

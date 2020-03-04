@@ -10,7 +10,7 @@ class RoleController extends BaseController{
   }
 
   public function index() {
-    $roles = new RoleModel($this->dbh);
+    $roles = new Role($this->dbh);
     $limit = 10 * (isset($this->request['page']) ? $this->request['page'] : 1);
     $offset = 10 * (isset($this->request['page']) ? $this->request['page'] - 1 : 0);
 
@@ -30,7 +30,7 @@ class RoleController extends BaseController{
     $datas = null;
     $id = $this->request['id'];
 
-    $roles = new RoleModel($this->dbh);
+    $roles = new Role($this->dbh);
     $datas = $roles->where('Role.id', '=', $id)->find('first');
     $this->set('Title', 'Role Ditail');
     $this->set('Role', $datas['Role']);
@@ -39,7 +39,7 @@ class RoleController extends BaseController{
 
   public function create() {
     $this->debug->log("RoleController::create()");
-    $roles = new RoleModel($this->dbh);
+    $roles = new Role($this->dbh);
     $form = $roles->createForm();
     $this->set('Title', 'Role Create');
     $this->set('Role', $form['Role']);
@@ -49,7 +49,7 @@ class RoleController extends BaseController{
     $this->debug->log("RoleController::save()");
     try {
       $this->dbh->beginTransaction();
-      $roles = new RoleModel($this->dbh);
+      $roles = new Role($this->dbh);
       $roles->save($this->request);
       $this->dbh->commit();
       $url = BASE_URL . 'Role' . '/show/' . $roles->primary_key_value . '/';
@@ -67,7 +67,7 @@ class RoleController extends BaseController{
       $datas = null;
       $id = $this->request['id'];
 
-      $roles = new RoleModel($this->dbh);
+      $roles = new Role($this->dbh);
       $datas = $roles->where('Role.id', '=', $id)->find('first');
       $this->set('Title', 'Role Edit');
       $this->set('Role', $datas['Role']);
@@ -80,7 +80,7 @@ class RoleController extends BaseController{
   public function delete() {
     try {
       $this->dbh->beginTransaction();
-      $roles = new RoleModel($this->dbh);
+      $roles = new Role($this->dbh);
       $roles->delete($this->request['id']);
       $this->dbh->commit();
       $url = BASE_URL . 'Role' . '/index/';

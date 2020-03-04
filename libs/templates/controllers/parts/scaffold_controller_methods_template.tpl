@@ -1,5 +1,5 @@
   public function index() {
-    $<!----table_name----> = new <!----class_name---->Model($this->dbh);
+    $<!----table_name----> = new <!----class_name---->($this->dbh);
     $limit = 10 * (isset($this->request['page']) ? $this->request['page'] : 1);
     $offset = 10 * (isset($this->request['page']) ? $this->request['page'] - 1 : 0);
 
@@ -19,7 +19,7 @@
     $datas = null;
     $id = $this->request['id'];
 
-    $<!----table_name----> = new <!----class_name---->Model($this->dbh);
+    $<!----table_name----> = new <!----class_name---->($this->dbh);
     $datas = $<!----table_name---->->where('<!----class_name---->.id', '=', $id)->find('first');
     $this->set('Title', '<!----class_name----> Ditail');
     $this->set('<!----class_name---->', $datas['<!----class_name---->']);
@@ -28,7 +28,7 @@
 
   public function create() {
     $this->debug->log("<!----class_name---->Controller::create()");
-    $<!----table_name----> = new <!----class_name---->Model($this->dbh);
+    $<!----table_name----> = new <!----class_name---->($this->dbh);
     $form = $<!----table_name---->->createForm();
     $this->set('Title', '<!----class_name----> Create');
     $this->set('<!----class_name---->', $form['<!----class_name---->']);
@@ -38,7 +38,7 @@
     $this->debug->log("<!----class_name---->Controller::save()");
     try {
       $this->dbh->beginTransaction();
-      $<!----table_name----> = new <!----class_name---->Model($this->dbh);
+      $<!----table_name----> = new <!----class_name---->($this->dbh);
       $<!----table_name---->->save($this->request);
       $this->dbh->commit();
       $url = BASE_URL . '<!----class_name---->' . '/show/' . $<!----table_name---->->primary_key_value . '/';
@@ -56,7 +56,7 @@
       $datas = null;
       $id = $this->request['id'];
 
-      $<!----table_name----> = new <!----class_name---->Model($this->dbh);
+      $<!----table_name----> = new <!----class_name---->($this->dbh);
       $datas = $<!----table_name---->->where('<!----class_name---->.id', '=', $id)->find('first');
       $this->set('Title', '<!----class_name----> Edit');
       $this->set('<!----class_name---->', $datas['<!----class_name---->']);
@@ -69,7 +69,7 @@
   public function delete() {
     try {
       $this->dbh->beginTransaction();
-      $<!----table_name----> = new <!----class_name---->Model($this->dbh);
+      $<!----table_name----> = new <!----class_name---->($this->dbh);
       $<!----table_name---->->delete($this->request['id']);
       $this->dbh->commit();
       $url = BASE_URL . '<!----class_name---->' . '/index/';

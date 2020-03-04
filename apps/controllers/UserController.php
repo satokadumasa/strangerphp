@@ -13,7 +13,7 @@ class UserController extends BaseController{
    *  ログイン画面
    */
   public function login() {
-    $auths = new UserModel($this->dbh);
+    $auths = new User($this->dbh);
     $form = $auths->createForm();
     $this->set('Title', 'Auth Login');
     $this->set('User', $form['User']);
@@ -47,7 +47,7 @@ class UserController extends BaseController{
    *
    */
   public function confirm(){
-    $user = new UserModel($this->dbh);
+    $user = new User($this->dbh);
     $data = $user->where('User.authentication_key', '=', $this->request['confirm_string'])->find('first');
     $data['User']['authentication_key'] = null;
     $user->save($data);
@@ -59,7 +59,7 @@ class UserController extends BaseController{
 
 
   public function index() {
-    $users = new UserModel($this->dbh);
+    $users = new User($this->dbh);
     $limit = 10 * (isset($this->request['page']) ? $this->request['page'] : 1);
     $offset = 10 * (isset($this->request['page']) ? $this->request['page'] - 1 : 0);
 
@@ -79,7 +79,7 @@ class UserController extends BaseController{
     $datas = null;
     $id = $this->request['id'];
 
-    $users = new UserModel($this->dbh);
+    $users = new User($this->dbh);
     $datas = $users->where('User.id', '=', $id)->find('first');
     $this->set('Title', 'User Ditail');
     $this->set('User', $datas['User']);
@@ -87,7 +87,7 @@ class UserController extends BaseController{
   }
 
   public function create() {
-    $users = new UserModel($this->dbh);
+    $users = new User($this->dbh);
     $form = $users->createForm();
     $this->set('Title', 'User Create');
     $this->set('User', $form['User']);
@@ -96,7 +96,7 @@ class UserController extends BaseController{
   public function save(){
     try {
       $this->dbh->beginTransaction();
-      $users = new UserModel($this->dbh);
+      $users = new User($this->dbh);
       $users->save($this->request);
       $this->dbh->commit();
       $cmd = 'php ' . BIN_PATH . 'send_notify.php';
@@ -113,7 +113,7 @@ class UserController extends BaseController{
     $session = Session::get();
     try {
       $this->dbh->beginTransaction();
-      $users = new UserModel($this->dbh);
+      $users = new User($this->dbh);
 
       if (!isset($session['Auth'])) {
         throw new Exception("権限がありません。", 1);
@@ -145,7 +145,7 @@ class UserController extends BaseController{
       $datas = null;
       $id = $this->request['id'];
 
-      $users = new UserModel($this->dbh);
+      $users = new User($this->dbh);
       $datas = $users->where('User.id', '=', $id)->find('first');
       $this->set('Title', 'User Edit');
       $this->set('User', $datas['User']);
@@ -158,7 +158,7 @@ class UserController extends BaseController{
   public function delete() {
     try {
       $this->dbh->beginTransaction();
-      $users = new UserModel($this->dbh);
+      $users = new User($this->dbh);
       $users->delete($this->request['id']);
       $this->dbh->commit();
       $url = BASE_URL . User . '/index/';

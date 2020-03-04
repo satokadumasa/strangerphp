@@ -139,7 +139,7 @@ class View {
     $operators =[':equal:',':not_equal:',':or_more:',':greater_than:',':less_than:',':or_less:',':existing:'];
     /***
      * ・Authが空の場合
-     * ・Auth['User']['id']とModel['User']['id']やModel[Model]['user_id']に違いがあった場合
+     * ・Auth['User']['id']と['User']['id']やModel[Model]['user_id']に違いがあった場合
      * ・Model['Model']['column']が空であるなど
      *  disp_div:value1:[condition]:value2
      *    condition

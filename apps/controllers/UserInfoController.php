@@ -9,7 +9,7 @@ class UserInfoController extends BaseController{
   }
 
   public function index() {
-    $user_infos = new UserInfoModel($this->dbh);
+    $user_infos = new UserInfo($this->dbh);
     $limit = 10 * (isset($this->request['page']) ? $this->request['page'] : 1);
     $offset = 10 * (isset($this->request['page']) ? $this->request['page'] - 1 : 0);
 
@@ -29,7 +29,7 @@ class UserInfoController extends BaseController{
     $datas = null;
     $id = $this->request['id'];
 
-    $user_infos = new UserInfoModel($this->dbh);
+    $user_infos = new UserInfo($this->dbh);
     $datas = $user_infos->where('UserInfo.id', '=', $id)->find('first');
     $this->set('Title', 'UserInfo Ditail');
     $this->set('UserInfo', $datas['UserInfo']);
@@ -38,7 +38,7 @@ class UserInfoController extends BaseController{
 
   public function create() {
     $this->debug->log("UserInfoController::create()");
-    $user_infos = new UserInfoModel($this->dbh);
+    $user_infos = new UserInfo($this->dbh);
     $form = $user_infos->createForm();
     $this->set('Title', 'UserInfo Create');
     $this->set('UserInfo', $form['UserInfo']);
@@ -48,7 +48,7 @@ class UserInfoController extends BaseController{
     $this->debug->log("UserInfoController::save()");
     try {
       $this->dbh->beginTransaction();
-      $user_infos = new UserInfoModel($this->dbh);
+      $user_infos = new UserInfo($this->dbh);
       $user_infos->save($this->request);
       $this->dbh->commit();
       $url = BASE_URL . 'UserInfo' . '/show/' . $user_infos->primary_key_value . '/';
@@ -66,7 +66,7 @@ class UserInfoController extends BaseController{
       $datas = null;
       $id = $this->request['id'];
 
-      $user_infos = new UserInfoModel($this->dbh);
+      $user_infos = new UserInfo($this->dbh);
       $datas = $user_infos->where('UserInfo.id', '=', $id)->find('first');
       $this->set('Title', 'UserInfo Edit');
       $this->set('UserInfo', $datas['UserInfo']);
@@ -79,7 +79,7 @@ class UserInfoController extends BaseController{
   public function delete() {
     try {
       $this->dbh->beginTransaction();
-      $user_infos = new UserInfoModel($this->dbh);
+      $user_infos = new UserInfo($this->dbh);
       $user_infos->delete($this->request['id']);
       $this->dbh->commit();
       $url = BASE_URL . 'UserInfo' . '/index/';

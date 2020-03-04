@@ -4,7 +4,7 @@
 class Authentication{
   public static function auth(&$dbh, $request){
     $debug = new Logger('DEBUG');
-    $auths = new UserModel($dbh);
+    $auths = new User($dbh);
     $auth = $auths->auth($request);
     if ($auth){
       // $debug->log("Authentication::auth() request:".print_r($request, true));

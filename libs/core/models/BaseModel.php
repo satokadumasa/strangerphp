@@ -166,7 +166,7 @@ class BaseModel {
    */
   public function findHasModelesData(&$datas, $has = null, $primary_keys = null) {
     foreach ($has as $model_name => $options) {
-      $model_class_name = $model_name."Model";
+      $model_class_name = $model_name;
       $obj = new $model_class_name($this->dbh);
       $setDatas = $obj->where($options['foreign_key'], 'IN', $primary_keys)->find();
       $this->setHasModelDatas($model_name, $options['foreign_key'],$datas, $setDatas, $primary_keys);
@@ -185,7 +185,7 @@ class BaseModel {
     foreach ($this->has_many_and_belongs_to as $hasModeName => $options) 
     {
       $belongth_to_model_name = $options['through'];
-      $belongth_to_model_class_name = $belongth_to_model_name."Model";
+      $belongth_to_model_class_name = $belongth_to_model_name;
       $belongth_to_model_class_instance = new $belongth_to_model_class_name($this->dbh);
       $setDatas = $belongth_to_model_class_instance->where($options['foreign_key'], 'IN', $primary_keys)->find();
 
@@ -219,7 +219,7 @@ class BaseModel {
 
     $tmp_sql = '';
     foreach ($this->joins as $model_name => $conditions) {
-      $model_class_name = $model_name . "Model";
+      $model_class_name = $model_name;
       $obj = new $model_class_name($this->dbh);
       $tmp_sql .+ '  ' . StringUtil::camelize($conditions['PARENT']['MODEL_NAME']) . ' as ' . $conditions['PARENT']['MPDEL_NAME'] . ' ';
       $tmp_sql .= '  ' . $conditions['JON'] . ' ' 
@@ -228,21 +228,8 @@ class BaseModel {
     }
     else {
       if (isset($this->belongthTo)) {
-          foreach ($this->belongthTo as $model_name => $relationship_conditions) {
-          $model_class_name = $model_name . "Model";
-          $obj = new $model_class_name($this->dbh);
-          $table_name = $obj->table_name;
-          $join_cond = isset($relationship_conditions['JOIN_COND']) ? $relationship_conditions['JOIN_COND'] : "INNER";
-
-          $relationship_sql = "";
-          foreach ($relationship_conditions['conditions'] as $key => $value) {
-            $sql_tmp = " " . $key . " = " . $value;
-            $relationship_sql .= $relationship_sql ? " AND " .$sql_tmp . " " : " " . $sql_tmp . " ";
-          }
-          $relationship_sql = " " . $join_cond . " JOIN " . $table_name . " as " . $model_name . " on " . $relationship_sql;
-
-          $relationship_conds[] = $relationship_sql;
-          $relationship_columuns[] = ", " . $model_name . ".*";
+        foreach ($this->belongthTo as $model_name => $relationship_conditions) {
+          $this->addRelationshipSql($relationship_sql, $model_name, $relationship_conditions);
         }
       }
     }
@@ -276,6 +263,23 @@ class BaseModel {
     if($this->offset_num > 0) $sql .= " OFFSET " . $this->offset_num . " ";
 
     return $sql;
+  }
+
+  protected function addRelationshipSql($relationship_sql, $model_name, $relationship_conditions) {
+    $model_class_name = $model_name;
+    $obj = new $model_class_name($this->dbh);
+    $table_name = $obj->table_name;
+    $join_cond = isset($relationship_conditions['JOIN_COND']) ? $relationship_conditions['JOIN_COND'] : "INNER";
+
+    $relationship_sql = "";
+    foreach ($relationship_conditions['conditions'] as $key => $value) {
+      $sql_tmp = " " . $key . " = " . $value;
+      $relationship_sql .= $relationship_sql ? " AND " .$sql_tmp . " " : " " . $sql_tmp . " ";
+    }
+    $relationship_sql = " " . $join_cond . " JOIN " . $table_name . " as " . $model_name . " on " . $relationship_sql;
+
+    $relationship_conds[] = $relationship_sql;
+    $relationship_columuns[] = ", " . $model_name . ".*";
   }
 
   /**
@@ -542,7 +546,7 @@ class BaseModel {
     //  隷属するモデルを先に検索・削除する。
     if (isset($this->has)) {
       foreach ($this->has as $model_name => $value) {
-        $model_class_name = $model_name . "Model" ;
+        $model_class_name = $model_name;
         $obj = new $model_class_name($this->dbh);
         $datas = $obj->where($value['foreign_key'] , '=', $id)->find();
         foreach ($datas as $key => $data) {
@@ -647,6 +651,9 @@ class BaseModel {
     return $form;
   }
 
+  /**
+   * Set Join modelse
+   */
   public function join($model_name, $conditions[]) {
     $this->joins[] = [$model_name => $conditions];
     return $this;

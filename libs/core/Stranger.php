@@ -361,7 +361,7 @@ EOM;
     //  テンプレートファイル名作成
     $template_fileatime = SCAFFOLD_TEMPLATE_PATH . 'models/model_template.tpl';
     //  出力先ファイルを開く
-    $out_put_filename =  MODEL_PATH . $this->class_name . 'Model.php';
+    $out_put_filename =  MODEL_PATH . $this->class_name . '.php';
     echo "  create ".$template_fileatime."\n";
     $fp = fopen($out_put_filename, 'w');
     echo "  create ".$out_put_filename."\n";
@@ -378,7 +378,7 @@ EOM;
    *  モデル削除メソッド
    */
   private function modelDestroy(){
-    $out_put_filename =  MODEL_PATH . $this->class_name . 'Model.php';
+    $out_put_filename =  MODEL_PATH . $this->class_name . '.php';
     echo "  rm ".$out_put_filename."\n";
     unlink($out_put_filename);
   }

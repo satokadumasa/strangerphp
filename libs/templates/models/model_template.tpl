@@ -1,8 +1,8 @@
 <?php
-class <!----class_name---->Model extends BaseModel {
+class <!----class_name----> extends BaseModel {
   public $table_name  = '<!----table_name---->';
   public $model_name  = '<!----class_name---->';
-  public $model_class_name  = '<!----class_name---->Model';
+  public $model_class_name  = '<!----class_name---->';
 
   //  Relation
   public $belongthTo = null;

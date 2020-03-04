@@ -31,7 +31,7 @@
 bin/send_notify.php
 apps/controllers/UserController.php
 apps/controllers/RoleController.php
-apps/models/UserModel.php
+apps/models/User.php
 views/User/*
 views/Role/*
 config/development/acc/*

@@ -9,7 +9,7 @@ class BoardController extends BaseController{
   }
 
   public function index() {
-    $boards = new BoardModel($this->dbh);
+    $boards = new Board($this->dbh);
     $limit = 10 * (isset($this->request['page']) ? $this->request['page'] : 1);
     $offset = 10 * (isset($this->request['page']) ? $this->request['page'] - 1 : 0);
 
@@ -29,7 +29,7 @@ class BoardController extends BaseController{
     $datas = null;
     $id = $this->request['id'];
 
-    $boards = new BoardModel($this->dbh);
+    $boards = new Board($this->dbh);
     $datas = $boards->where('Board.id', '=', $id)->find('first');
     $this->set('Title', 'Board Ditail');
     $this->set('Board', $datas['Board']);
@@ -38,7 +38,7 @@ class BoardController extends BaseController{
 
   public function create() {
     $this->debug->log("BoardController::create()");
-    $boards = new BoardModel($this->dbh);
+    $boards = new Board($this->dbh);
     $form = $boards->createForm();
     $this->set('Title', 'Board Create');
     $this->set('Board', $form['Board']);
@@ -48,7 +48,7 @@ class BoardController extends BaseController{
     $this->debug->log("BoardController::save()");
     try {
       $this->dbh->beginTransaction();
-      $boards = new BoardModel($this->dbh);
+      $boards = new Board($this->dbh);
       $boards->save($this->request);
       $this->dbh->commit();
       $url = BASE_URL . 'Board' . '/show/' . $boards->primary_key_value . '/';
@@ -66,7 +66,7 @@ class BoardController extends BaseController{
       $datas = null;
       $id = $this->request['id'];
 
-      $boards = new BoardModel($this->dbh);
+      $boards = new Board($this->dbh);
       $datas = $boards->where('Board.id', '=', $id)->find('first');
       $this->set('Title', 'Board Edit');
       $this->set('Board', $datas['Board']);
@@ -79,7 +79,7 @@ class BoardController extends BaseController{
   public function delete() {
     try {
       $this->dbh->beginTransaction();
-      $boards = new BoardModel($this->dbh);
+      $boards = new Board($this->dbh);
       $boards->delete($this->request['id']);
       $this->dbh->commit();
       $url = BASE_URL . 'Board' . '/index/';
