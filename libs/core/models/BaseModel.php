@@ -221,14 +221,24 @@ class BaseModel {
     foreach ($this->joins as $model_name => $conditions) {
       $obj = new $model_name($this->dbh);
       if ($obj->belongthTo) {
-        foreach($this->belongthTo as $belongthTo) {
-          $tmp_sql .= $belongthTo['JOIN_COND'] . ' JOIN ' . StringUtil::camelize($model_name) . " AS  ${model_name} ON ";
+        foreach($this->belongthTo as $model => $belongthTo) {
+          $tmp_sql .= $belongthTo['JOIN_COND'] . ' JOIN ' . StringUtil::camelize($model) . " AS  ${model} ON ";
           $cond_str = '';
           foreach($belongthTo['CONDIOTIONS'] as $left_$cond => $right_cond) {
             $cond_str .= $cond_str ? '' : ' AND ';
             $cond_str .= " ${left_cond} = ${right_cond} ";
           }
         }
+        $tmp_sql .= $cond_str;
+      }
+
+      if ($obj->has) {
+        foreach($obj->has as $model => $cond) {
+          $tmp_sql .= '  ' . $cond['JOIN_COND'] . ' JOIN ' . StringUtil::camelize($model) . " AS  ${model}  ON ";
+          $cond_str = '';
+          $cond_str .= StringUtil::camelize($model_name) . '.' . $cond['foreign_key'] . '+' StringUtil::camelize($model) . '.id '
+        }
+
       }
       $tmp_sql .+ '  ' . StringUtil::camelize($conditions['PARENT']['MODEL_NAME']) . ' as ' . $conditions['PARENT']['MPDEL_NAME'] . ' ';
       $tmp_sql .= '  ' . $conditions['JON'] . ' ' 
