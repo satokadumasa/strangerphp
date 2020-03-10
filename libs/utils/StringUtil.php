@@ -86,7 +86,6 @@ class StringUtil
     return $singular;
   }
 
-  
   public static function underscore($str)
   {
     return ltrim(strtolower(preg_replace('/[A-Z]/', '_\0', $str)), '_');

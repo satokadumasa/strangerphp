@@ -221,13 +221,8 @@ class BaseModel {
     $relationship_columuns[] = " " . $this->model_name . ".*";
 
     $tmp_sql = '';
-    foreach ($this->joins as $key => $value) {
-      $model_name = is_numeric($key) ? $value : $key;
-      $obj = new $model_name($this->dbh);
-
-      $this->belongthTo($obj $tmp_sql);
-      $this->has($obj, $tmp_sql);
-    }
+    // Generate join cond
+    $this->processJoins($tmp_sql, $this->joins);
     
     $sql = "SELECT ";
     foreach ($relationship_columuns as $value) $sql .= $value;
@@ -260,7 +255,20 @@ class BaseModel {
     return $sql;
   }
 
-  protected function belongthTo($obj, &$tmp_sql) {
+  protected function processJoims(&$tmp_sql, $joins) {
+    foreach($joins as $model_name => $j) {
+      if(is_numeric($model_name)) 
+        $this->processJoins($tmp_sql, $j);
+      else {
+        $model_name = is_numeric($key) ? $value : $key;
+        $obj = new $model_name($this->dbh);
+        $this->joinBelongthTo($obj $tmp_sql);
+        $this->joinHas($obj, $tmp_sql);
+      }
+    }
+  }
+
+  protected function joinBelongthTo($obj, &$tmp_sql) {
    if ($obj->belongthTo) {
       foreach($this->belongthTo as $model => $belongthTo) {
         $tmp_sql .= $belongthTo['JOIN_COND'] . ' JOIN ' . $obj->table_name . " AS  " . $obj->model . " ON ";
@@ -274,13 +282,13 @@ class BaseModel {
     }
   }
 
-  protected function has($obj, &$tmp_sql) {
+  protected function joinHas($obj, &$tmp_sql) {
     if ($obj->has) {
-      foreach($obj->has as $model => $cond) {
+      foreach($obj->has as $model_name => $cond) {
+        $cond_str == '';
         $tmp_sql .= '  ' . $cond['JOIN_COND'] . ' JOIN ' . $obj->table_name . ' AS ' 
-          . $obj->model_name . ' ON ' . StringUtil::camelize($model) . ' ';
-        $cond_str = '';
-        $cond_str .= StringUtil::camelize($obj->model_name) . '.' . $cond['foreign_key'] . '+' StringUtil::camelize($model) .'.' $cond['FOREIGN_KEY'] . ' ';
+          . $obj->model_name . ' ON ' . $relate->table_name . '.' . $cond[''] . ' ';
+        $tmp_sql .= StringUtil::camelize($obj->model_name) . '.' . $cond['FOREIGN_KEY'] . ' ';
       }
     }
 
