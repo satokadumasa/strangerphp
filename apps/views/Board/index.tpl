@@ -4,6 +4,14 @@
 <div class="detail">
   <div class='detail_rows'>
     <div class='label_clumn'>
+      Board user_id
+    </div>
+    <div class='input_clumn'>
+      <!----value:Board:user_id---->
+    </div>
+  </div>
+  <div class='detail_rows'>
+    <div class='label_clumn'>
       Board title
     </div>
     <div class='input_clumn'>

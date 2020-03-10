@@ -23,7 +23,7 @@ class BaseModel {
   public $primary_key_value = null;
   protected $joins = [];
   /**
-   *  コンストラクタ  
+   *  コンストラクタ
    *
    *  @param PDOObject &$dbh データベース接続ハンドラ
    */
@@ -59,7 +59,7 @@ class BaseModel {
    *  @return BaseModel $this
    */
   public function setDbh (&$dbh) {
-    if ($dbh == null || $dbh == '') throw new Exception("DataBase handle is null.", 1);
+    if ($dbh == null || $dbh == '') throw new \Exception("DataBase handle is null.", 1);
     $this->dbh = $dbh;
     return $this;
   }
@@ -68,7 +68,7 @@ class BaseModel {
 
   /**
    *  モデルの検索
-   * 
+   *
    *  @param string $type 'all':全件 'first':先頭一件
    *  @return array $datas 検索結果データ格納配列
    */
@@ -158,7 +158,7 @@ class BaseModel {
 
   /**
    *  HasOne/HasManyなモデルの検索
-   * 
+   *
    *  @param array &$data 検索結果データ格納配列
    *  @param array $has 子モデル
    *  @param array $primary_keys 検索親IDs
@@ -180,18 +180,18 @@ class BaseModel {
    *  @param array $primary_keys 検索親IDs
    *  @retrun none
    */
-  public function findHasManyAndBelongsTo(&$datas, $primary_keys = null) 
+  public function findHasManyAndBelongsTo(&$datas, $primary_keys = null)
   {
-    foreach ($this->has_many_and_belongs_to as $hasModeName => $options) 
+    foreach ($this->has_many_and_belongs_to as $hasModeName => $options)
     {
       $belongth_to_model_name = $options['through'];
       $belongth_to_model_class_name = $belongth_to_model_name;
       $belongth_to_model_class_instance = new $belongth_to_model_class_name($this->dbh);
       $setDatas = $belongth_to_model_class_instance->where($options['foreign_key'], 'IN', $primary_keys)->find();
 
-      foreach ($belongth_to_model_class_instance->belongthTo as $model_name => $value) 
+      foreach ($belongth_to_model_class_instance->belongthTo as $model_name => $value)
       {
-        if ($hasModeName === $model_name) 
+        if ($hasModeName === $model_name)
         {
           foreach ($primary_keys as $primary_key) {
             foreach ($setDatas as $setData) {
@@ -222,9 +222,10 @@ class BaseModel {
 
     $tmp_sql = '';
     // Generate join cond
-    $this->processJoins($tmp_sql, $this->joins);
-    
+    $tmp_sql = $this->processJoins($tmp_sql, $this->joins);
+
     $sql = "SELECT ";
+
     foreach ($relationship_columuns as $value) $sql .= $value;
 
     $sql .= " FROM " . $this->table_name . " as " . $this->model_name . " ";
@@ -249,50 +250,54 @@ class BaseModel {
       }
     }
 
-    if($this->limit_num > 0) $sql .= " LIMIT " . $this->limit_num ." "; 
+    if($this->limit_num > 0) $sql .= " LIMIT " . $this->limit_num ." ";
     if($this->offset_num > 0) $sql .= " OFFSET " . $this->offset_num . " ";
 
     return $sql;
   }
 
-  protected function processJoims(&$tmp_sql, $joins) {
-    foreach($joins as $model_name => $j) {
-      if(is_numeric($model_name)) 
-        $this->processJoins($tmp_sql, $j);
-      else {
-        $model_name = is_numeric($key) ? $value : $key;
+  /**
+   *
+   */
+  public function processJoins($tmp_sql, $joins) {
+    foreach($joins as $model_name => $join) {
+      if(!is_numeric($model_name)) {
+        $model_name = is_numeric($model_name) ? $join : $model_name;
         $obj = new $model_name($this->dbh);
-        $this->joinBelongthTo($obj $tmp_sql);
-        $this->joinHas($obj, $tmp_sql);
-      }
-    }
-  }
-
-  protected function joinBelongthTo($obj, &$tmp_sql) {
-   if ($obj->belongthTo) {
-      foreach($this->belongthTo as $model => $belongthTo) {
-        $tmp_sql .= $belongthTo['JOIN_COND'] . ' JOIN ' . $obj->table_name . " AS  " . $obj->model . " ON ";
-        $cond_str = '';
-        foreach($belongthTo['CONDIOTIONS'] as $left_$cond => $right_cond) {
-          $cond_str .= $cond_str ? '' : ' AND ';
-          $cond_str .= " ${left_cond} = ${right_cond} ";
+        if(array_key_exists($model_name, $this->belongthTo)){
+          $tmp_sql = $this->joinBelongthTo($obj, $join, $tmp_sql);
+          continue;
+        }
+        if(array_key_exists($model_name, $this->has)) {
+          $tmp_sql = $this->joinHas($obj, $join, $tmp_sql);
+          continue;
         }
       }
-      $tmp_sql .= $cond_str;
     }
+    return $tmp_sql;
   }
 
-  protected function joinHas($obj, &$tmp_sql) {
-    if ($obj->has) {
-      foreach($obj->has as $model_name => $cond) {
-        $cond_str == '';
-        $tmp_sql .= '  ' . $cond['JOIN_COND'] . ' JOIN ' . $obj->table_name . ' AS ' 
-          . $obj->model_name . ' ON ' . $relate->table_name . '.' . $cond[''] . ' ';
-        $tmp_sql .= StringUtil::camelize($obj->model_name) . '.' . $cond['FOREIGN_KEY'] . ' ';
+  public function joinBelongthTo($obj, $joins, $tmp_sql) {
+    foreach($this->belongthTo as $model => $belongthTo) {
+      $tmp_sql .= $belongthTo['JOIN_COND'] . ' JOIN ' . $obj->table_name . " AS  " . $obj->model . " ON ";
+      $cond_str = '';
+      foreach($belongthTo['CONDIOTIONS'] as $left_cond => $right_cond) {
+        $cond_str .= $cond_str ? '' : ' AND ';
+        $cond_str .= " ${left_cond} = ${right_cond} ";
       }
     }
+    $tmp_sql .= $cond_str;
+    $tmp_sql = $obj->processJoins($tmp_sql, $joins);
+    return $tmp_sql;
+  }
 
-    $tmp_sql .= $tmp_sql . $cond_str;
+  public function joinHas($obj, $joins, $tmp_sql) {
+    foreach($obj->has as $model_name => $cond) {
+      $tmp_sql .= '  ' . $cond['JOIN_COND'] . ' JOIN ' . $obj->table_name . ' AS ' . $obj->model_name .' ';
+      $tmp_sql .= ' ON ' . $obj->table_name . '.' . $cond['FOREING_KEY'] . '=' .$thid->table_name . '.' . $thid->primary_key . ' ';
+    }
+    $tmp_sql = $obj->processJoins($tmp_sql, $joins);
+    return $tmp_sql;
   }
 
   protected function addRelationshipSql($relationship_sql, $model_name, $relationship_conditions) {
@@ -328,7 +333,7 @@ class BaseModel {
       if (is_array($condition['value'])) {
         // $arr = implode(",", $condition['value']);
         $value = "";
-        
+
         $col_arr = explode('.', $condition['column_name']);
         foreach ($condition['value'] as $k => $v) {
           $val = $this->setValue($col_arr[count($col_arr) - 1], $v);
@@ -361,11 +366,11 @@ class BaseModel {
    *  @retrun BaseModel $this
    */
   public function where($column_name, $operator, $value) {
-    $this->conditions[] = array(
-      'column_name' => $column_name, 
-      'operator' => $operator, 
-      'value' => $value, 
-    );
+    $this->conditions[] = [
+      'column_name' => $column_name,
+      'operator' => $operator,
+      'value' => $value,
+    ];
     return $this;
   }
 
@@ -410,8 +415,8 @@ class BaseModel {
   public function pagenate($page){
     if (!is_int($page)) throw new Exception("Error Processing Request", 1);
     if ($page > 0 && $this->max_rows > 0) {
-      $this->limit_num = $this->max_rows * $page; 
-      $this->offset_num = $this->max_rows * ($page - 1); 
+      $this->limit_num = $this->max_rows * $page;
+      $this->offset_num = $this->max_rows * ($page - 1);
     }
     return $this;
   }
@@ -450,8 +455,8 @@ class BaseModel {
 
   //  新規登録・更新処理
   /**
-   *  新規登録・更新処理 
-   * 
+   *  新規登録・更新処理
+   *
    *  @param array $form  フォーム入力値
    */
   public function save($form) {
@@ -462,9 +467,9 @@ class BaseModel {
 
       $this->validation($form);
       if (
-        isset($form[$this->model_name][$this->primary_key]) && 
+        isset($form[$this->model_name][$this->primary_key]) &&
         (
-          $form[$this->model_name][$this->primary_key] != '' || 
+          $form[$this->model_name][$this->primary_key] != '' ||
           $form[$this->model_name][$this->primary_key] != null
         )
       ) {
@@ -474,7 +479,7 @@ class BaseModel {
         unset($form[$this->model_name][$this->primary_key]);
         $sql = $this->createInsertSql();  // CASE INSERT
       }
-      
+
       if($this->has){
         $hssModels = array_keys($this->has);
       }
@@ -521,7 +526,7 @@ class BaseModel {
             } else {
               $this->saveHasModel($model_name, $id, $value);
             }
-          } 
+          }
           else
             continue;
         }
@@ -539,7 +544,7 @@ class BaseModel {
       if ($col_name === $this->primary_key) continue;
 
       $colums_str .= $colums_str ? ", " . $col_name : $col_name;
-      if ($col_name === 'created_at' || $col_name === 'modified_at') 
+      if ($col_name === 'created_at' || $col_name === 'modified_at')
         $values_str .= $values_str ? ", NOW()" : "NOW()";
       else
         $values_str .= $values_str ? ", :".$col_name : ":".$col_name;
@@ -656,7 +661,7 @@ class BaseModel {
   }
 
   /**
-   *  Array/Hash判定メソッド 
+   *  Array/Hash判定メソッド
    *
    *  @param Object $data 判定対象オブジェクト
    *  @return boolean

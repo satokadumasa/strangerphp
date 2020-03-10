@@ -23,12 +23,14 @@ class Stranger {
     try {
       echo "  try connect\n";
       $database = $conf['default_database'];
+      $this->debug->log("Stranger::execMigration() database:".print_r($database, true));
       $this->default_database = $database;
       $this->dbConnect = new DbConnect();
       $this->dbConnect->setConnectionInfo($database);
       $this->dbh = $this->dbConnect->createConnection();
       echo "  connected\n";
       echo "  Stranger::con() end\n";
+      $this->debug->log("Stranger::execMigration() database:".print_r($this->dbh, true));
     } catch (PDOException $e) {
       echo "  can not connect to database\n";
       echo "  >>>>".$e->getMessage()."\n";
@@ -255,12 +257,17 @@ EOM;
   }
 
   public function execMigration(){
+    echo "  execMigration Start\n";
     try{
-      $this->debug->log("Stranger::execMigration() Start");
+      $this->debug->log("Stranger::execMigration() Start\n");
       $migration_files = $this->getFileList(MIGRATION_PATH);
-      $migrate = new MigrationModel($this->dbh);
+      $this->debug->log("Stranger::execMigration() dbh:".print_r($this->dbh, true));
+      $this->debug->log("Stranger::execMigration() CH-01\n");
+      $migrate = new Migration($this->dbh);
+      $this->debug->log("Stranger::execMigration() CH-02\n");
       $versions = [];
       if(isset($this->argv[2])) $versions = explode('=', $this->argv[2]);
+      $this->debug->log("Stranger::execMigration() CH-03\n");
       if (isset($this->argv[2]) && $versions[0] == 'version') {
         echo "    Migrate drop table and add column.\n";
         $this->debug->log("Stranger::execMigration() Migrate drop table and add column");
@@ -305,6 +312,7 @@ EOM;
         }
       }
     } catch (Exception $e) {
+      $this->debug->log("Stranger::execMigration() error:".$e->getMessage());
       echo "Stranger::execMigration() error\n";
       echo "  >>>>".$e->getMessage()."\n";
     }
