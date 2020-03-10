@@ -208,6 +208,9 @@ class BaseModel {
   /**
    *  検索SQL生成処理
    *
+   *  $user = new User();
+   *  $user->join('UserInfo' => ['Pref','City'], 'Job', 'Role');
+   *
    *  @retrun string $sql
    */
   private function createFindSql(){
@@ -218,39 +221,12 @@ class BaseModel {
     $relationship_columuns[] = " " . $this->model_name . ".*";
 
     $tmp_sql = '';
-    foreach ($this->joins as $model_name => $conditions) {
+    foreach ($this->joins as $key => $value) {
+      $model_name = is_numeric($key) ? $value : $key;
       $obj = new $model_name($this->dbh);
-      if ($obj->belongthTo) {
-        foreach($this->belongthTo as $model => $belongthTo) {
-          $tmp_sql .= $belongthTo['JOIN_COND'] . ' JOIN ' . StringUtil::camelize($model) . " AS  ${model} ON ";
-          $cond_str = '';
-          foreach($belongthTo['CONDIOTIONS'] as $left_$cond => $right_cond) {
-            $cond_str .= $cond_str ? '' : ' AND ';
-            $cond_str .= " ${left_cond} = ${right_cond} ";
-          }
-        }
-        $tmp_sql .= $cond_str;
-      }
 
-      if ($obj->has) {
-        foreach($obj->has as $model => $cond) {
-          $tmp_sql .= '  ' . $cond['JOIN_COND'] . ' JOIN ' . StringUtil::camelize($model) . " AS  ${model}  ON ";
-          $cond_str = '';
-          $cond_str .= StringUtil::camelize($model_name) . '.' . $cond['foreign_key'] . '+' StringUtil::camelize($model) . '.id '
-        }
-
-      }
-      $tmp_sql .+ '  ' . StringUtil::camelize($conditions['PARENT']['MODEL_NAME']) . ' as ' . $conditions['PARENT']['MPDEL_NAME'] . ' ';
-      $tmp_sql .= '  ' . $conditions['JON'] . ' ' 
-        . $conditions['PARENT']['MODEL_NAME'] . '.' . $conditions['PARENT']['COLUMNS'] .'=' 
-        . $conditions['CHILD']['MODEL_NAME']. '.' . $conditions['CHILD']['COLUMNS'] .' ';
-    }
-    else {
-      if (isset($this->belongthTo)) {
-        foreach ($this->belongthTo as $model_name => $relationship_conditions) {
-          $this->addRelationshipSql($relationship_sql, $model_name, $relationship_conditions);
-        }
-      }
+      $this->belongthTo($obj $tmp_sql);
+      $this->has($obj, $tmp_sql);
     }
     
     $sql = "SELECT ";
@@ -282,6 +258,33 @@ class BaseModel {
     if($this->offset_num > 0) $sql .= " OFFSET " . $this->offset_num . " ";
 
     return $sql;
+  }
+
+  protected function belongthTo($obj, &$tmp_sql) {
+   if ($obj->belongthTo) {
+      foreach($this->belongthTo as $model => $belongthTo) {
+        $tmp_sql .= $belongthTo['JOIN_COND'] . ' JOIN ' . $obj->table_name . " AS  " . $obj->model . " ON ";
+        $cond_str = '';
+        foreach($belongthTo['CONDIOTIONS'] as $left_$cond => $right_cond) {
+          $cond_str .= $cond_str ? '' : ' AND ';
+          $cond_str .= " ${left_cond} = ${right_cond} ";
+        }
+      }
+      $tmp_sql .= $cond_str;
+    }
+  }
+
+  protected function has($obj, &$tmp_sql) {
+    if ($obj->has) {
+      foreach($obj->has as $model => $cond) {
+        $tmp_sql .= '  ' . $cond['JOIN_COND'] . ' JOIN ' . $obj->table_name . ' AS ' 
+          . $obj->model_name . ' ON ' . StringUtil::camelize($model) . ' ';
+        $cond_str = '';
+        $cond_str .= StringUtil::camelize($obj->model_name) . '.' . $cond['foreign_key'] . '+' StringUtil::camelize($model) .'.' $cond['FOREIGN_KEY'] . ' ';
+      }
+    }
+
+    $tmp_sql .= $tmp_sql . $cond_str;
   }
 
   protected function addRelationshipSql($relationship_sql, $model_name, $relationship_conditions) {
