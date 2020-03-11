@@ -689,7 +689,7 @@ class BaseModel {
   /**
    * Set Join modelse
    */
-  public function join($model_name, $conditions[]) {
+  public function contain($model_name, $conditions[]) {
     $this->joins[] = [$model_name => $conditions];
     return $this;
   }
