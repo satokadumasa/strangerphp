@@ -2,48 +2,42 @@ user_infos:
   id:
     type: int
     length: 8
-    null: false
+    null: 'false'
     key: PRI
     default: null
-  first_name:
-    type: string
-    length: 64
-    null: false
-    key: ""
-    default: null
-  last_name:
-    type: string
-    length: 64
-    null: false
-    key: ""
-    default: null
-  pref_id:
+  user_id:
     type: int
-    length: 8
-    null: false
+    length: "10"
+    null: 'true'
     key: ""
-    default: null
-  city:
+    default: ""
+  username:
     type: string
-    length: 32
-    null: false
+    length: "128"
+    null: 'true'
     key: ""
-    default: null
-  address:
+    default: ""
+  addres:
     type: string
-    length: 64
-    null: false
+    length: "128"
+    null: 'true'
     key: ""
-    default: null
+    default: ""
+  detail:
+    type: text
+    length: "3000"
+    null: 'true'
+    key: ""
+    default: ""
   created_at:
     type: datetime
     length: 19
-    null: false
-    key: PRI
+    null: 'false'
+    key: ""
     default: null
   modified_at:
     type: datetime
     length: 19
-    null: false
-    key: PRI
+    null: 'false'
+    key: ""
     default: null

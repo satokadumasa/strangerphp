@@ -495,7 +495,7 @@ EOM;
         $table_config[$this->argv[3]]['id'] = [
             'type'    => 'int'
           , 'length'  => 8
-          , 'null'    => 'false'
+          , 'null'    => false
           , 'key'     => 'PRI'
           , 'default' => null
         ];
@@ -507,7 +507,7 @@ EOM;
         $table_config[$this->argv[3]][$column_conf[0]] = [
             'type'    => $column_conf[1]
           , 'length'  => $column_conf[2]
-          , 'null'    => $column_conf[3] ? 'true' : 'false'
+          , 'null'    => $column_conf[3] == 'true' ? true : false
           , 'key'     => $column_conf[4] ? 'PRI' : ''
           , 'default' => $column_conf[5] ? $this->argv[$j][5] : ''
         ];

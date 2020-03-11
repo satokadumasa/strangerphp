@@ -5,27 +5,33 @@ boards:
     null: false
     key: PRI
     default: null
+  user_id:
+    type: int
+    length: "10"
+    null: true
+    key: ""
+    default: ""
   title:
     type: string
-    length: 128
-    null: false
+    length: "128"
+    null: true
     key: ""
-    default: null
+    default: ""
   body:
     type: text
-    length: 3000
-    null: false
+    length: "3000"
+    null: true
     key: ""
-    default: null
+    default: ""
   created_at:
     type: datetime
     length: 19
     null: false
-    key: PRI
+    key: ""
     default: null
   modified_at:
     type: datetime
     length: 19
     null: false
-    key: PRI
+    key: ""
     default: null

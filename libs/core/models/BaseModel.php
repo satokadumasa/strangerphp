@@ -82,7 +82,6 @@ class BaseModel {
 
     $this->debug->log("BaseModel::find() sql:".$sql);
     $stmt = $this->dbh->prepare($sql);
-
     foreach ($this->conditions as $k => $v) {
       $arr = explode('.', $v['column_name']);
       $value = $v['value'];
@@ -298,6 +297,10 @@ class BaseModel {
     }
     $tmp_sql = $obj->processJoins($tmp_sql, $joins);
     return $tmp_sql;
+  }
+
+  public function select($columns)
+  {
   }
 
   protected function addRelationshipSql($relationship_sql, $model_name, $relationship_conditions) {
@@ -689,8 +692,10 @@ class BaseModel {
   /**
    * Set Join modelse
    */
+  /*
   public function contain($model_name, $conditions[]) {
     $this->joins[] = [$model_name => $conditions];
     return $this;
   }
+   */
 }
