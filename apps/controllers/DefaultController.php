@@ -8,6 +8,8 @@ class DefaultController extends BaseController {
 
   public function index() {
     $this->set('action_name', 'Home');
+    $user = new User();
+    $user->contain(['UserInfo','Board' => ['Page]])->find();
     $this->set('Title', 'Home');
     $this->set('datas', null);
   }

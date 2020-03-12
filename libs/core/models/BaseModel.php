@@ -280,7 +280,7 @@ class BaseModel {
     foreach($this->belongthTo as $model => $belongthTo) {
       $tmp_sql .= $belongthTo['JOIN_COND'] . ' JOIN ' . $obj->table_name . " AS  " . $obj->model . " ON ";
       $cond_str = '';
-      foreach($belongthTo['CONDIOTIONS'] as $left_cond => $right_cond) {
+      foreach($belongthTo['CONDITIONS'] as $left_cond => $right_cond) {
         $cond_str .= $cond_str ? '' : ' AND ';
         $cond_str .= " ${left_cond} = ${right_cond} ";
       }
@@ -692,10 +692,9 @@ class BaseModel {
   /**
    * Set Join modelse
    */
-  /*
-  public function contain($model_name, $conditions[]) {
-    $this->joins[] = [$model_name => $conditions];
+  public function contain($joins = []) 
+  {
+    $this->joins = $joins;
     return $this;
   }
-   */
 }
