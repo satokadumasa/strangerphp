@@ -7,9 +7,12 @@ class DefaultController extends BaseController {
   }
 
   public function index() {
+    $this->debug->log("DefaultController::index() START");
     $this->set('action_name', 'Home');
-    $user = new User();
-    $user->contain(['UserInfo','Board' => ['Page]])->find();
+    $this->debug->log("DefaultController::index() CH-01");
+    $user = new User($this->dbh);
+    $user->contain(['UserInfo','Board' => ['Page']])->find();
+    $this->debug->log("DefaultController::index() CH-01");
     $this->set('Title', 'Home');
     $this->set('datas', null);
   }

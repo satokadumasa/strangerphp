@@ -251,6 +251,8 @@ class BaseModel {
 
     if($this->limit_num > 0) $sql .= " LIMIT " . $this->limit_num ." ";
     if($this->offset_num > 0) $sql .= " OFFSET " . $this->offset_num . " ";
+    
+    $this->debug->log("BaseModel::__construct() sql:" . $sql);
 
     return $sql;
   }
@@ -263,6 +265,7 @@ class BaseModel {
       if(!is_numeric($model_name)) {
         $model_name = is_numeric($model_name) ? $join : $model_name;
         $obj = new $model_name($this->dbh);
+        $this->debug->log("BaseModel::processJoin() model_name[${model_name}]");
         if(array_key_exists($model_name, $this->belongthTo)){
           $tmp_sql = $this->joinBelongthTo($obj, $join, $tmp_sql);
           continue;
@@ -278,6 +281,7 @@ class BaseModel {
 
   public function joinBelongthTo($obj, $joins, $tmp_sql) {
     foreach($this->belongthTo as $model => $belongthTo) {
+      $this->debug->log("BaseModel::joinBelongthTo() model_name[${model_name}]");
       $tmp_sql .= $belongthTo['JOIN_COND'] . ' JOIN ' . $obj->table_name . " AS  " . $obj->model . " ON ";
       $cond_str = '';
       foreach($belongthTo['CONDITIONS'] as $left_cond => $right_cond) {
@@ -694,6 +698,7 @@ class BaseModel {
    */
   public function contain($joins = []) 
   {
+    $this->debug->log("BaseModel::contain() sql:" . print_r($joins, true));
     $this->joins = $joins;
     return $this;
   }

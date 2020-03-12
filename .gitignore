@@ -29,10 +29,10 @@ app/controllers/*
 !UserController.php
 !UserInfoController.php
 apps/models/
-!AuthModel.php
-!RoleModel.php
-!UserInfoModel.php
-!UserModel.php
+!Auth.php
+!Role.php
+!UserInfo.php
+!User.php
 apps/views/*
 !.gitkeep
 !Default
