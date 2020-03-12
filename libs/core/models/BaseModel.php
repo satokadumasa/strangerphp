@@ -73,6 +73,8 @@ class BaseModel {
    *  @return array $datas 検索結果データ格納配列
    */
   public function find($type = 'all') {
+    $this->debug->log("------------------------------------------------------");
+    $this->debug->log("BaseModel::find() START");
     $datas = [];
     $primary_keys = [];
 
@@ -123,14 +125,14 @@ class BaseModel {
       $datas[$data[$this->model_name][$this->primary_key]] = $data;
     }
 
-    if (count($primary_keys) > 0) {
-      if ($this->has){
-        $this->findHasModelesData($datas, $this->has, $primary_keys);
-      }
-      if ($this->has_many_and_belongs_to) {
-        $this->findHasManyAndBelongsTo($datas, $primary_keys);
-      }
-    }
+    // if (count($primary_keys) > 0) {
+    //   if ($this->has){
+    //     $this->findHasModelesData($datas, $this->has, $primary_keys);
+    //   }
+    //   if ($this->has_many_and_belongs_to) {
+    //     $this->findHasManyAndBelongsTo($datas, $primary_keys);
+    //   }
+    // }
     if ($type === 'first') {
       if (!isset($primary_keys[0])) return false;
       $id = $primary_keys[0];
@@ -163,14 +165,14 @@ class BaseModel {
    *  @param array $primary_keys 検索親IDs
    *  @retrun none
    */
-  public function findHasModelesData(&$datas, $has = null, $primary_keys = null) {
-    foreach ($has as $model_name => $options) {
-      $model_class_name = $model_name;
-      $obj = new $model_class_name($this->dbh);
-      $setDatas = $obj->where($options['foreign_key'], 'IN', $primary_keys)->find();
-      $this->setHasModelDatas($model_name, $options['foreign_key'],$datas, $setDatas, $primary_keys);
-    }
-  }
+  // public function findHasModelesData(&$datas, $has = null, $primary_keys = null) {
+  //   foreach ($has as $model_name => $options) {
+  //     $model_class_name = $model_name;
+  //     $obj = new $model_class_name($this->dbh);
+  //     $setDatas = $obj->where($options['foreign_key'], 'IN', $primary_keys)->find();
+  //     $this->setHasModelDatas($model_name, $options['foreign_key'],$datas, $setDatas, $primary_keys);
+  //   }
+  // }
 
   /**
    *  HasManyAndBelongsToなモデルの検索
@@ -179,30 +181,30 @@ class BaseModel {
    *  @param array $primary_keys 検索親IDs
    *  @retrun none
    */
-  public function findHasManyAndBelongsTo(&$datas, $primary_keys = null)
-  {
-    foreach ($this->has_many_and_belongs_to as $hasModeName => $options)
-    {
-      $belongth_to_model_name = $options['through'];
-      $belongth_to_model_class_name = $belongth_to_model_name;
-      $belongth_to_model_class_instance = new $belongth_to_model_class_name($this->dbh);
-      $setDatas = $belongth_to_model_class_instance->where($options['foreign_key'], 'IN', $primary_keys)->find();
+  // public function findHasManyAndBelongsTo(&$datas, $primary_keys = null)
+  // {
+  //   foreach ($this->has_many_and_belongs_to as $hasModeName => $options)
+  //   {
+  //     $belongth_to_model_name = $options['through'];
+  //     $belongth_to_model_class_name = $belongth_to_model_name;
+  //     $belongth_to_model_class_instance = new $belongth_to_model_class_name($this->dbh);
+  //     $setDatas = $belongth_to_model_class_instance->where($options['foreign_key'], 'IN', $primary_keys)->find();
 
-      foreach ($belongth_to_model_class_instance->belongthTo as $model_name => $value)
-      {
-        if ($hasModeName === $model_name)
-        {
-          foreach ($primary_keys as $primary_key) {
-            foreach ($setDatas as $setData) {
-              if ($setData[$this->model_name][$this->primary_key] == $primary_key) {
-                $datas[$setData[$this->model_name][$this->primary_key]][$this->model_name][$model_name][][$model_name] = $setData[$model_name];
-              }
-            }
-          }
-        }
-      }
-    }
-  }
+  //     foreach ($belongth_to_model_class_instance->belongthTo as $model_name => $value)
+  //     {
+  //       if ($hasModeName === $model_name)
+  //       {
+  //         foreach ($primary_keys as $primary_key) {
+  //           foreach ($setDatas as $setData) {
+  //             if ($setData[$this->model_name][$this->primary_key] == $primary_key) {
+  //               $datas[$setData[$this->model_name][$this->primary_key]][$this->model_name][$model_name][][$model_name] = $setData[$model_name];
+  //             }
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
 
   /**
    *  検索SQL生成処理
@@ -213,6 +215,7 @@ class BaseModel {
    *  @retrun string $sql
    */
   private function createFindSql(){
+    $this->debug->log("BaseModel::createFindSql() model_name:" . $this->model_name);
     $sql = null;
     $relationship_conds = [];
     $relationship_columuns = [];
@@ -222,6 +225,7 @@ class BaseModel {
     $tmp_sql = '';
     // Generate join cond
     $tmp_sql = $this->processJoins($tmp_sql, $this->joins);
+    $this->debug->log("BaseModel::createFindSql() tmp_sql[${tmp_sql}]");
 
     $sql = "SELECT ";
 
@@ -236,6 +240,9 @@ class BaseModel {
     foreach ($relationship_conds as $value) {
       $sql .= $value;
     }
+
+    $sql .= $tmp_sql ? " ${tmp_sql} " : '';
+    $this->debug->log("BaseModel::createFindSql() sql(1):[${sql}]");
 
     $sql .= $this->createCondition();
 
@@ -252,7 +259,7 @@ class BaseModel {
     if($this->limit_num > 0) $sql .= " LIMIT " . $this->limit_num ." ";
     if($this->offset_num > 0) $sql .= " OFFSET " . $this->offset_num . " ";
     
-    $this->debug->log("BaseModel::__construct() sql:" . $sql);
+    $this->debug->log("BaseModel::createFindSql() sql:" . $sql);
 
     return $sql;
   }
@@ -262,24 +269,25 @@ class BaseModel {
    */
   public function processJoins($tmp_sql, $joins) {
     foreach($joins as $model_name => $join) {
-      if(!is_numeric($model_name)) {
-        $model_name = is_numeric($model_name) ? $join : $model_name;
-        $obj = new $model_name($this->dbh);
-        $this->debug->log("BaseModel::processJoin() model_name[${model_name}]");
-        if(array_key_exists($model_name, $this->belongthTo)){
-          $tmp_sql = $this->joinBelongthTo($obj, $join, $tmp_sql);
-          continue;
-        }
-        if(array_key_exists($model_name, $this->has)) {
-          $tmp_sql = $this->joinHas($obj, $join, $tmp_sql);
-          continue;
-        }
+      $model_name = !is_numeric($model_name) ? $model_name : $join;
+      $obj = new $model_name($this->dbh);
+
+      if(array_key_exists($model_name, $this->belongthTo)){
+        $this->debug->log("BaseModel::processJoin() ");
+        $tmp_sql = $this->joinBelongthTo($obj, $join, $tmp_sql);
+        continue;
+      }
+      if(array_key_exists($model_name, $this->has)) {
+        $tmp_sql = $this->joinHas($obj, $join, $tmp_sql);
+        continue;
       }
     }
     return $tmp_sql;
   }
 
   public function joinBelongthTo($obj, $joins, $tmp_sql) {
+    $this->debug->log("BaseModel::joinBelongthTo() tmp_sql(1):" . $tmp_sql);
+    $this->debug->log("BaseModel::joinBelongthTo() joins:" . print_r($joins, true));
     foreach($this->belongthTo as $model => $belongthTo) {
       $this->debug->log("BaseModel::joinBelongthTo() model_name[${model_name}]");
       $tmp_sql .= $belongthTo['JOIN_COND'] . ' JOIN ' . $obj->table_name . " AS  " . $obj->model . " ON ";
@@ -290,17 +298,16 @@ class BaseModel {
       }
     }
     $tmp_sql .= $cond_str;
-    $tmp_sql = $obj->processJoins($tmp_sql, $joins);
-    return $tmp_sql;
+    $this->debug->log("BaseModel::joinBelongthTo() tmp_sql(2):" . $tmp_sql);
+    return $obj->processJoins($tmp_sql, $joins);
   }
 
   public function joinHas($obj, $joins, $tmp_sql) {
     foreach($obj->has as $model_name => $cond) {
-      $tmp_sql .= '  ' . $cond['JOIN_COND'] . ' JOIN ' . $obj->table_name . ' AS ' . $obj->model_name .' ';
-      $tmp_sql .= ' ON ' . $obj->table_name . '.' . $cond['FOREING_KEY'] . '=' .$thid->table_name . '.' . $thid->primary_key . ' ';
+      $tmp_sql .= ' ' . $cond['JOIN_COND'] . ' JOIN ' . $obj->table_name . ' AS ' . $obj->model_name .' ';
+      $tmp_sql .= ' ON ' . $obj->model_name . '.' . $cond['FOREIGN_KEY'] . '=' .$this->model_name . '.' . $this->primary_key . ' ';
     }
-    $tmp_sql = $obj->processJoins($tmp_sql, $joins);
-    return $tmp_sql;
+    return $obj->processJoins($tmp_sql, $joins);
   }
 
   public function select($columns)
@@ -698,7 +705,7 @@ class BaseModel {
    */
   public function contain($joins = []) 
   {
-    $this->debug->log("BaseModel::contain() sql:" . print_r($joins, true));
+    $this->debug->log("BaseModel::contain() joins:" . print_r($joins, true));
     $this->joins = $joins;
     return $this;
   }

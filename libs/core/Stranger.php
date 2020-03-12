@@ -254,6 +254,7 @@ EOM;
     $this->modelDestroy();
     $this->maigrateDestroy();
     $this->templateDestroy();
+    $this->schemaFileDestroy();
   }
 
   public function execMigration(){
@@ -473,6 +474,18 @@ EOM;
     }
   }
 
+  private function schemaFileDestroy()
+  {
+    $file_list = $this->getFileList(SCHEMA_PATH);
+    $schema_file_name = $this->table_name . '.yaml';
+    foreach ($file_list as $key => $value) {
+      if (strpos($value, $schema_file_name)) {
+        unlink($value);
+        break;
+      }
+    }
+  }
+
   // geterate generateTableConfig()
   /**
    * Generate or Update Schema File.
@@ -494,7 +507,7 @@ EOM;
       else {
         $table_config[$this->argv[3]]['id'] = [
             'type'    => 'int'
-          , 'length'  => 8
+          , 'length'  => 10
           , 'null'    => false
           , 'key'     => 'PRI'
           , 'default' => null
@@ -506,7 +519,7 @@ EOM;
 
         $table_config[$this->argv[3]][$column_conf[0]] = [
             'type'    => $column_conf[1]
-          , 'length'  => $column_conf[2]
+          , 'length'  => intval($column_conf[2])
           , 'null'    => $column_conf[3] == 'true' ? true : false
           , 'key'     => $column_conf[4] ? 'PRI' : ''
           , 'default' => $column_conf[5] ? $this->argv[$j][5] : ''
