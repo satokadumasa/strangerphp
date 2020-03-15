@@ -12,8 +12,24 @@ class DefaultController extends BaseController {
 
     $this->debug->log("DefaultController::index() CH-01");
     $user = new User($this->dbh);
-    $user->contain(['UserInfo','Board' => ['Page']])->find();
     $this->debug->log("DefaultController::index() CH-02");
+    $this->debug->log("DefaultController::index() user:".print_r($user, true));
+    $user->contain(['UserInfo','Board' => ['Page']])
+      ->select([
+        'User' => [
+          'id',
+          'username',
+        ],
+        'UserInfo' => [
+          'username AS name',
+          'address',
+        ],
+        'Board' => [
+          'title',
+          'created_at',
+        ],
+      ])->find();
+    $this->debug->log("DefaultController::index() CH-03");
 
     $this->set('Title', 'Home');
     $this->set('datas', null);

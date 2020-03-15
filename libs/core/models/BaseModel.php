@@ -14,7 +14,8 @@ class BaseModel {
   public $error_log;
   public $info_log;
   public $debug;
-  public $columns;
+  public $column_conf;
+  public $select;
 
   protected $form;
 
@@ -35,7 +36,7 @@ class BaseModel {
       $this->info_log = new Logger('INFO');
       $this->debug = new Logger('DEBUG');
       $columns = Spyc::YAMLLoad(SCHEMA_PATH.$this->table_name.".yaml");
-      $this->columns = $columns[$this->table_name];
+      $this->column_conf = $columns[$this->table_name];
     } catch(Exception $e) {
       $this->debug->log("       BaseModel::__construct() error:" . $e->getMessage());
     }
@@ -125,6 +126,7 @@ class BaseModel {
       $datas[$data[$this->model_name][$this->primary_key]] = $data;
     }
 
+
     // if (count($primary_keys) > 0) {
     //   if ($this->has){
     //     $this->findHasModelesData($datas, $this->has, $primary_keys);
@@ -140,6 +142,21 @@ class BaseModel {
     }
 
     return $datas;
+  }
+
+  private function extendSelects() {
+      $this->debug->log("DefaultController::extendSelects() CH-01");
+      $column_str = '';
+      if($this->columns) {
+          foreach($this->columns as $model_name => $columns) {
+              foreach ($columns as $column) {
+                  $column_str .= $column_str ? ',' : ' ';
+                  $column_str .= $model_name . '.' . $column. ' ';
+              }
+          }
+      }
+      $this->debug->log("DefaultController::extendSelects() sql:${column_str}");
+      return $column_str;
   }
 
   public function find_by_sql($sql) {
@@ -258,7 +275,7 @@ class BaseModel {
 
     if($this->limit_num > 0) $sql .= " LIMIT " . $this->limit_num ." ";
     if($this->offset_num > 0) $sql .= " OFFSET " . $this->offset_num . " ";
-    
+
     $this->debug->log("BaseModel::createFindSql() sql:" . $sql);
 
     return $sql;
@@ -310,8 +327,10 @@ class BaseModel {
     return $obj->processJoins($tmp_sql, $joins);
   }
 
-  public function select($columns)
+  public function select($columns = [])
   {
+      $this->columns = $columns;
+      return $this;
   }
 
   protected function addRelationshipSql($relationship_sql, $model_name, $relationship_conditions) {
@@ -551,7 +570,7 @@ class BaseModel {
   }
 
   public function createInsertSql() {
-    $col_names = array_keys($this->columns);
+    $col_names = array_keys($this->column_conf);
     $colums_str = null;
     $values_str = null;
     foreach ($col_names as $col_name) {
@@ -612,7 +631,7 @@ class BaseModel {
 
   //  共通
   protected function setValue($key, $value){
-    $type = $this->columns[$key]['type'];
+    $type = $this->column_conf[$key]['type'];
     if (is_array($value)) {
       if ($type == 'SET') {
         $val_tmp = '';
@@ -644,7 +663,7 @@ class BaseModel {
   }
 
   public function getColumnType($col_name) {
-    $type = $this->columns[$col_name]['type'];
+    $type = $this->column_conf[$col_name]['type'];
     switch ($type) {
       case 'int':
       case 'tinyint':
@@ -667,7 +686,7 @@ class BaseModel {
   }
 
   public function getColumns() {
-    return array_keys($this->columns);
+    return array_keys($this->column_conf);
   }
 
   public function validation($form) {
@@ -692,7 +711,7 @@ class BaseModel {
   }
 
   public function createForm() {
-    $keys = array_keys($this->columns);
+    $keys = array_keys($this->column_conf);
     $form = [];
     foreach ($keys as $key => $value) {
       $form[$this->model_name][$value] = '';
@@ -703,7 +722,7 @@ class BaseModel {
   /**
    * Set Join modelse
    */
-  public function contain($joins = []) 
+  public function contain($joins = [])
   {
     $this->debug->log("BaseModel::contain() joins:" . print_r($joins, true));
     $this->joins = $joins;
