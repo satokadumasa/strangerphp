@@ -290,61 +290,46 @@ class BaseModel {
    */
   public function processJoins(&$tmp_sql, $joins) {
     foreach($joins as $model_name => $join) {
-      $this->debug->log("BaseModel::processJoins() model_name（１）:[${model_name}]");
       $model_name = !is_numeric($model_name) ? $model_name : $join;
-      $this->debug->log("BaseModel::processJoins() model_name（２）:[${model_name}]");
 
       $obj = new $model_name($this->dbh);
-      if($this->belongthTo)
-        $this->debug->log("BaseModel::processJoins() belongthTo(1):".print_r($this->belongthTo, true));
-      if($this->has)
-        $this->debug->log("BaseModel::processJoins() has(1):".print_r($this->has, true));
 
-      if(array_key_exists($model_name, $this->belongthTo)){
-        $this->debug->log("BaseModel::processJoins() belongthTo(2):${model_name}");
-        $this->joinBelongthTo($obj, $join, $tmp_sql);
+      if(is_array($this->belongthTo)  && array_key_exists($model_name, $this->belongthTo)){
+        $belongth = new $model_name($this->dbh);
+        $this->joinBelongthTo($belongth, $this->belongthTo[$model_name], $join, $tmp_sql);
         continue;
       }
-      if(array_key_exists($model_name, $this->has)) {
-        $this->debug->log("BaseModel::processJoins() has(2):${model_name}");
+      if(is_array($this->has) && array_key_exists($model_name, $this->has)) {
         $has = new $model_name($this->dbh);
         $this->joinHas($has, $this->has[$model_name], $join, $tmp_sql);
         continue;
       }
-      $this->debug->log("BaseModel::processJoins() tmp_sql:${tmp_sql}");
     }
   }
 
-  public function joinBelongthTo($obj, $joins, &$tmp_sql) {
-    $this->debug->log("BaseModel::joinBelongthTo() START");
-    foreach($this->belongthTo as $model => $belongthTo) {
-      $this->debug->log("BaseModel::joinBelongthTo() model_name[${model_name}]");
-      $tmp_sql .= $belongthTo['JOIN_COND'] . ' JOIN ' . $obj->table_name . " AS  " . $obj->model . " ON ";
-      $cond_str = '';
-      foreach($belongthTo['CONDITIONS'] as $left_cond => $right_cond) {
-        $cond_str .= $cond_str ? '' : ' AND ';
-        $cond_str .= " ${left_cond} = ${right_cond} ";
-      }
+  public function joinBelongthTo($obj, $cond, $joins, &$tmp_sql) {
+    $tmp_sql .= $cond['JOIN_COND'] . ' JOIN ' . $obj->table_name . " AS  " . $obj->model_name . " ON ";
+    $cond_str = '';
+    foreach($cond['CONDITIONS'] as $left_cond => $right_cond) {
+      $cond_str .= $cond_str ? ' AND ' : '';
+      $cond_str .= " ${left_cond} = ${right_cond} ";
     }
     $tmp_sql .= $cond_str;
-    $this->debug->log("BaseModel::joinBelongthTo() tmp_sql[${tmp_sql}]");
     if($joins) $obj->processJoins($tmp_sql, $joins);
   }
 
   public function joinHas($has, $cond, $joins, &$tmp_sql) {
-    $this->debug->log("BaseModel::joinHas() START");
-    $this->debug->log("BaseModel::joinHas() joins:".print_r($joins, true));
-
     $tmp_sql .= ' ' . $cond['JOIN_COND'] . ' JOIN ' . $has->table_name . ' AS ' . $has->model_name .' ';
-    $tmp_sql .= ' ON ' . $has->model_name . '.' . $cond['FOREIGN_KEY'] . '=' .$this->model_name . '.' . $this->primary_key . ' ';
-    $this->debug->log("BaseModel::joinHas() tmp_sql[${tmp_sql}]");
+    $tmp_sql .= ' ON ' . $has->model_name . '.' 
+             . $cond['FOREIGN_KEY'] . '=' .$this->model_name . '.' . $this->primary_key . ' ';
     if($joins) $has->processJoins($tmp_sql, $joins);
   }
 
   public function select($columns = [])
   {
-      $this->columns = $columns;
-      return $this;
+    $this->debug->log("BaseModel::select() columns:".print_r($columns, true));
+    $this->columns = $columns;
+    return $this;
   }
 
   protected function addRelationshipSql($relationship_sql, $model_name, $relationship_conditions) {

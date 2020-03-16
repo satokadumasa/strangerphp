@@ -14,7 +14,7 @@ class DefaultController extends BaseController {
     $user = new User($this->dbh);
     $this->debug->log("DefaultController::index() CH-02");
     $this->debug->log("DefaultController::index() user:".print_r($user, true));
-    $user->contain(['UserInfo','Board' => ['Page']])
+    $data = $user->contain(['UserInfo','Board' => ['Page']])
       ->select([
         'User' => [
           'id',
@@ -32,7 +32,7 @@ class DefaultController extends BaseController {
     $this->debug->log("DefaultController::index() CH-03");
 
     $this->set('Title', 'Home');
-    $this->set('datas', null);
+    $this->set('datas', $data);
   }
 
   public function error() {

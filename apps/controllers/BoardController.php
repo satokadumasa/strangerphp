@@ -13,7 +13,20 @@ class BoardController extends BaseController{
     $limit = 10 * (isset($this->request['page']) ? $this->request['page'] : 1);
     $offset = 10 * (isset($this->request['page']) ? $this->request['page'] - 1 : 0);
 
-    $datas = $boards->where('Board.id', '>', 0)->limit($limit)->offset($offset)->find('all');
+    $datas = $boards->contain([
+      'User' => [
+        'UserInfo',
+      ]
+    ])->select([
+      'Board' => [
+        'title',
+        'body',
+      ],
+      'User' => [
+        'username'
+      ],
+    ])
+    ->where('Board.id', '>', '0')->limit($limit)->offset($offset)->find('all');
 
     $ref = isset($this->request['page']) ? $this->request['page'] : 0;
     $next = isset($this->request['page']) ? $this->request['page'] + 1 : 2;
