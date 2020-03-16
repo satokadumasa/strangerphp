@@ -22,7 +22,7 @@ class DefaultController extends BaseController {
         ],
         'UserInfo' => [
           'username AS name',
-          'address',
+          'addres',
         ],
         'Board' => [
           'title',
