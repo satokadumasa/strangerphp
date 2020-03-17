@@ -144,6 +144,13 @@ class BaseModel {
     return $datas;
   }
 
+  /**
+   * findBySql()
+   *
+   * @params $sql
+   *
+   * @return $data
+   */
   public function find_by_sql($sql) {
     $stmt = $this->dbh->prepare($sql);
     $stmt->execute();
@@ -167,14 +174,14 @@ class BaseModel {
    *  @param array $primary_keys 検索親IDs
    *  @retrun none
    */
-  // public function findHasModelesData(&$datas, $has = null, $primary_keys = null) {
-  //   foreach ($has as $model_name => $options) {
-  //     $model_class_name = $model_name;
-  //     $obj = new $model_class_name($this->dbh);
-  //     $setDatas = $obj->where($options['foreign_key'], 'IN', $primary_keys)->find();
-  //     $this->setHasModelDatas($model_name, $options['foreign_key'],$datas, $setDatas, $primary_keys);
-  //   }
-  // }
+   public function findHasModelesData(&$datas, $has = null, $primary_keys = null) {
+     foreach ($has as $model_name => $options) {
+       $model_class_name = $model_name;
+       $obj = new $model_class_name($this->dbh);
+       $setDatas = $obj->where($options['foreign_key'], 'IN', $primary_keys)->find();
+       $this->setHasModelDatas($model_name, $options['foreign_key'],$datas, $setDatas, $primary_keys);
+     }
+   }
 
   /**
    *  HasManyAndBelongsToなモデルの検索
@@ -183,30 +190,30 @@ class BaseModel {
    *  @param array $primary_keys 検索親IDs
    *  @retrun none
    */
-  // public function findHasManyAndBelongsTo(&$datas, $primary_keys = null)
-  // {
-  //   foreach ($this->has_many_and_belongs_to as $hasModeName => $options)
-  //   {
-  //     $belongth_to_model_name = $options['through'];
-  //     $belongth_to_model_class_name = $belongth_to_model_name;
-  //     $belongth_to_model_class_instance = new $belongth_to_model_class_name($this->dbh);
-  //     $setDatas = $belongth_to_model_class_instance->where($options['foreign_key'], 'IN', $primary_keys)->find();
+   public function findHasManyAndBelongsTo(&$datas, $primary_keys = null)
+   {
+     foreach ($this->has_many_and_belongs_to as $hasModeName => $options)
+     {
+       $belongth_to_model_name = $options['through'];
+       $belongth_to_model_class_name = $belongth_to_model_name;
+       $belongth_to_model_class_instance = new $belongth_to_model_class_name($this->dbh);
+       $setDatas = $belongth_to_model_class_instance->where($options['foreign_key'], 'IN', $primary_keys)->find();
 
-  //     foreach ($belongth_to_model_class_instance->belongthTo as $model_name => $value)
-  //     {
-  //       if ($hasModeName === $model_name)
-  //       {
-  //         foreach ($primary_keys as $primary_key) {
-  //           foreach ($setDatas as $setData) {
-  //             if ($setData[$this->model_name][$this->primary_key] == $primary_key) {
-  //               $datas[$setData[$this->model_name][$this->primary_key]][$this->model_name][$model_name][][$model_name] = $setData[$model_name];
-  //             }
-  //           }
-  //         }
-  //       }
-  //     }
-  //   }
-  // }
+       foreach ($belongth_to_model_class_instance->belongthTo as $model_name => $value)
+       {
+         if ($hasModeName === $model_name)
+         {
+           foreach ($primary_keys as $primary_key) {
+             foreach ($setDatas as $setData) {
+               if ($setData[$this->model_name][$this->primary_key] == $primary_key) {
+                 $datas[$setData[$this->model_name][$this->primary_key]][$this->model_name][$model_name][][$model_name] = $setData[$model_name];
+               }
+             }
+           }
+         }
+       }
+     }
+   }
 
   /**
    *  検索SQL生成処理
@@ -270,6 +277,11 @@ class BaseModel {
     return $sql;
   }
 
+  /**
+   * extendSelects()
+   *
+   * @return steing column_str
+   */
   private function extendSelects() {
       $this->debug->log("DefaultController::extendSelects() CH-01");
       $column_str = '';
@@ -286,7 +298,12 @@ class BaseModel {
   }
 
   /**
+   * processJoins()
    *
+   * JOIN句生成処理
+   *
+   * @params string $tmo_sql
+   * @params array $joins
    */
   public function processJoins(&$tmp_sql, $joins) {
     foreach($joins as $model_name => $join) {
@@ -307,6 +324,18 @@ class BaseModel {
     }
   }
 
+  /**
+   * join elongthTo()
+   *
+   * 従属モデルをjoinする
+   *
+   * @params Model $obj
+   * @params array $cond
+   * @params array $join
+   * @params string $tmp_sql
+   *
+   * @return none
+   */
   public function joinBelongthTo($obj, $cond, $joins, &$tmp_sql) {
     $tmp_sql .= $cond['JOIN_COND'] . ' JOIN ' . $obj->table_name . " AS  " . $obj->model_name . " ON ";
     $cond_str = '';
@@ -318,6 +347,18 @@ class BaseModel {
     if($joins) $obj->processJoins($tmp_sql, $joins);
   }
 
+  /**
+   * join elongthTo()
+   *
+   * 従属モデルをjoinする
+   *
+   * @params Model $obj
+   * @params array $cond
+   * @params array $join
+   * @params string $tmp_sql
+   *
+   * @return none
+   */
   public function joinHas($has, $cond, $joins, &$tmp_sql) {
     $tmp_sql .= ' ' . $cond['JOIN_COND'] . ' JOIN ' . $has->table_name . ' AS ' . $has->model_name .' ';
     $tmp_sql .= ' ON ' . $has->model_name . '.' 
@@ -325,13 +366,29 @@ class BaseModel {
     if($joins) $has->processJoins($tmp_sql, $joins);
   }
 
+  /**
+   * select()
+   *
+   * 抽出対象カラムの指定
+   *
+   * @params array $cilumns
+   * 
+   * @return none
+   */
   public function select($columns = [])
   {
-    $this->debug->log("BaseModel::select() columns:".print_r($columns, true));
     $this->columns = $columns;
     return $this;
   }
 
+  /**
+   * addRelationshipSql()
+   *
+   * @params string relationship_sql
+   * @params Model $model_name
+   * @params array $relationship_conditions
+   * @return none
+   */
   protected function addRelationshipSql($relationship_sql, $model_name, $relationship_conditions) {
     $model_class_name = $model_name;
     $obj = new $model_class_name($this->dbh);
